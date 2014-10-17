@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<div id="installation" class="six columns box">
-		@include('orchestra/install::create._form')
+		@include('orchestra/installer::create._form')
 	</div>
 </div>
 @stop

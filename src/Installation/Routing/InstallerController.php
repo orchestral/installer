@@ -103,7 +103,7 @@ class InstallerController extends BaseController
      */
     public function indexSucceed(array $data)
     {
-        return view('orchestra/foundation::install.index', $data);
+        return view('orchestra/installer::index', $data);
     }
 
 
@@ -126,7 +126,7 @@ class InstallerController extends BaseController
      */
     public function createSucceed(array $data)
     {
-        return view('orchestra/foundation::install.create', $data);
+        return view('orchestra/installer::create', $data);
     }
 
     /**
@@ -156,6 +156,6 @@ class InstallerController extends BaseController
      */
     public function doneSucceed()
     {
-        return view('orchestra/foundation::install.done');
+        return view('orchestra/installer::done');
     }
 }
