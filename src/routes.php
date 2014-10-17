@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Orchestra\Support\Facades\Foundation;
 
-Foundation::namespaced('Orchestra\Installation\Routing', function () {
-    Route::group(['prefix' => 'install'], function ($router) {
+Foundation::namespaced('Orchestra\Installation\Routing', function ($router) {
+    $router->group(['prefix' => 'install'], function ($router) {
         // Route to installation.
         $router->get('/', 'InstallerController@index');
         $router->get('create', 'InstallerController@create');
