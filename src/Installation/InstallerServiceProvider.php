@@ -1,6 +1,6 @@
 <?php namespace Orchestra\Installation;
 
-use Illuminate\Support\ServiceProvider;
+use Orchestra\Support\Providers\ServiceProvider;
 
 class InstallerServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $path = realpath(__DIR__.'/../');
 
-        $this->package('orchestra/installer', 'orchestra/installer', $path);
+        $this->addViewComponent('orchestra/installer', 'orchestra/installer', $path.'/view');
 
         require "{$path}/routes.php";
     }

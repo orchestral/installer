@@ -30,7 +30,7 @@ class Installation implements InstallationContract
      */
     public function bootInstallerFiles()
     {
-        $paths = array('path.database', 'path');
+        $paths = ['path.database', 'path'];
 
         foreach ($paths as $path) {
             $file = rtrim($this->app[$path], '/').'/orchestra/installer.php';
@@ -64,12 +64,12 @@ class Installation implements InstallationContract
     public function createAdmin($input, $allowMultiple = true)
     {
         // Grab input fields and define the rules for user validations.
-        $rules = array(
-            'email'     => array('required', 'email'),
-            'password'  => array('required'),
-            'fullname'  => array('required'),
-            'site_name' => array('required'),
-        );
+        $rules = [
+            'email'     => ['required', 'email'],
+            'password'  => ['required'],
+            'fullname'  => ['required'],
+            'site_name' => ['required'],
+        ];
 
         $validation = $this->app['validator']->make($input, $rules);
 
@@ -110,26 +110,26 @@ class Installation implements InstallationContract
         // configuration.
         $user    = $this->createUser($input);
         $memory  = $this->app['orchestra.memory']->make();
-        $actions = array('Manage Orchestra', 'Manage Users');
+        $actions = ['Manage Orchestra', 'Manage Users'];
         $admin   = $this->app['config']->get('orchestra/foundation::roles.admin', 1);
         $roles   = $this->app['orchestra.role']->newQuery()->lists('name', 'id');
-        $theme   = array(
+        $theme   = [
             'frontend' => 'default',
             'backend'  => 'default',
-        );
+        ];
 
         // Attach Administrator role to the newly created administrator.
-        $user->roles()->sync(array($admin));
+        $user->roles()->sync([$admin]);
 
         // Add some basic configuration for Orchestra Platform, including
         // email configuration.
         $memory->put('site.name', $input['site_name']);
         $memory->put('site.theme', $theme);
         $memory->put('email', $this->app['config']->get('mail'));
-        $memory->put('email.from', array(
+        $memory->put('email.from', [
             'name'    => $input['site_name'],
             'address' => $input['email']
-        ));
+        ]);
 
         // We should also create a basic ACL for Orchestra Platform, since
         // the basic roles is create using Fluent Query Builder we need
@@ -141,7 +141,7 @@ class Installation implements InstallationContract
         $acl->roles()->attach(array_values($roles));
         $acl->allow($roles[$admin], $actions);
 
-        $this->app['events']->fire('orchestra.install: acl', array($acl));
+        $this->app['events']->fire('orchestra.install: acl', [$acl]);
     }
 
     /**
@@ -155,14 +155,14 @@ class Installation implements InstallationContract
         User::unguard();
         $user = $this->app['orchestra.user']->newInstance();
 
-        $user->fill(array(
+        $user->fill([
             'email'    => $input['email'],
             'password' => $input['password'],
             'fullname' => $input['fullname'],
             'status'   => 0,
-        ));
+        ]);
 
-        $this->app['events']->fire('orchestra.install: user', array($user, $input));
+        $this->app['events']->fire('orchestra.install: user', [$user, $input]);
 
         $user->save();
 

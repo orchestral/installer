@@ -53,13 +53,13 @@ class Installer
         // If the auth status is false, installation shouldn't be possible.
         (true === $authentication) || $installable = false;
 
-        $data = array(
+        $data = [
             'database'       => $database,
             'auth'           => $auth,
             'authentication' => $authentication,
             'installable'    => $installable,
             'checklist'      => $requirement->getChecklist(),
-        );
+        ];
 
         return $listener->indexSucceed($data);
     }
@@ -85,9 +85,9 @@ class Installer
      */
     public function create($listener)
     {
-        return $listener->createSucceed(array(
+        return $listener->createSucceed([
             'siteName' => 'Orchestra Platform',
-        ));
+        ]);
     }
 
     /**
@@ -125,7 +125,7 @@ class Installer
     protected function getRunningConfiguration()
     {
         $driver   = Config::get('database.default', 'mysql');
-        $database = Config::get("database.connections.{$driver}", array());
+        $database = Config::get("database.connections.{$driver}", []);
         $auth     = Config::get('auth');
 
         // For security, we shouldn't expose database connection to anyone,
@@ -136,7 +136,7 @@ class Installer
 
         $authentication = $this->isAuthenticationInstallable($auth);
 
-        return array($database, $auth, $authentication);
+        return [$database, $auth, $authentication];
     }
 
     /**
