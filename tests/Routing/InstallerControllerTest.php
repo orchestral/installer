@@ -1,12 +1,22 @@
 <?php namespace Orchestra\Installation\Routing\TestCase;
 
 use Mockery as m;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Orchestra\Foundation\Testing\TestCase;
 
 class InstallerControllerTest extends TestCase
 {
+     /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        $app->make('Orchestra\Foundation\Bootstrap\LoadExpresso')->bootstrap($app);
+    }
+
     /**
      * Teardown the test environment.
      */
@@ -20,9 +30,10 @@ class InstallerControllerTest extends TestCase
     /**
      * Get package providers.
      *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
-    protected function getPackageProviders()
+    protected function getPackageProviders($app)
     {
         return [
             'Orchestra\Installation\InstallerServiceProvider',
@@ -58,10 +69,10 @@ class InstallerControllerTest extends TestCase
                 ),
             ));
         $user = m::mock('UserEloquent', '\Orchestra\Model\User');
-        App::bind('UserEloquent', function () use ($user) {
+        $this->app->bind('UserEloquent', function () use ($user) {
             return $user;
         });
-        App::bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
+        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
             return $requirement;
         });
         Config::set('database.default', 'mysql');
@@ -100,7 +111,7 @@ class InstallerControllerTest extends TestCase
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull();
 
-        App::bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
+        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
         });
 
@@ -115,7 +126,7 @@ class InstallerControllerTest extends TestCase
                 ),
             ));
 
-        App::bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
+        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
             return $requirement;
         });
 
@@ -145,7 +156,7 @@ class InstallerControllerTest extends TestCase
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('migrate')->once()->andReturnNull();
 
-        App::bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
+        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
         });
 
@@ -177,7 +188,7 @@ class InstallerControllerTest extends TestCase
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(true);
 
-        App::bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
+        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
         });
 
@@ -197,7 +208,7 @@ class InstallerControllerTest extends TestCase
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(false);
 
-        App::bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
+        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
         });
 

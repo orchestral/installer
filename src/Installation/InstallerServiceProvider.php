@@ -29,7 +29,7 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $path = realpath(__DIR__.'/../');
 
-        $this->addViewComponent('orchestra/installer', 'orchestra/installer', $path.'/view');
+        $this->addViewComponent('orchestra/installer', 'orchestra/installer', $path.'/views');
 
         require "{$path}/routes.php";
     }
