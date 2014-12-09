@@ -13,7 +13,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"Orchestra\\Installation\\" : "src/Installation/"
+			"Orchestra\\Installation\\" : "src/"
 		}
 	},
 	"require": {
