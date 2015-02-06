@@ -1,8 +1,8 @@
 <?php namespace Orchestra\Installation\Routing\TestCase;
 
 use Mockery as m;
+use Orchestra\Testing\TestCase;
 use Illuminate\Support\Facades\Config;
-use Orchestra\Foundation\Testing\TestCase;
 
 class InstallerControllerTest extends TestCase
 {
