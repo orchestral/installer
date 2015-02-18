@@ -14,7 +14,7 @@ $authFormGroup = function ($authentication, $auth) {
 
 		<p>
 			{!! trans('orchestra/foundation::install.verify', [
-				'filename' => app('html')->create('code', 'app/config/auth.php', ['title' => app_path('config/auth.php')])
+				'filename' => app('html')->create('code', 'resources/config/auth.php', ['title' => base_path('resources/config/auth.php')])
 			]) !!}
 		</p>
 
