@@ -4,7 +4,7 @@
 
 		<p>
 			{!! trans('orchestra/foundation::install.verify', array(
-				'filename' => '<code title="'.app_path('config/database.php').'">app/config/database.php</code>'
+				'filename' => '<code title="'.base_path('resources/config/database.php').'">resources/config/database.php</code>'
 			)) !!}
 		</p>
 

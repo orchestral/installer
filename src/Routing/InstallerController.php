@@ -1,7 +1,5 @@
 <?php namespace Orchestra\Installation\Routing;
 
-use Orchestra\Support\Facades\Meta;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Orchestra\Foundation\Routing\BaseController;
 use Orchestra\Installation\Processor\Installer as InstallerProcessor;
@@ -17,8 +15,8 @@ class InstallerController extends BaseController
     {
         $this->processor = $processor;
 
-        Meta::set('navigation::usernav', false);
-        Meta::set('title', 'Installer');
+        set_meta('navigation::usernav', false);
+        set_meta('title', 'Installer');
 
         parent::__construct();
     }
@@ -40,7 +38,7 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install
      *
-     * @return View
+     * @return mixed
      */
     public function index()
     {
@@ -64,7 +62,7 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/create
      *
-     * @return View
+     * @return mixed
      */
     public function create()
     {
@@ -76,7 +74,7 @@ class InstallerController extends BaseController
      *
      * POST (:orchestra)/install/create
      *
-     * @return View
+     * @return mixed
      */
     public function store()
     {
@@ -88,7 +86,7 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/done
      *
-     * @return View
+     * @return mixed
      */
     public function done()
     {
