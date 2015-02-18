@@ -5,7 +5,7 @@ title: Installer Change Log
 
 ## Version 3.0 {#v3-0}
 
-### v3.0.1@dev {#v3-0-1}
+### v3.0.1 {#v3-0-1}
 
 * Update path to `resources/config` and `resources/database`.
 
