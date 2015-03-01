@@ -83,12 +83,12 @@ class Requirement implements RequirementContract
     public function checkWritableStorage()
     {
         $path   = rtrim($this->app['path.storage'], '/').'/';
-        $schema = array(
+        $schema = [
             'is'   => $this->checkPathIsWritable($path),
-            'data' => array(
-                'path' => $this->app['html']->create('code', 'storage', array('title' => $path)),
-            ),
-        );
+            'data' => [
+                'path' => $this->app['html']->create('code', 'storage', ['title' => $path]),
+            ],
+        ];
 
         return array_merge($this->getChecklistSchema(), $schema);
     }

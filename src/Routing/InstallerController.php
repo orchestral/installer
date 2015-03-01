@@ -104,7 +104,6 @@ class InstallerController extends BaseController
         return view('orchestra/installer::index', $data);
     }
 
-
     /**
      * Response when installation is prepared.
      *
@@ -114,7 +113,6 @@ class InstallerController extends BaseController
     {
         return $this->redirect(handles('orchestra::install/create'));
     }
-
 
     /**
      * Response view to input user information for installation.
