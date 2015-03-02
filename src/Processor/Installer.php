@@ -41,6 +41,7 @@ class Installer
      * Start an installation and check for requirement.
      *
      * @param  object  $listener
+     *
      * @return mixed
      */
     public function index($listener)
@@ -68,6 +69,7 @@ class Installer
      * Run migration and prepare the database.
      *
      * @param  object  $listener
+     *
      * @return mixed
      */
     public function prepare($listener)
@@ -81,6 +83,7 @@ class Installer
      * Display initial user and site configuration page.
      *
      * @param  object  $listener
+     *
      * @return mixed
      */
     public function create($listener)
@@ -91,10 +94,11 @@ class Installer
     }
 
     /**
-     * Store/save administator information and site configuration
+     * Store/save administator information and site configuration.
      *
      * @param  object  $listener
      * @param  array   $input
+     *
      * @return mixed
      */
     public function store($listener, array $input)
@@ -110,6 +114,7 @@ class Installer
      * Complete the installation.
      *
      * @param  object  $listener
+     *
      * @return mixed
      */
     public function done($listener)
@@ -143,6 +148,7 @@ class Installer
      * Is authentication installable.
      *
      * @param  array    $auth
+     *
      * @return bool
      */
     protected function isAuthenticationInstallable($auth)

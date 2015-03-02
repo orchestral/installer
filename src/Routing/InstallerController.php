@@ -9,7 +9,7 @@ class InstallerController extends BaseController
     /**
      * Construct Installer controller.
      *
-     * @param  \Orchestra\Installation\Processor\Installer    $processor
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
      */
     public function __construct(InstallerProcessor $processor)
     {
@@ -50,7 +50,7 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/prepare
      *
-     * @return Redirect
+     * @return mixed
      */
     public function prepare()
     {
@@ -97,30 +97,30 @@ class InstallerController extends BaseController
      * Response for installation welcome page.
      *
      * @param  array   $data
-     * @return Response
+     *
+     * @return mixed
      */
     public function indexSucceed(array $data)
     {
         return view('orchestra/installer::index', $data);
     }
 
-
     /**
      * Response when installation is prepared.
      *
-     * @return Response
+     * @return mixed
      */
     public function prepareSucceed()
     {
         return $this->redirect(handles('orchestra::install/create'));
     }
 
-
     /**
      * Response view to input user information for installation.
      *
      * @param  array   $data
-     * @return Response
+     *
+     * @return mixed
      */
     public function createSucceed(array $data)
     {
@@ -130,7 +130,7 @@ class InstallerController extends BaseController
     /**
      * Response when store installation config is failed.
      *
-     * @return Response
+     * @return mixed
      */
     public function storeFailed()
     {
@@ -140,7 +140,7 @@ class InstallerController extends BaseController
     /**
      * Response when store installation config is succeed.
      *
-     * @return Response
+     * @return mixed
      */
     public function storeSucceed()
     {
@@ -150,7 +150,7 @@ class InstallerController extends BaseController
     /**
      * Response when installation is done.
      *
-     * @return Response
+     * @return mixed
      */
     public function doneSucceed()
     {

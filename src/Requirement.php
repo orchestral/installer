@@ -68,7 +68,7 @@ class Requirement implements RequirementContract
         try {
             $this->app['db']->connection()->getPdo();
         } catch (PDOException $e) {
-            $schema['is'] = false;
+            $schema['is']            = false;
             $schema['data']['error'] = $e->getMessage();
         }
 
@@ -83,12 +83,12 @@ class Requirement implements RequirementContract
     public function checkWritableStorage()
     {
         $path   = rtrim($this->app['path.storage'], '/').'/';
-        $schema = array(
+        $schema = [
             'is'   => $this->checkPathIsWritable($path),
-            'data' => array(
-                'path' => $this->app['html']->create('code', 'storage', array('title' => $path)),
-            ),
-        );
+            'data' => [
+                'path' => $this->app['html']->create('code', 'storage', ['title' => $path]),
+            ],
+        ];
 
         return array_merge($this->getChecklistSchema(), $schema);
     }
@@ -131,6 +131,7 @@ class Requirement implements RequirementContract
      * Check if path is writable.
      *
      * @param  string   $path
+     *
      * @return bool
      */
     protected function checkPathIsWritable($path)
