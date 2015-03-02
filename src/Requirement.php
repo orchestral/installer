@@ -68,7 +68,7 @@ class Requirement implements RequirementContract
         try {
             $this->app['db']->connection()->getPdo();
         } catch (PDOException $e) {
-            $schema['is'] = false;
+            $schema['is']            = false;
             $schema['data']['error'] = $e->getMessage();
         }
 
@@ -131,6 +131,7 @@ class Requirement implements RequirementContract
      * Check if path is writable.
      *
      * @param  string   $path
+     *
      * @return bool
      */
     protected function checkPathIsWritable($path)

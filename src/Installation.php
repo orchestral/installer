@@ -57,8 +57,9 @@ class Installation implements InstallationContract
     /**
      * Create adminstrator account.
      *
-     * @param  array    $input
-     * @param  bool     $allowMultiple
+     * @param  array  $input
+     * @param  bool   $allowMultiple
+     *
      * @return bool
      */
     public function createAdmin($input, $allowMultiple = true)
@@ -101,7 +102,8 @@ class Installation implements InstallationContract
     /**
      * Run application setup.
      *
-     * @param  array    $input
+     * @param  array  $input
+     *
      * @return void
      */
     protected function runApplicationSetup($input)
@@ -128,7 +130,7 @@ class Installation implements InstallationContract
         $memory->put('email', $this->app['config']->get('mail'));
         $memory->put('email.from', [
             'name'    => $input['site_name'],
-            'address' => $input['email']
+            'address' => $input['email'],
         ]);
 
         // We should also create a basic ACL for Orchestra Platform, since
@@ -147,7 +149,8 @@ class Installation implements InstallationContract
     /**
      * Create user account.
      *
-     * @param  array    $input
+     * @param  array  $input
+     *
      * @return \Orchestra\Model\User
      */
     protected function createUser($input)
@@ -173,6 +176,7 @@ class Installation implements InstallationContract
      * Check for existing User.
      *
      * @return bool
+     *
      * @throws \Exception
      */
     protected function hasNoExistingUser()
