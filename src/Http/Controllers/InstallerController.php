@@ -1,7 +1,7 @@
-<?php namespace Orchestra\Installation\Routing;
+<?php namespace Orchestra\Installation\Http\Controllers;
 
 use Illuminate\Support\Facades\Input;
-use Orchestra\Foundation\Routing\BaseController;
+use Orchestra\Foundation\Http\Controllers\BaseController;
 use Orchestra\Installation\Processor\Installer as InstallerProcessor;
 
 class InstallerController extends BaseController

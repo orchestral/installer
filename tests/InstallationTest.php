@@ -19,7 +19,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->app = new Container;
+        $this->app               = new Container();
         $this->app['translator'] = $translator = m::mock('\Illuminate\Translation\Translator')->makePartial();
 
         $translator->shouldReceive('trans')->andReturn('foo');
@@ -42,32 +42,34 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      * Get User input.
      *
      * @access private
+     *
      * @return array
      */
     private function getUserInput()
     {
-        return array(
+        return [
             'site_name' => 'Orchestra Platform',
             'email'     => 'admin@orchestraplatform.com',
             'password'  => '123456',
             'fullname'  => 'Administrator',
-        );
+        ];
     }
 
     /**
      * Get validation rules.
      *
      * @access private
+     *
      * @return array
      */
     private function getValidationRules()
     {
-        return array(
-            'email'     => array('required', 'email'),
-            'password'  => array('required'),
-            'fullname'  => array('required'),
-            'site_name' => array('required'),
-        );
+        return [
+            'email'     => ['required', 'email'],
+            'password'  => ['required'],
+            'fullname'  => ['required'],
+            'site_name' => ['required'],
+        ];
     }
 
     /**
@@ -77,10 +79,10 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBootInstallerFilesMethod()
     {
-        $app = $this->app;
-        $this->app['path'] = '/var/laravel/app';
+        $app                        = $this->app;
+        $this->app['path']          = '/var/laravel/app';
         $this->app['path.database'] = '/var/laravel/database';
-        $app['files'] = $files = m::mock('\Illuminate\Filesystem\Filesystem')->makePartial();
+        $app['files']               = $files               = m::mock('\Illuminate\Filesystem\Filesystem')->makePartial();
 
         $files->shouldReceive('exists')->once()->with('/var/laravel/database/orchestra/installer.php')->andReturn(true)
             ->shouldReceive('requireOnce')->once()->with('/var/laravel/database/orchestra/installer.php')->andReturnNull()
@@ -98,10 +100,10 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function testMigrateMethod()
     {
-        $app = $this->app;
-        $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app                                = $this->app;
+        $app['files']                       = m::mock('\Illuminate\Filesystem\Filesystem');
         $app['orchestra.publisher.migrate'] = $migrate = m::mock('\Orchestra\Extension\Publisher\MigrateManager')->makePartial();
-        $app['events'] = $events = m::mock('\Illuminate\Events\Dispatcher')->makePartial();
+        $app['events']                      = $events                      = m::mock('\Illuminate\Events\Dispatcher')->makePartial();
 
         $migrate->shouldReceive('foundation')->once()->andReturnNull();
         $events->shouldReceive('fire')->once()->with('orchestra.install.schema')->andReturnNull();
@@ -116,19 +118,19 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdminMethod()
     {
-        $app = $this->app;
-        $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
-        $app['validator'] = $validator = m::mock('\Illuminate\Validation\Validator')->makePartial();
-        $app['orchestra.role'] = $role = m::mock('Role');
-        $app['orchestra.user'] = $user = m::mock('User');
+        $app                       = $this->app;
+        $app['files']              = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app['validator']          = $validator          = m::mock('\Illuminate\Validation\Validator')->makePartial();
+        $app['orchestra.role']     = $role     = m::mock('Role');
+        $app['orchestra.user']     = $user     = m::mock('User');
         $app['orchestra.messages'] = $messages = m::mock('\Orchestra\Support\Messages')->makePartial();
-        $app['events'] = $events = m::mock('\Illuminate\Events\Dispatcher')->makePartial();
-        $app['orchestra.memory'] = $memory = m::mock('\Orchestra\Memory\MemoryManager')->makePartial();
-        $app['config'] = $config = m::mock('\Illuminate\Config\Repository')->makePartial();
-        $app['orchestra.acl'] = $acl = m::mock('Acl');
+        $app['events']             = $events             = m::mock('\Illuminate\Events\Dispatcher')->makePartial();
+        $app['orchestra.memory']   = $memory   = m::mock('\Orchestra\Memory\MemoryManager')->makePartial();
+        $app['config']             = $config             = m::mock('\Illuminate\Config\Repository')->makePartial();
+        $app['orchestra.acl']      = $acl      = m::mock('Acl');
 
         $memoryProvider = m::mock('\Orchestra\Memory\Provider')->makePartial();
-        $aclFluent = m::mock('\Orchestra\Auth\Acl\Fluent');
+        $aclFluent      = m::mock('\Orchestra\Auth\Acl\Fluent');
         $aclFluent->shouldReceive('attach')->twice()->andReturnNull();
 
         $input = $this->getUserInput();
@@ -142,17 +144,17 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('fill')->once()->andReturnNull()
             ->shouldReceive('save')->once()->andReturnNull()
             ->shouldReceive('roles')->once()->andReturn($user)
-            ->shouldReceive('sync')->once()->with(array(1))->andReturnNull();
+            ->shouldReceive('sync')->once()->with([1])->andReturnNull();
         $role->shouldReceive('newQuery')->once()->andReturn($role)
-            ->shouldReceive('lists')->once()->with('name', 'id')->andReturn(array('admin', 'member'));
-        $events->shouldReceive('fire')->once()->with('orchestra.install: user', array($user, $input))->andReturnNull()
-            ->shouldReceive('fire')->once()->with('orchestra.install: acl', array($acl))->andReturnNull();
+            ->shouldReceive('lists')->once()->with('name', 'id')->andReturn(['admin', 'member']);
+        $events->shouldReceive('fire')->once()->with('orchestra.install: user', [$user, $input])->andReturnNull()
+            ->shouldReceive('fire')->once()->with('orchestra.install: acl', [$acl])->andReturnNull();
         $memory->shouldReceive('make')->once()->andReturn($memoryProvider);
         $memoryProvider->shouldReceive('put')->once()->with('site.name', $input['site_name'])->andReturnNull()
-            ->shouldReceive('put')->once()->with('site.theme', array('frontend' => 'default', 'backend' => 'default'))
+            ->shouldReceive('put')->once()->with('site.theme', ['frontend' => 'default', 'backend' => 'default'])
                 ->andReturnNull()
             ->shouldReceive('put')->once()->with('email', 'email-config')->andReturnNull()
-            ->shouldReceive('put')->once()->with('email.from', array('name' => $input['site_name'], 'address' => $input['email']))
+            ->shouldReceive('put')->once()->with('email.from', ['name' => $input['site_name'], 'address' => $input['email']])
                 ->andReturnNull();
         $config->shouldReceive('get')->once()->with('orchestra/foundation::roles.admin', 1)->andReturn(1)
             ->shouldReceive('get')->once()->with('mail')->andReturn('email-config');
@@ -176,10 +178,10 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdminMethodWithValidationErrors()
     {
-        $app = $this->app;
-        $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app              = $this->app;
+        $app['files']     = m::mock('\Illuminate\Filesystem\Filesystem');
         $app['validator'] = $validator = m::mock('\Illuminate\Validation\Validator')->makePartial();
-        $app['session'] = $session = m::mock('Session\Store');
+        $app['session']   = $session   = m::mock('Session\Store');
 
         $input = $this->getUserInput();
         $rules = $this->getValidationRules();
@@ -201,10 +203,10 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdminMethodThrowsException()
     {
-        $app = $this->app;
-        $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
-        $app['validator'] = $validator = m::mock('\Illuminate\Validation\Validator')->makePartial();
-        $app['orchestra.user'] = $user = m::mock('User');
+        $app                       = $this->app;
+        $app['files']              = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app['validator']          = $validator          = m::mock('\Illuminate\Validation\Validator')->makePartial();
+        $app['orchestra.user']     = $user     = m::mock('User');
         $app['orchestra.messages'] = $messages = m::mock('\Orchestra\Support\Messages')->makePartial();
 
         $input = $this->getUserInput();
@@ -213,7 +215,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
         $validator->shouldReceive('make')->once()->with($input, $rules)->andReturn($validator)
             ->shouldReceive('fails')->once()->andReturn(false);
         $user->shouldReceive('newQuery')->once()->andReturn($user)
-            ->shouldReceive('all')->once()->andReturn(array('not so empty'));
+            ->shouldReceive('all')->once()->andReturn(['not so empty']);
         $messages->shouldReceive('add')->once()->with('error', m::any())->andReturnNull();
 
         $stub = new Installation($app);

@@ -1,4 +1,4 @@
-<?php namespace Orchestra\Installation\Routing\TestCase;
+<?php namespace Orchestra\Installation\Http\Controllers\TestCase;
 
 use Mockery as m;
 use Orchestra\Testing\TestCase;
@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Config;
 
 class InstallerControllerTest extends TestCase
 {
-     /**
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app
+     *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -31,6 +32,7 @@ class InstallerControllerTest extends TestCase
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
+     *
      * @return array
      */
     protected function getPackageProviders($app)
@@ -41,13 +43,13 @@ class InstallerControllerTest extends TestCase
     }
 
     /**
-     * Test GET /admin/install
+     * Test GET /admin/install.
      *
      * @test
      */
     public function testGetIndexAction()
     {
-        $dbConfig = array(
+        $dbConfig = [
             'driver'    => 'mysql',
             'host'      => 'localhost',
             'database'  => 'database',
@@ -56,18 +58,18 @@ class InstallerControllerTest extends TestCase
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-        );
+        ];
 
         $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
         $requirement->shouldReceive('check')->once()->andReturn(true)
-            ->shouldReceive('getChecklist')->once()->andReturn(array(
-                'databaseConnection' => array(
+            ->shouldReceive('getChecklist')->once()->andReturn([
+                'databaseConnection' => [
                     'is'       => true,
                     'should'   => true,
                     'explicit' => true,
-                    'data'     => array(),
-                ),
-            ));
+                    'data'     => [],
+                ],
+            ]);
         $user = m::mock('UserEloquent', '\Orchestra\Model\User');
         $this->app->bind('UserEloquent', function () use ($user) {
             return $user;
@@ -76,18 +78,18 @@ class InstallerControllerTest extends TestCase
             return $requirement;
         });
         Config::set('database.default', 'mysql');
-        Config::set('auth', array('driver' => 'eloquent', 'model' => 'UserEloquent'));
+        Config::set('auth', ['driver' => 'eloquent', 'model' => 'UserEloquent']);
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
         $this->assertResponseOk();
-        $this->assertViewHasAll(array(
+        $this->assertViewHasAll([
             'database',
             'auth',
             'authentication',
             'installable',
-            'checklist'
-        ));
+            'checklist',
+        ]);
     }
 
     /**
@@ -97,7 +99,7 @@ class InstallerControllerTest extends TestCase
      */
     public function testGetIndexActionWhenAuthDriverIsNotEloquent()
     {
-        $dbConfig = array(
+        $dbConfig = [
             'driver'    => 'mysql',
             'host'      => 'localhost',
             'database'  => 'database',
@@ -106,7 +108,7 @@ class InstallerControllerTest extends TestCase
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-        );
+        ];
 
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull();
@@ -117,36 +119,36 @@ class InstallerControllerTest extends TestCase
 
         $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
         $requirement->shouldReceive('check')->once()->andReturn(true)
-            ->shouldReceive('getChecklist')->once()->andReturn(array(
-                'databaseConnection' => array(
+            ->shouldReceive('getChecklist')->once()->andReturn([
+                'databaseConnection' => [
                     'is'       => true,
                     'should'   => true,
                     'explicit' => true,
-                    'data'     => array(),
-                ),
-            ));
+                    'data'     => [],
+                ],
+            ]);
 
         $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
             return $requirement;
         });
 
         Config::set('database.default', 'mysql');
-        Config::set('auth', array('driver' => 'eloquent', 'model' => 'UserNotAvailableForAuthModel'));
+        Config::set('auth', ['driver' => 'eloquent', 'model' => 'UserNotAvailableForAuthModel']);
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
         $this->assertResponseOk();
-        $this->assertViewHasAll(array(
+        $this->assertViewHasAll([
             'database',
             'auth',
             'authentication',
             'installable',
-            'checklist'
-        ));
+            'checklist',
+        ]);
     }
 
     /**
-     * Test GET /admin/install/prepare
+     * Test GET /admin/install/prepare.
      *
      * @test
      */
@@ -165,7 +167,7 @@ class InstallerControllerTest extends TestCase
     }
 
     /**
-     * Test GET /admin/install/create
+     * Test GET /admin/install/create.
      *
      * @test
      */
@@ -177,13 +179,13 @@ class InstallerControllerTest extends TestCase
     }
 
     /**
-     * Test GET /admin/install/create
+     * Test GET /admin/install/create.
      *
      * @test
      */
     public function testPostCreateAction()
     {
-        $input = array();
+        $input     = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(true);
@@ -203,7 +205,7 @@ class InstallerControllerTest extends TestCase
      */
     public function testPostCreateActionWhenCreateAdminFailed()
     {
-        $input = array();
+        $input     = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(false);
@@ -217,7 +219,7 @@ class InstallerControllerTest extends TestCase
     }
 
     /**
-     * Test GET /admin/install/done
+     * Test GET /admin/install/done.
      *
      * @test
      */

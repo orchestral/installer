@@ -18,7 +18,7 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->app = new Container;
+        $this->app       = new Container();
         $this->app['db'] = m::mock('\Illuminate\Database\DatabaseManager');
     }
 
@@ -48,13 +48,12 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
         $checklist->setAccessible(true);
         $installable->setAccessible(true);
 
-        $checklist->setValue($stub, array('foo', 'bar'));
+        $checklist->setValue($stub, ['foo', 'bar']);
         $installable->setValue($stub, true);
 
-        $this->assertEquals(array('foo', 'bar'), $stub->getChecklist());
+        $this->assertEquals(['foo', 'bar'], $stub->getChecklist());
         $this->assertTrue($stub->isInstallable());
     }
-
 
     /**
      * Test Orchestra\Foundation\Installation\Requirement::check() method.
@@ -64,13 +63,13 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
     public function testCheckMethod()
     {
         $app  = $this->app;
-        $stub = m::mock('\Orchestra\Installation\Requirement[checkDatabaseConnection,checkWritableStorage,checkWritableAsset]', array($app));
+        $stub = m::mock('\Orchestra\Installation\Requirement[checkDatabaseConnection,checkWritableStorage,checkWritableAsset]', [$app]);
         $stub->shouldReceive('checkDatabaseConnection')
-                ->once()->andReturn(array('is' => true, 'explicit' => true, 'should' => true))
+                ->once()->andReturn(['is' => true, 'explicit' => true, 'should' => true])
             ->shouldReceive('checkWritableStorage')
-                ->once()->andReturn(array('is' => false, 'explicit' => true, 'should' => true))
+                ->once()->andReturn(['is' => false, 'explicit' => true, 'should' => true])
             ->shouldReceive('checkWritableAsset')
-                ->once()->andReturn(array('is' => true, 'explicit' => true, 'should' => true));
+                ->once()->andReturn(['is' => true, 'explicit' => true, 'should' => true]);
 
         $this->assertFalse($stub->check());
         $this->assertFalse($stub->isInstallable());
@@ -89,7 +88,7 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getPdo')
                 ->once()->andReturn(true);
 
-        $stub = new Requirement($this->app);
+        $stub   = new Requirement($this->app);
         $result = $stub->checkDatabaseConnection();
 
         $this->assertTrue($result['is']);
@@ -124,13 +123,13 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWritableStorageMethod()
     {
-        $app = $this->app;
+        $app                 = $this->app;
         $app['path.storage'] = '/foo/storage/';
-        $app['html'] = $html = m::mock('\Orchestra\Html\HtmlBuilder[create]');
-        $app['files'] = $file = m::mock('\Illuminate\Filesystem\Filesystem[isWritable]');
+        $app['html']         = $html         = m::mock('\Orchestra\Html\HtmlBuilder[create]');
+        $app['files']        = $file        = m::mock('\Illuminate\Filesystem\Filesystem[isWritable]');
 
         $html->shouldReceive('create')
-            ->with('code', 'storage', array('title' => '/foo/storage/'))->once()->andReturn('');
+            ->with('code', 'storage', ['title' => '/foo/storage/'])->once()->andReturn('');
         $file->shouldReceive('isWritable')->with('/foo/storage/')->once()->andReturn(true);
 
         $stub = new Requirement($app);
@@ -149,10 +148,10 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWritableAssetMethod()
     {
-        $app = $this->app;
+        $app                = $this->app;
         $app['path.public'] = '/foo/public/';
-        $app['html'] = $html = m::mock('\Orchestra\Html\HtmlBuilder[create]');
-        $app['files'] = $file = m::mock('\Illuminate\Filesystem\Filesystem[isWritable]');
+        $app['html']        = $html        = m::mock('\Orchestra\Html\HtmlBuilder[create]');
+        $app['files']       = $file       = m::mock('\Illuminate\Filesystem\Filesystem[isWritable]');
 
         $html->shouldReceive('create')->once()
             ->with('code', 'public/packages', m::any())->andReturn('');
