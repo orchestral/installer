@@ -1,4 +1,4 @@
-<?php namespace Orchestra\Installation\Routing\TestCase;
+<?php namespace Orchestra\Installation\Http\Controllers\TestCase;
 
 use Mockery as m;
 use Orchestra\Testing\TestCase;
