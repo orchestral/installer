@@ -7,3 +7,41 @@ Orchestra Platform Installer
 [![Build Status](https://img.shields.io/travis/orchestral/installer/3.0.svg?style=flat)](https://travis-ci.org/orchestral/installer)
 [![Coverage Status](https://img.shields.io/coveralls/orchestral/installer/3.0.svg?style=flat)](https://coveralls.io/r/orchestral/installer?branch=3.0)
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/orchestral/installer/3.0.svg?style=flat)](https://scrutinizer-ci.com/g/orchestral/installer/)
+
+## Table of Content
+
+* [Installation](#installation)
+* [Configuration](#configuration)
+
+## Installation
+
+To install through composer, simply put the following in your `composer.json` file:
+
+```json
+{
+    "require": {
+        "orchestra/installer": "~3.0"
+    }
+}
+```
+
+And then run `composer install` from the terminal.
+
+### Quick Installation
+
+Above installation can also be simplify by using the following command:
+
+    composer require "orchestra/installer=~3.0"
+
+## Configuration
+
+Add following service providers in `config/app.php`.
+
+```php
+'providers' => [
+
+    // ...
+
+    'Orchestra\Installation\InstallerServiceProvider',
+],
+```
