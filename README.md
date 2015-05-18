@@ -35,7 +35,7 @@ Above installation can also be simplify by using the following command:
 
 ## Configuration
 
-Add following service providers in `config/app.php`.
+Add following service providers in `resources/config/app.php`.
 
 ```php
 'providers' => [
