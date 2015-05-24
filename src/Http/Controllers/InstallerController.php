@@ -28,7 +28,7 @@ class InstallerController extends BaseController
      */
     protected function setupFilters()
     {
-        $this->beforeFilter('orchestra.installed', [
+        $this->middleware('orchestra.installed', [
             'only' => ['index', 'create', 'store'],
         ]);
     }
