@@ -2,6 +2,7 @@
 
 use Exception;
 use Orchestra\Model\User;
+use Illuminate\Contracts\Support\Arrayable;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 
 class Installation implements InstallationContract
@@ -132,6 +133,10 @@ class Installation implements InstallationContract
             'name'    => $input['site_name'],
             'address' => $input['email'],
         ]);
+
+        if ($roles instanceof Arrayable) {
+            $roles = $roles->toArray();
+        }
 
         // We should also create a basic ACL for Orchestra Platform, since
         // the basic roles is create using Fluent Query Builder we need

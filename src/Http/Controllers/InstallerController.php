@@ -22,11 +22,11 @@ class InstallerController extends BaseController
     }
 
     /**
-     * Setup controller filters.
+     * Setup controller middleware.
      *
      * @return void
      */
-    protected function setupFilters()
+    protected function setupMiddleware()
     {
         $this->middleware('orchestra.installed', [
             'only' => ['index', 'create', 'store'],
