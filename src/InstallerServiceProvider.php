@@ -1,6 +1,8 @@
 <?php namespace Orchestra\Installation;
 
 use Orchestra\Support\Providers\ServiceProvider;
+use Orchestra\Contracts\Installation\Requirement as RequirementContract;
+use Orchestra\Contracts\Installation\Installation as InstallationContract;
 
 class InstallerServiceProvider extends ServiceProvider
 {
@@ -11,11 +13,11 @@ class InstallerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Orchestra\Contracts\Installation\Installation', function ($app) {
+        $this->app->bind(InstallationContract::class, function ($app) {
             return new Installation($app);
         });
 
-        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function ($app) {
+        $this->app->bind(RequirementContract::class, function ($app) {
             return new Requirement($app);
         });
     }
@@ -29,7 +31,7 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $path = realpath(__DIR__.'/../');
 
-        $this->addViewComponent('orchestra/installer', 'orchestra/installer', $path.'/resources/views');
+        $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/resources/views");
 
         require "{$path}/src/routes.php";
     }
