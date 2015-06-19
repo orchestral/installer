@@ -33,6 +33,8 @@ class InstallerServiceProvider extends ServiceProvider
 
         $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/resources/views");
 
-        require "{$path}/src/routes.php";
+        if (! $this->app->routesAreCached()) {
+            require "{$path}/src/routes.php";
+        }
     }
 }
