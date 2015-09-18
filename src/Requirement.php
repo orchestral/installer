@@ -66,7 +66,7 @@ class Requirement implements RequirementContract
         $schema = ['is' => true];
 
         try {
-            $this->app['db']->connection()->getPdo();
+            $this->app->make('db')->connection()->getPdo();
         } catch (PDOException $e) {
             $schema['is']            = false;
             $schema['data']['error'] = $e->getMessage();
@@ -86,7 +86,7 @@ class Requirement implements RequirementContract
         $schema = [
             'is'   => $this->checkPathIsWritable($path),
             'data' => [
-                'path' => $this->app['html']->create('code', 'storage', ['title' => $path]),
+                'path' => $this->app->make('html')->create('code', 'storage', ['title' => $path]),
             ],
         ];
 
@@ -104,7 +104,7 @@ class Requirement implements RequirementContract
         $schema = [
             'is'   => $this->checkPathIsWritable($path),
             'data' => [
-                'path' => $this->app['html']->create('code', 'public/packages', ['title' => $path]),
+                'path' => $this->app->make('html')->create('code', 'public/packages', ['title' => $path]),
             ],
             'explicit' => false,
         ];
@@ -136,7 +136,7 @@ class Requirement implements RequirementContract
      */
     protected function checkPathIsWritable($path)
     {
-        return $this->app['files']->isWritable($path);
+        return $this->app->make('files')->isWritable($path);
     }
 
     /**
