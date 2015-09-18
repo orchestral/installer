@@ -113,7 +113,7 @@ class Installation implements InstallationContract
     protected function runApplicationSetup($input)
     {
         $config = $this->app->make('config');
-        $memory  = $this->app->make('orchestra.memory')->make();
+        $memory = $this->app->make('orchestra.memory')->make();
 
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
