@@ -1,7 +1,6 @@
 <?php namespace Orchestra\Installation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Orchestra\Foundation\Http\Controllers\BaseController;
 use Orchestra\Installation\Processor\Installer as InstallerProcessor;
 
