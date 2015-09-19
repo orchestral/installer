@@ -1,6 +1,6 @@
 <?php namespace Orchestra\Installation\Http\Controllers;
 
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 use Orchestra\Foundation\Http\Controllers\BaseController;
 use Orchestra\Installation\Processor\Installer as InstallerProcessor;
 
@@ -74,11 +74,13 @@ class InstallerController extends BaseController
      *
      * POST (:orchestra)/install/create
      *
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        return $this->processor->store($this, Input::all());
+        return $this->processor->store($this, $request->all());
     }
 
     /**

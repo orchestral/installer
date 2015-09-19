@@ -180,6 +180,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
     {
         $app = $this->app;
         $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app['orchestra.messages'] = $messages = m::mock('\Orchestra\Contracts\Messages\MessageBag');
         $app['validator'] = $validator = m::mock('\Illuminate\Contracts\Validation\Validator');
         $app['session'] = $session = m::mock('\Illuminate\Session\SessionInterface');
 

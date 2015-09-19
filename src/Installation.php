@@ -32,12 +32,13 @@ class Installation implements InstallationContract
     public function bootInstallerFiles()
     {
         $paths = ['path.database', 'path'];
+        $files = $this->app->make('files');
 
         foreach ($paths as $path) {
             $file = rtrim($this->app[$path], '/').'/orchestra/installer.php';
 
-            if ($this->app['files']->exists($file)) {
-                $this->app['files']->requireOnce($file);
+            if ($files->exists($file)) {
+                $files->requireOnce($file);
             }
         }
     }
@@ -49,8 +50,8 @@ class Installation implements InstallationContract
      */
     public function migrate()
     {
-        $this->app['orchestra.publisher.migrate']->foundation();
-        $this->app['events']->fire('orchestra.install.schema');
+        $this->app->make('orchestra.publisher.migrate')->foundation();
+        $this->app->make('events')->fire('orchestra.install.schema');
 
         return true;
     }
@@ -73,12 +74,14 @@ class Installation implements InstallationContract
             'site_name' => ['required'],
         ];
 
-        $validation = $this->app['validator']->make($input, $rules);
+        $messages = $this->app->make('orchestra.messages');
+
+        $validation = $this->app->make('validator')->make($input, $rules);
 
         // Validate user registration, we should stop this process if
         // the user not properly formatted.
         if ($validation->fails()) {
-            $this->app['session']->flash('errors', $validation->messages());
+            $this->app->make('session')->flash('errors', $validation->messages());
             return false;
         }
 
@@ -90,11 +93,11 @@ class Installation implements InstallationContract
             // Installation is successful, we should be able to generate
             // success message to notify the user. Installer route will be
             // disabled after this point.
-            $this->app['orchestra.messages']->add('success', trans('orchestra/foundation::install.user.created'));
+            $messages->add('success', trans('orchestra/foundation::install.user.created'));
 
             return true;
         } catch (Exception $e) {
-            $this->app['orchestra.messages']->add('error', $e->getMessage());
+            $messages->add('error', $e->getMessage());
 
             return false;
         }
@@ -109,13 +112,15 @@ class Installation implements InstallationContract
      */
     protected function runApplicationSetup($input)
     {
+        $config = $this->app->make('config');
+        $memory = $this->app->make('orchestra.memory')->make();
+
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
         $user    = $this->createUser($input);
-        $memory  = $this->app['orchestra.memory']->make();
         $actions = ['Manage Orchestra', 'Manage Users'];
-        $admin   = $this->app['config']->get('orchestra/foundation::roles.admin', 1);
-        $roles   = $this->app['orchestra.role']->newQuery()->lists('name', 'id');
+        $admin   = $config->get('orchestra/foundation::roles.admin', 1);
+        $roles   = $this->app->make('orchestra.role')->newQuery()->lists('name', 'id');
         $theme   = [
             'frontend' => 'default',
             'backend'  => 'default',
@@ -128,7 +133,7 @@ class Installation implements InstallationContract
         // email configuration.
         $memory->put('site.name', $input['site_name']);
         $memory->put('site.theme', $theme);
-        $memory->put('email', $this->app['config']->get('mail'));
+        $memory->put('email', $config->get('mail'));
         $memory->put('email.from', [
             'name'    => $input['site_name'],
             'address' => $input['email'],
@@ -141,14 +146,14 @@ class Installation implements InstallationContract
         // We should also create a basic ACL for Orchestra Platform, since
         // the basic roles is create using Fluent Query Builder we need
         // to manually insert the roles.
-        $acl = $this->app['orchestra.acl']->make('orchestra');
+        $acl = $this->app->make('orchestra.acl')->make('orchestra');
 
         $acl->attach($memory);
         $acl->actions()->attach($actions);
         $acl->roles()->attach(array_values($roles));
         $acl->allow($roles[$admin], $actions);
 
-        $this->app['events']->fire('orchestra.install: acl', [$acl]);
+        $this->app->make('events')->fire('orchestra.install: acl', [$acl]);
     }
 
     /**
@@ -161,16 +166,16 @@ class Installation implements InstallationContract
     protected function createUser($input)
     {
         User::unguard();
-        $user = $this->app['orchestra.user']->newInstance();
+        $user = $this->app->make('orchestra.user')->newInstance();
 
         $user->fill([
             'email'    => $input['email'],
             'password' => $input['password'],
             'fullname' => $input['fullname'],
-            'status'   => 0,
+            'status'   => User::VERIFIED,
         ]);
 
-        $this->app['events']->fire('orchestra.install: user', [$user, $input]);
+        $this->app->make('events')->fire('orchestra.install: user', [$user, $input]);
 
         $user->save();
 
@@ -186,7 +191,7 @@ class Installation implements InstallationContract
      */
     protected function hasNoExistingUser()
     {
-        $users = $this->app['orchestra.user']->newQuery()->all();
+        $users = $this->app->make('orchestra.user')->newQuery()->all();
 
         // Before we create administrator, we should ensure that users table
         // is empty to avoid any possible hijack or invalid request.
