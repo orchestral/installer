@@ -1,11 +1,18 @@
 <?php namespace Orchestra\Installation;
 
-use Orchestra\Support\Providers\ServiceProvider;
+use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 
-class InstallerServiceProvider extends ServiceProvider
+class InstallerServiceProvider extends ModuleServiceProvider
 {
+    /**
+     * The application or extension namespace.
+     *
+     * @var string|null
+     */
+    protected $namespace = 'Orchestra\Installation\Http\Controllers';
+
     /**
      * Register the service provider.
      *
@@ -23,18 +30,26 @@ class InstallerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap the application events.
+     * Boot extension components.
      *
      * @return void
      */
-    public function boot()
+    public function bootExtensionComponents()
     {
-        $path = realpath(__DIR__.'/../');
+        $path = realpath(__DIR__.'/../resources');
 
-        $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/resources/views");
+        $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/views");
+    }
 
-        if (! $this->app->routesAreCached()) {
-            require "{$path}/src/routes.php";
-        }
+    /**
+     * Load extension routes.
+     *
+     * @return void
+     */
+    protected function loadRoutes()
+    {
+        $path = realpath(__DIR__);
+
+        $this->loadBackendRoutesFrom("{$path}/Http/backend.php");
     }
 }
