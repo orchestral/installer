@@ -1,34 +1,34 @@
 {
-	"name": "orchestra/installer",
-	"description": "Orchestra Platform Installer",
-	"homepage": "http://orchestraplatform.com/docs/latest/",
-	"license": "MIT",
-	"keywords": ["orchestra-platform", "orchestral", "installer"],
-	"authors": [
-		{
-			"name": "Mior Muhammad Zaki",
-			"email": "crynobone@gmail.com",
-			"homepage": "https://github.com/crynobone"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Orchestra\\Installation\\" : "src/"
-		}
-	},
-	"require": {
-		"php": ">=5.5.0",
-		"orchestra/contracts": "~3.1.0"
-	},
-	"require-dev": {
-		"mockery/mockery": "0.9.*",
-		"orchestra/foundation": "~3.1.14",
-		"orchestra/testing": "~3.1.0"
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "3.2-dev"
-		}
-	},
-	"minimum-stability": "dev"
+    "name": "orchestra/installer",
+    "description": "Orchestra Platform Installer",
+    "homepage": "http://orchestraplatform.com/docs/latest/",
+    "license": "MIT",
+    "keywords": ["orchestra-platform", "orchestral", "installer"],
+    "authors": [
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com",
+            "homepage": "https://github.com/crynobone"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Orchestra\\Installation\\" : "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "orchestra/contracts": "~3.1.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "orchestra/foundation": "~3.1.14",
+        "orchestra/testing": "~3.1.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.2-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }
