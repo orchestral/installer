@@ -120,7 +120,7 @@ class Installation implements InstallationContract
         $user    = $this->createUser($input);
         $actions = ['Manage Orchestra', 'Manage Users'];
         $admin   = $config->get('orchestra/foundation::roles.admin', 1);
-        $roles   = $this->app->make('orchestra.role')->newQuery()->lists('name', 'id');
+        $roles   = $this->app->make('orchestra.role')->newQuery()->pluck('name', 'id');
         $theme   = [
             'frontend' => 'default',
             'backend'  => 'default',

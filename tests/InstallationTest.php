@@ -146,7 +146,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('roles')->once()->andReturn($user)
             ->shouldReceive('sync')->once()->with([1])->andReturnNull();
         $role->shouldReceive('newQuery')->once()->andReturn($role)
-            ->shouldReceive('lists')->once()->with('name', 'id')->andReturn(['admin', 'member']);
+            ->shouldReceive('pluck')->once()->with('name', 'id')->andReturn(['admin', 'member']);
         $events->shouldReceive('fire')->once()->with('orchestra.install: user', [$user, $input])->andReturnNull()
             ->shouldReceive('fire')->once()->with('orchestra.install: acl', [$acl])->andReturnNull();
         $memory->shouldReceive('make')->once()->andReturn($memoryProvider);
