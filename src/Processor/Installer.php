@@ -2,8 +2,8 @@
 
 use ReflectionException;
 use Orchestra\Model\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Contracts\Installation\Installation;
 
@@ -129,9 +129,9 @@ class Installer
      */
     protected function getRunningConfiguration()
     {
-        $driver   = Config::get('database.default', 'mysql');
-        $database = Config::get("database.connections.{$driver}", []);
-        $auth     = Config::get('auth');
+        $driver   = config('database.default', 'mysql');
+        $database = config("database.connections.{$driver}", []);
+        $auth     = $this->getAuthConfiguration(config('auth'));
 
         // For security, we shouldn't expose database connection to anyone,
         // This snippet change the password value into *.
@@ -145,21 +145,41 @@ class Installer
     }
 
     /**
+     * Resolve auth configuration.
+     *
+     * @param  array  $auth
+     *
+     * @return array
+     */
+    protected function getAuthConfiguration(array $auth)
+    {
+        $guard = Arr::get($auth, "guards.{$auth['default_guard']}", [
+            'driver'   => 'session',
+            'provider' => 'eloquent',
+        ]);
+
+        $provider = Arr::get($auth, "providers.{$guard['provider']}", [
+            'driver' => 'eloquent',
+            'model'  => User::class,
+        ]);
+
+        return compact('guard', 'provider');
+    }
+
+    /**
      * Is authentication installable.
      *
-     * @param  array    $auth
+     * @param  array  $auth
      *
      * @return bool
      */
-    protected function isAuthenticationInstallable($auth)
+    protected function isAuthenticationInstallable(array $auth)
     {
         // Orchestra Platform strictly require Eloquent based authentication
         // because our Role Based Access Role (RBAC) is utilizing on eloquent
         // relationship to solve some of the requirement.
         try {
-            $eloquent = App::make($auth['model']);
-
-            return ($auth['driver'] === 'eloquent' && $eloquent instanceof User);
+            return ($auth['provider']['driver'] === 'eloquent' && app($auth['provider']['model']) instanceof User);
         } catch (ReflectionException $e) {
             return false;
         }
