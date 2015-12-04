@@ -153,17 +153,19 @@ class Installer
      */
     protected function getAuthConfiguration(array $auth)
     {
-        $guard = Arr::get($auth, "guards.{$auth['default_guard']}", [
-            'driver'   => 'session',
-            'provider' => 'eloquent',
+        $driver = Arr::get($auth, 'defaults.guard');
+
+        $guard = Arr::get($auth, "guards.{$driver}", [
+            'driver' => 'session',
+            'source' => 'users',
         ]);
 
-        $provider = Arr::get($auth, "providers.{$guard['provider']}", [
+        $source = Arr::get($auth, "sources.{$guard['source']}", [
             'driver' => 'eloquent',
             'model'  => User::class,
         ]);
 
-        return compact('guard', 'provider');
+        return compact('guard', 'source');
     }
 
     /**
