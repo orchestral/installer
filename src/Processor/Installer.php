@@ -144,6 +144,13 @@ class Installer
         return [$database, $auth, $authentication];
     }
 
+    /**
+     * Resolve auth configuration.
+     *
+     * @param  array  $auth
+     *
+     * @return array
+     */
     protected function getAuthConfiguration(array $auth)
     {
         $guard = Arr::get($auth, "guards.{$auth['default_guard']}", [
@@ -153,7 +160,7 @@ class Installer
 
         $provider = Arr::get($auth, "providers.{$guard['provider']}", [
             'driver' => 'eloquent',
-            'model'  => User::class
+            'model'  => User::class,
         ]);
 
         return compact('guard', 'provider');
