@@ -78,7 +78,11 @@ class InstallerControllerTest extends TestCase
             return $requirement;
         });
         Config::set('database.default', 'mysql');
-        Config::set('auth', ['driver' => 'eloquent', 'model' => 'UserEloquent']);
+        Config::set('auth', [
+            'default_guard' => 'web',
+            'guards' => ['web' => ['driver' => 'session', 'provider' => 'eloquent']],
+            'providers' => ['eloquent' => ['driver' => 'eloquent', 'model' => 'UserEloquent']],
+        ]);
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
@@ -133,7 +137,11 @@ class InstallerControllerTest extends TestCase
         });
 
         Config::set('database.default', 'mysql');
-        Config::set('auth', ['driver' => 'eloquent', 'model' => 'UserNotAvailableForAuthModel']);
+        Config::set('auth', [
+            'default_guard' => 'web',
+            'guards' => ['web' => ['driver' => 'session', 'provider' => 'eloquent']],
+            'providers' => ['eloquent' => ['driver' => 'eloquent', 'model' => 'UserNotAvailableForAuthModel']],
+        ]);
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
@@ -185,7 +193,7 @@ class InstallerControllerTest extends TestCase
      */
     public function testPostCreateAction()
     {
-        $input     = [];
+        $input = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(true);
@@ -205,7 +213,7 @@ class InstallerControllerTest extends TestCase
      */
     public function testPostCreateActionWhenCreateAdminFailed()
     {
-        $input     = [];
+        $input = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('createAdmin')->once()->with($input)->andReturn(false);
