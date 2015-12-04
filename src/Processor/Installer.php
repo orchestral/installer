@@ -181,7 +181,7 @@ class Installer
         // because our Role Based Access Role (RBAC) is utilizing on eloquent
         // relationship to solve some of the requirement.
         try {
-            return ($auth['provider']['driver'] === 'eloquent' && app($auth['provider']['model']) instanceof User);
+            return ($auth['source']['driver'] === 'eloquent' && app($auth['source']['model']) instanceof User);
         } catch (ReflectionException $e) {
             return false;
         }
