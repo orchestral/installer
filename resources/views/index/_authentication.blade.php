@@ -3,7 +3,7 @@
 $authFormGroup = function ($authentication, $auth) {
 	$class = ['form-group'];
 	(false === $authentication) && $class[] = 'error';
-	('eloquent' !== $auth['source']['driver']) && $class[] = 'hide';
+	('eloquent' !== $auth['provider']['driver']) && $class[] = 'hide';
 
 	return ['class' => implode(' ', $class)];
 }; ?>
@@ -19,12 +19,12 @@ $authFormGroup = function ($authentication, $auth) {
 		</p>
 
 		<div class="form-group">
-			<label class="three columns control-label {!! 'fluent' === $auth['source']['driver'] ? 'error' : '' !!}">
+			<label class="three columns control-label {!! 'fluent' === $auth['provider']['driver'] ? 'error' : '' !!}">
 				{{ trans('orchestra/foundation::install.auth.driver') }}
 			</label>
 			<div class="nine columns">
-				<input disabled class="form-control" type="text" value="{!! $auth['source']['driver'] !!}">
-				@if ('fluent' === $auth['source']['driver'])
+				<input disabled class="form-control" type="text" value="{!! $auth['provider']['driver'] !!}">
+				@if ('fluent' === $auth['provider']['driver'])
 				<p class="help-block">{{ trans('orchestra/foundation::install.auth.requirement.driver') }}</p>
 				@endif
 			</div>
@@ -35,7 +35,7 @@ $authFormGroup = function ($authentication, $auth) {
 				{{ trans('orchestra/foundation::install.auth.model') }}
 			</label>
 			<div class="nine columns">
-				<input disabled class="form-control" type="text" value="{!! $auth['source']['model'] !!}">
+				<input disabled class="form-control" type="text" value="{!! $auth['provider']['model'] !!}">
 				@if (false === $authentication)
 				<p class="help-block">
 					{{ trans('orchestra/foundation::install.auth.requirement.driver', [
