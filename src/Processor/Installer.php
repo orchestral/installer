@@ -156,16 +156,16 @@ class Installer
         $driver = Arr::get($auth, 'defaults.guard');
 
         $guard = Arr::get($auth, "guards.{$driver}", [
-            'driver' => 'session',
-            'source' => 'users',
+            'driver'   => 'session',
+            'provider' => 'users',
         ]);
 
-        $source = Arr::get($auth, "sources.{$guard['source']}", [
+        $provider = Arr::get($auth, "providers.{$guard['provider']}", [
             'driver' => 'eloquent',
             'model'  => User::class,
         ]);
 
-        return compact('guard', 'source');
+        return compact('guard', 'provider');
     }
 
     /**
@@ -181,7 +181,7 @@ class Installer
         // because our Role Based Access Role (RBAC) is utilizing on eloquent
         // relationship to solve some of the requirement.
         try {
-            return ($auth['source']['driver'] === 'eloquent' && app($auth['source']['model']) instanceof User);
+            return ($auth['provider']['driver'] === 'eloquent' && app($auth['provider']['model']) instanceof User);
         } catch (ReflectionException $e) {
             return false;
         }

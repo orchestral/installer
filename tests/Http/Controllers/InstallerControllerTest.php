@@ -78,7 +78,7 @@ class InstallerControllerTest extends TestCase
             return $requirement;
         });
         Config::set('database.default', 'mysql');
-        Config::set('auth.sources.eloquent.model', 'UserEloquent');
+        Config::set('auth.providers.eloquent.model', 'UserEloquent');
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
@@ -133,7 +133,7 @@ class InstallerControllerTest extends TestCase
         });
 
         Config::set('database.default', 'mysql');
-        Config::set('auth.sources.eloquent.model', 'UserNotAvailableForAuthModel');
+        Config::set('auth.providers.eloquent.model', 'UserNotAvailableForAuthModel');
         Config::set('database.connections.mysql', $dbConfig);
 
         $this->call('GET', 'admin/install');
