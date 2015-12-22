@@ -3,7 +3,6 @@
 use ReflectionException;
 use Orchestra\Model\User;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Contracts\Installation\Installation;
 
