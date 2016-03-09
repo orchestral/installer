@@ -3,6 +3,7 @@
 use Exception;
 use Orchestra\Model\User;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 
 class Installation implements InstallationContract
@@ -60,35 +61,40 @@ class Installation implements InstallationContract
      * Create adminstrator account.
      *
      * @param  array  $input
-     * @param  bool   $allowMultiple
+     * @param  bool   $multiple
+     *
+     * @return bool
+     *
+     * @deprecated v3.2.x
+     */
+    public function createAdmin($input, $multiple = true)
+    {
+        return $this->make($input, $multiple);
+    }
+
+    /**
+     * Create adminstrator account.
+     *
+     * @param  array  $input
+     * @param  bool   $multiple
      *
      * @return bool
      */
-    public function createAdmin($input, $allowMultiple = true)
+    public function make(array $input, $multiple = true)
     {
-        // Grab input fields and define the rules for user validations.
-        $rules = [
-            'email'     => ['required', 'email'],
-            'password'  => ['required'],
-            'fullname'  => ['required'],
-            'site_name' => ['required'],
-        ];
-
         $messages = $this->app->make('orchestra.messages');
 
-        $validation = $this->app->make('validator')->make($input, $rules);
-
-        // Validate user registration, we should stop this process if
-        // the user not properly formatted.
-        if ($validation->fails()) {
-            $this->app->make('session')->flash('errors', $validation->messages());
+        try {
+            $this->validate($input);
+        } catch (ValidationException $e) {
+            $this->app->make('session')->flash('errors', $e->validator->messages());
             return false;
         }
 
         try {
-            ! $allowMultiple && $this->hasNoExistingUser();
+            ! $multiple && $this->hasNoExistingUser();
 
-            $this->runApplicationSetup($input);
+            $this->create($this->createUser($input), $input);
 
             // Installation is successful, we should be able to generate
             // success message to notify the user. Installer route will be
@@ -106,18 +112,18 @@ class Installation implements InstallationContract
     /**
      * Run application setup.
      *
+     * @param  \Orchestra\Model\User  $user
      * @param  array  $input
      *
      * @return void
      */
-    protected function runApplicationSetup($input)
+    public function create(User $user, array $input)
     {
         $config = $this->app->make('config');
         $memory = $this->app->make('orchestra.memory')->make();
 
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
-        $user    = $this->createUser($input);
         $actions = ['Manage Orchestra', 'Manage Users'];
         $admin   = $config->get('orchestra/foundation::roles.admin', 1);
         $roles   = $this->app->make('orchestra.role')->newQuery()->pluck('name', 'id');
@@ -157,15 +163,45 @@ class Installation implements InstallationContract
     }
 
     /**
+     * Validate request.
+     *
+     * @param  array  $input
+     * @return bool
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validate(array $input)
+    {
+        // Grab input fields and define the rules for user validations.
+        $rules = [
+            'email'     => ['required', 'email'],
+            'password'  => ['required'],
+            'fullname'  => ['required'],
+            'site_name' => ['required'],
+        ];
+
+        $validation = $this->app->make('validator')->make($input, $rules);
+
+        // Validate user registration, we should stop this process if
+        // the user not properly formatted.
+        if ($validation->fails()) {
+            throw new ValidationException($validation);
+        }
+
+        return true;
+    }
+
+    /**
      * Create user account.
      *
      * @param  array  $input
      *
      * @return \Orchestra\Model\User
      */
-    protected function createUser($input)
+    public function createUser(array $input)
     {
         User::unguard();
+
         $user = $this->app->make('orchestra.user')->newInstance();
 
         $user->fill([

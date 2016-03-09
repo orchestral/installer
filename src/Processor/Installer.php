@@ -102,7 +102,7 @@ class Installer
      */
     public function store($listener, array $input)
     {
-        if (! $this->installer->createAdmin($input)) {
+        if (! $this->installer->make($input)) {
             return $listener->storeFailed();
         }
 

@@ -188,7 +188,7 @@ class InstallerControllerTest extends TestCase
         $input = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('createAdmin')->once()->with($input)->andReturn(true);
+            ->shouldReceive('make')->once()->with($input)->andReturn(true);
 
         $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
@@ -208,7 +208,7 @@ class InstallerControllerTest extends TestCase
         $input = [];
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('createAdmin')->once()->with($input)->andReturn(false);
+            ->shouldReceive('make')->once()->with($input)->andReturn(false);
 
         $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
