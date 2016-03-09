@@ -28,18 +28,21 @@ class Installation implements InstallationContract
     /**
      * Boot installer files.
      *
+     * @param  bool  $once
+     *
      * @return void
      */
-    public function bootInstallerFiles()
+    public function bootInstallerFiles($once = true)
     {
-        $paths = ['path.database', 'path'];
-        $files = $this->app->make('files');
+        $paths  = ['path.database', 'path'];
+        $files  = $this->app->make('files');
+        $method = ($once === true ? 'requireOnce' : 'getRequire');
 
         foreach ($paths as $path) {
             $file = rtrim($this->app[$path], '/').'/orchestra/installer.php';
 
             if ($files->exists($file)) {
-                $files->requireOnce($file);
+                $files->{$method}($file);
             }
         }
     }
