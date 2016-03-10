@@ -28,11 +28,31 @@ class Installation implements InstallationContract
     /**
      * Boot installer files.
      *
+     * @return void
+     */
+    public function bootInstallerFiles()
+    {
+        $this->requireInstallerFiles(true);
+    }
+
+    /**
+     * Boot installer files for testing.
+     *
+     * @return void
+     */
+    public function bootInstallerFilesForTesting()
+    {
+        $this->requireInstallerFiles(false);
+    }
+
+    /**
+     * Requires the installer files.
+     *
      * @param  bool  $once
      *
      * @return void
      */
-    public function bootInstallerFiles($once = true)
+    protected function requireInstallerFiles($once = true)
     {
         $paths  = ['path.database', 'path'];
         $files  = $this->app->make('files');
