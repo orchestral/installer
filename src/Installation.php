@@ -16,13 +16,22 @@ class Installation implements InstallationContract
     protected $app;
 
     /**
+     * Is installation under test (PHPUnit etc).
+     *
+     * @var bool
+     */
+    protected $isTest = false;
+
+    /**
      * Construct a new instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application   $app
+     * @param  bool  $isTest
      */
-    public function __construct($app)
+    public function __construct($app, $isTest = false)
     {
         $this->app = $app;
+        $this->isTest = $isTest;
     }
 
     /**
@@ -32,7 +41,7 @@ class Installation implements InstallationContract
      */
     public function bootInstallerFiles()
     {
-        $this->requireInstallerFiles(true);
+        $this->requireInstallerFiles(! $this->isTest);
     }
 
     /**
