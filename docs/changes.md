@@ -13,7 +13,7 @@ title: Installer Change Log
 * Add `Orchestra\Installation\Installation::create()` method.
 * Add `Orchestra\Installation\Installation::validate()` method.
 * Change visibility of `Orchestra\Installation\Installation::createUser()` method from `protected` to `public`.
-* 
+
 ### v3.2.0 {#v3-2-0}
 
 * Update support for Orchestra Platform v3.2.
