@@ -1,4 +1,6 @@
-<?php namespace Orchestra\Installation;
+<?php
+
+namespace Orchestra\Installation;
 
 use Exception;
 use Orchestra\Model\User;
@@ -30,7 +32,7 @@ class Installation implements InstallationContract
      */
     public function __construct($app, $isTest = false)
     {
-        $this->app = $app;
+        $this->app    = $app;
         $this->isTest = $isTest;
     }
 
@@ -198,6 +200,7 @@ class Installation implements InstallationContract
      * Validate request.
      *
      * @param  array  $input
+     *
      * @return bool
      *
      * @throws \Illuminate\Validation\ValidationException

@@ -1,4 +1,6 @@
-<?php namespace Orchestra\Installation;
+<?php
+
+namespace Orchestra\Installation;
 
 use PDOException;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;

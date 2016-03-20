@@ -1,4 +1,6 @@
-<?php namespace Orchestra\Installation\Processor;
+<?php
+
+namespace Orchestra\Installation\Processor;
 
 use ReflectionException;
 use Orchestra\Model\User;

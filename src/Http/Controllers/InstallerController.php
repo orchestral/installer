@@ -1,4 +1,6 @@
-<?php namespace Orchestra\Installation\Http\Controllers;
+<?php
+
+namespace Orchestra\Installation\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Orchestra\Foundation\Http\Controllers\BaseController;
