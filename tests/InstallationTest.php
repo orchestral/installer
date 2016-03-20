@@ -21,6 +21,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
     {
         $this->app = new Container();
         $this->app['translator'] = $translator = m::mock('\Illuminate\Translation\Translator');
+        $this->app['encrypter'] = m::mock('\Illuminate\Contracts\Encryption\Encrypter');
 
         $translator->shouldReceive('trans')->andReturn('foo');
 

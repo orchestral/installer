@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0|~5.0.0",
+        "phpunit/phpunit": "~4.0|~5.0",
         "orchestra/foundation": "~3.3.0",
         "orchestra/testing": "~3.3.0"
     },
