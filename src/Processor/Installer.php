@@ -162,6 +162,8 @@ class Installer
             return ($auth['driver'] === 'eloquent' && $eloquent instanceof User);
         } catch (ReflectionException $e) {
             return false;
+        } finally {
+            return false;
         }
     }
 }
