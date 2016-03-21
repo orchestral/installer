@@ -121,6 +121,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
     {
         $app = $this->app;
         $app['files'] = m::mock('\Illuminate\Filesystem\Filesystem');
+        $app['encrypter'] = m::mock('\Illuminate\Contracts\Encryption\Encrypter');
         $app['validator'] = $validator = m::mock('\Illuminate\Contracts\Validation\Validator');
         $app['orchestra.role'] = $role = m::mock('\Orchestra\Model\Role');
         $app['orchestra.user'] = $user = m::mock('\Orchestra\Model\User');
