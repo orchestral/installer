@@ -183,6 +183,8 @@ class Installer
             return ($auth['provider']['driver'] === 'eloquent' && app($auth['provider']['model']) instanceof User);
         } catch (ReflectionException $e) {
             return false;
+        } finally {
+            return false;
         }
     }
 }
