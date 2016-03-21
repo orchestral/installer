@@ -5,6 +5,10 @@ title: Installer Change Log
 
 ## Version 3.2 {#v3-2}
 
+### v3.2.2 {#v3-2-2}
+
+* Improves exception handling when given User model point to invalid class.
+
 ### v3.2.1 {#v3-2-1}
 
 * Add `Orchestra\Installation\Installation::$isTest` flag.
