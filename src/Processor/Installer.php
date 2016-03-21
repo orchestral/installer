@@ -184,7 +184,9 @@ class Installer
         } catch (ReflectionException $e) {
             return false;
         } finally {
-            return false;
+            // Catch any exception.
         }
+
+        return false;
     }
 }
