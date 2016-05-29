@@ -47,23 +47,11 @@ class Installer
      */
     public function index($listener)
     {
-        $requirement = $this->requirement;
-        $installable = $requirement->check();
+        $requirements = $this->requirement;
 
-        list($database, $auth, $authentication) = $this->getRunningConfiguration();
+        $requirements->check();
 
-        // If the auth status is false, installation shouldn't be possible.
-        (true === $authentication) || $installable = false;
-
-        $data = [
-            'database'       => $database,
-            'auth'           => $auth,
-            'authentication' => $authentication,
-            'installable'    => $installable,
-            'requirements'   => $requirement->items(),
-        ];
-
-        return $listener->indexSucceed($data);
+        return $listener->indexSucceed(compact('requirements'));
     }
 
     /**

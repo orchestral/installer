@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation\Specifications;
 
+use ReflectionException;
 use Orchestra\Model\User;
 use Orchestra\Support\Str;
 use Illuminate\Support\Arr;
