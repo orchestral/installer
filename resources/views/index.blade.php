@@ -24,9 +24,7 @@ unset($checklist['databaseConnection']); ?>
 		</div>
 	</div>
 	<div id="installation" class="six columns box form-horizontal">
-		@include('orchestra/installer::index._requirement')
-		@include('orchestra/installer::index._database')
-		@include('orchestra/installer::index._authentication')
+		Reworking on this.
 	</div>
 </div>
 @stop

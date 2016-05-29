@@ -47,7 +47,8 @@ class InstallerServiceProvider extends ModuleServiceProvider
         return $requirement->add(new Specifications\WritableStorage($this->app))
                 ->add(new Specifications\WritableBootstrapCache($this->app))
                 ->add(new Specifications\WritableAsset($this->app))
-                ->add(new Specifications\DatabaseConnection($this->app));
+                ->add(new Specifications\DatabaseConnection($this->app))
+                ->add(new Specifications\UserModel($this->app));
     }
 
     /**
