@@ -4,6 +4,7 @@ namespace Orchestra\Installation\Specifications;
 
 use Orchestra\Model\User;
 use Orchestra\Support\Str;
+use Illuminate\Support\Arr;
 
 class UserModel extends Specification
 {
