@@ -3,7 +3,9 @@
 namespace Orchestra\Installation;
 
 use PDOException;
+use Illuminate\Support\Collection;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
+use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
 class Requirement implements RequirementContract
 {
@@ -17,25 +19,39 @@ class Requirement implements RequirementContract
     /**
      * Installation checklist for Orchestra Platform.
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $checklist = [];
+    protected $items;
 
     /**
      * Installable status.
      *
      * @var bool
      */
-    protected $installable = true;
+    protected $installable;
 
     /**
      * Construct a new instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param \Illuminate\Contracts\Foundation\Application  $app
      */
     public function __construct($app)
     {
         $this->app = $app;
+        $this->items = new Collection();
+    }
+
+    /**
+     * Add requirement specification.
+     *
+     * @param  \Orchestra\Contracts\Installation\Specification  $specification
+     * @return $this
+     */
+    public function add(SpecificationContract $specification)
+    {
+        $this->items[$specification->uid()] = $specification;
+
+        return $this;
     }
 
     /**
@@ -45,12 +61,10 @@ class Requirement implements RequirementContract
      */
     public function check()
     {
-        $this->checklist['databaseConnection'] = $this->checkDatabaseConnection();
-        $this->checklist['writableStorage']    = $this->checkWritableStorage();
-        $this->checklist['writableAsset']      = $this->checkWritableAsset();
+        $this->installable = true;
 
-        foreach ($this->checklist as $requirement) {
-            if ($requirement['is'] !== $requirement['should'] && true === $requirement['explicit']) {
+        foreach ($this->items as $specification) {
+            if ($specification->check() === false && $specification->optional() === false) {
                 $this->installable = false;
             }
         }
@@ -59,96 +73,13 @@ class Requirement implements RequirementContract
     }
 
     /**
-     * Check database connection.
+     * Get checklist items.
      *
      * @return array
      */
-    public function checkDatabaseConnection()
+    public function items()
     {
-        $schema = ['is' => true];
-
-        try {
-            $this->app->make('db')->connection()->getPdo();
-        } catch (PDOException $e) {
-            $schema['is']            = false;
-            $schema['data']['error'] = $e->getMessage();
-        }
-
-        return array_merge($this->getChecklistSchema(), $schema);
-    }
-
-    /**
-     * Check whether storage folder is writable.
-     *
-     * @return array
-     */
-    public function checkWritableStorage()
-    {
-        $path   = rtrim($this->app['path.storage'], '/').'/';
-        $schema = [
-            'is'   => $this->checkPathIsWritable($path),
-            'data' => [
-                'path' => $this->app->make('html')->create('code', 'storage', ['title' => $path]),
-            ],
-        ];
-
-        return array_merge($this->getChecklistSchema(), $schema);
-    }
-
-    /**
-     * Check whether asset folder is writable.
-     *
-     * @return array
-     */
-    public function checkWritableAsset()
-    {
-        $path   = rtrim($this->app['path.public'], '/').'/packages/';
-        $schema = [
-            'is'   => $this->checkPathIsWritable($path),
-            'data' => [
-                'path' => $this->app->make('html')->create('code', 'public/packages', ['title' => $path]),
-            ],
-            'explicit' => false,
-        ];
-
-        return array_merge($this->getChecklistSchema(), $schema);
-    }
-
-    /**
-     * Get checklist schema.
-     *
-     * @return array
-     */
-    protected function getCheckListSchema()
-    {
-        return [
-            'is'       => null,
-            'should'   => true,
-            'explicit' => true,
-            'data'     => [],
-        ];
-    }
-
-    /**
-     * Check if path is writable.
-     *
-     * @param  string   $path
-     *
-     * @return bool
-     */
-    protected function checkPathIsWritable($path)
-    {
-        return $this->app->make('files')->isWritable($path);
-    }
-
-    /**
-     * Get checklist result.
-     *
-     * @return array
-     */
-    public function getChecklist()
-    {
-        return $this->checklist;
+        return $this->items;
     }
 
     /**
@@ -158,6 +89,10 @@ class Requirement implements RequirementContract
      */
     public function isInstallable()
     {
+        if (is_null($this->installable)) {
+            return $this->check();
+        }
+
         return $this->installable;
     }
 }

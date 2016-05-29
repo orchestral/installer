@@ -60,7 +60,7 @@ class Installer
             'auth'           => $auth,
             'authentication' => $authentication,
             'installable'    => $installable,
-            'checklist'      => $requirement->getChecklist(),
+            'requirements'   => $requirement->items(),
         ];
 
         return $listener->indexSucceed($data);

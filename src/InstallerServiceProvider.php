@@ -27,8 +27,27 @@ class InstallerServiceProvider extends ModuleServiceProvider
         });
 
         $this->app->bind(RequirementContract::class, function ($app) {
-            return new Requirement($app);
+            $requirement = new Requirement($app);
+
+            $this->addDefaultSpecifications($requirement);
+
+            return $requirement;
         });
+    }
+
+    /**
+     * Add default specifications.
+     *
+     * @param  \Orchestra\Contracts\Installation\Requirement  $requirement
+     *
+     * @return \Orchestra\Contracts\Installation\Requirement
+     */
+    protected function addDefaultSpecifications(RequirementContract $requirement)
+    {
+        return $requirement->add(new Specifications\WritableStorage($this->app))
+                ->add(new Specifications\WritableBootstrapCache($this->app))
+                ->add(new Specifications\WritableAsset($this->app))
+                ->add(new Specifications\DatabaseConnection($this->app));
     }
 
     /**
