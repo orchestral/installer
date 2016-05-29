@@ -2,6 +2,8 @@
 
 namespace Orchestra\Installation\Specifications;
 
+use Orchestra\Support\Str;
+
 class WritableBootstrapCache extends Specification
 {
     /**

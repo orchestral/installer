@@ -73,11 +73,21 @@ class Requirement implements RequirementContract
     }
 
     /**
-     * Get checklist items.
+     * Get rules.
      *
      * @return array
      */
     public function items()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Get rules.
+     *
+     * @return array
+     */
+    public function getCheckList()
     {
         return $this->items;
     }
