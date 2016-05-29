@@ -3,11 +3,12 @@
 namespace Orchestra\Installation;
 
 use PDOException;
+use IteratorAggregate;
 use Illuminate\Support\Collection;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
 use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
-class Requirement implements RequirementContract
+class Requirement implements RequirementContract, IteratorAggregate
 {
     /**
      * Application instance.
@@ -21,7 +22,7 @@ class Requirement implements RequirementContract
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $items;
+    protected $items = [];
 
     /**
      * Installable status.
@@ -38,7 +39,6 @@ class Requirement implements RequirementContract
     public function __construct($app)
     {
         $this->app = $app;
-        $this->items = new Collection();
     }
 
     /**
@@ -79,17 +79,17 @@ class Requirement implements RequirementContract
      */
     public function items()
     {
-        return $this->items;
+        return new Collection($this->items);
     }
 
     /**
-     * Get rules.
+     * Get an iterator for the items.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function getCheckList()
+    public function getIterator()
     {
-        return $this->items;
+        return $this->items();
     }
 
     /**
