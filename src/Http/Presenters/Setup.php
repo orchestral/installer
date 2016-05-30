@@ -33,7 +33,6 @@ class Setup
 
     protected function applicationForm(Fieldset $fieldset, $model)
     {
-
         $fieldset->control('text', 'site_name')
             ->label(trans('orchestra/foundation::label.name'))
             ->value('Orchestra Platform');

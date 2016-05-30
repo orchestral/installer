@@ -2,7 +2,6 @@
 
 namespace Orchestra\Installation;
 
-use PDOException;
 use IteratorAggregate;
 use Illuminate\Support\Collection;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
@@ -45,6 +44,7 @@ class Requirement implements RequirementContract, IteratorAggregate
      * Add requirement specification.
      *
      * @param  \Orchestra\Contracts\Installation\Specification  $specification
+     *
      * @return $this
      */
     public function add(SpecificationContract $specification)
