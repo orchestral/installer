@@ -1,10 +1,5 @@
 @extends('orchestra/foundation::layouts.main')
 
-<?php
-
-$databaseConnection = $checklist['databaseConnection'];
-unset($checklist['databaseConnection']); ?>
-
 @section('content')
 <div class="row">
 	<div class="three columns">
