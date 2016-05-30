@@ -100,7 +100,7 @@ abstract class Specification implements SpecificationContract
     }
 
     /**
-     * Specification has error,.
+     * Specification has error.
      *
      * @return bool
      */
