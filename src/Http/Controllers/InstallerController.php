@@ -97,6 +97,8 @@ class InstallerController extends BaseController
      */
     public function done(InstallerProcessor $processor)
     {
+        set_meta('description', 'Completed');
+
         return $processor->done($this);
     }
 
