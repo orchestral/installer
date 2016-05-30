@@ -9,27 +9,15 @@ use Orchestra\Installation\Processor\Installer as InstallerProcessor;
 class InstallerController extends BaseController
 {
     /**
-     * Construct Installer controller.
-     *
-     * @param  \Orchestra\Installation\Processor\Installer  $processor
-     */
-    public function __construct(InstallerProcessor $processor)
-    {
-        $this->processor = $processor;
-
-        set_meta('navigation::usernav', false);
-        set_meta('title', 'Installation');
-
-        parent::__construct();
-    }
-
-    /**
      * Setup controller middleware.
      *
      * @return void
      */
     protected function setupMiddleware()
     {
+        set_meta('navigation::usernav', false);
+        set_meta('title', 'Installation');
+
         $this->middleware('orchestra.installed', [
             'only' => ['index', 'create', 'store'],
         ]);
@@ -40,11 +28,15 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install
      *
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
+     *
      * @return mixed
      */
-    public function index()
+    public function index(InstallerProcessor $processor)
     {
-        return $this->processor->index($this);
+        set_meta('description', 'Check Requirements');
+
+        return $processor->index($this);
     }
 
     /**
@@ -52,11 +44,15 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/prepare
      *
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
+     *
      * @return mixed
      */
-    public function prepare()
+    public function prepare(InstallerProcessor $processor)
     {
-        return $this->processor->prepare($this);
+        set_meta('description', 'Run Migrations');
+
+        return $processor->prepare($this);
     }
 
     /**
@@ -64,11 +60,15 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/create
      *
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
+     *
      * @return mixed
      */
-    public function create()
+    public function create(InstallerProcessor $processor)
     {
-        return $this->processor->create($this);
+        set_meta('description', 'Setup Orchestra Platform');
+
+        return $processor->create($this);
     }
 
     /**
@@ -77,12 +77,13 @@ class InstallerController extends BaseController
      * POST (:orchestra)/install/create
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
      *
      * @return mixed
      */
-    public function store(Request $request)
+    public function store(Request $request, InstallerProcessor $processor)
     {
-        return $this->processor->store($this, $request->all());
+        return $processor->store($this, $request->all());
     }
 
     /**
@@ -90,11 +91,13 @@ class InstallerController extends BaseController
      *
      * GET (:orchestra)/install/done
      *
+     * @param  \Orchestra\Installation\Processor\Installer  $processor
+     *
      * @return mixed
      */
-    public function done()
+    public function done(InstallerProcessor $processor)
     {
-        return $this->processor->done($this);
+        return $processor->done($this);
     }
 
     /**
