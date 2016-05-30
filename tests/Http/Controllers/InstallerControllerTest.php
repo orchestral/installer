@@ -1,46 +1,11 @@
-<?php namespace Orchestra\Installation\Http\Controllers\TestCase;
+<?php namespace Orchestra\Installation\TestCase\Http\Controllers;
 
 use Mockery as m;
-use Orchestra\Testing\TestCase;
 use Illuminate\Support\Facades\Config;
+use Orchestra\Installation\TestCase\TestCase;
 
 class InstallerControllerTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application   $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        $app->make('Orchestra\Foundation\Bootstrap\LoadExpresso')->bootstrap($app);
-    }
-
-    /**
-     * Teardown the test environment.
-     */
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        m::close();
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            'Orchestra\Installation\InstallerServiceProvider',
-        ];
-    }
 
     /**
      * Test GET /admin/install.
@@ -49,102 +14,11 @@ class InstallerControllerTest extends TestCase
      */
     public function testGetIndexAction()
     {
-        $dbConfig = [
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'database',
-            'username'  => 'root',
-            'password'  => 'root',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ];
-
-        $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
-        $requirement->shouldReceive('check')->once()->andReturn(true)
-            ->shouldReceive('getChecklist')->once()->andReturn([
-                'databaseConnection' => [
-                    'is'       => true,
-                    'should'   => true,
-                    'explicit' => true,
-                    'data'     => [],
-                ],
-            ]);
-        $user = m::mock('UserEloquent', '\Orchestra\Model\User');
-        $this->app->bind('UserEloquent', function () use ($user) {
-            return $user;
-        });
-        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
-            return $requirement;
-        });
-        Config::set('database.default', 'mysql');
-        Config::set('auth.providers.eloquent.model', 'UserEloquent');
-        Config::set('database.connections.mysql', $dbConfig);
-
         $this->call('GET', 'admin/install');
+
         $this->assertResponseOk();
-        $this->assertViewHasAll([
-            'database',
-            'auth',
-            'authentication',
-            'installable',
-            'checklist',
-        ]);
-    }
 
-    /**
-     * Test GET /admin/install when auth driver is not Eloquent.
-     *
-     * @test
-     */
-    public function testGetIndexActionWhenAuthDriverIsNotEloquent()
-    {
-        $dbConfig = [
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'database',
-            'username'  => 'root',
-            'password'  => 'root',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ];
-
-        $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
-        $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull();
-
-        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
-            return $installer;
-        });
-
-        $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
-        $requirement->shouldReceive('check')->once()->andReturn(true)
-            ->shouldReceive('getChecklist')->once()->andReturn([
-                'databaseConnection' => [
-                    'is'       => true,
-                    'should'   => true,
-                    'explicit' => true,
-                    'data'     => [],
-                ],
-            ]);
-
-        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
-            return $requirement;
-        });
-
-        Config::set('database.default', 'mysql');
-        Config::set('auth.providers.eloquent.model', 'UserNotAvailableForAuthModel');
-        Config::set('database.connections.mysql', $dbConfig);
-
-        $this->call('GET', 'admin/install');
-        $this->assertResponseOk();
-        $this->assertViewHasAll([
-            'database',
-            'auth',
-            'authentication',
-            'installable',
-            'checklist',
-        ]);
+        $this->assertViewHas('requirements');
     }
 
     /**
@@ -155,11 +29,19 @@ class InstallerControllerTest extends TestCase
     public function testGetPrepareAction()
     {
         $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
+        $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
+
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
             ->shouldReceive('migrate')->once()->andReturnNull();
 
+        $requirement->shouldReceive('check')->once()->andReturn(true);
+
         $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
             return $installer;
+        });
+
+        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
+            return $requirement;
         });
 
         $this->call('GET', 'admin/install/prepare');

@@ -51,7 +51,8 @@ class RequirementTest extends \PHPUnit_Framework_TestCase
         $items->setValue($stub, ['foo', 'bar']);
         $installable->setValue($stub, true);
 
-        $this->assertEquals(['foo', 'bar'], $stub->items());
+        $this->assertInstanceOf('\Illuminate\Support\Collection', $stub->items());
+        $this->assertEquals(['foo', 'bar'], $stub->items()->all());
         $this->assertTrue($stub->isInstallable());
     }
 
