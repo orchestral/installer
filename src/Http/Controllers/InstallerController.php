@@ -18,7 +18,7 @@ class InstallerController extends BaseController
         $this->processor = $processor;
 
         set_meta('navigation::usernav', false);
-        set_meta('title', 'Installer');
+        set_meta('title', 'Installation');
 
         parent::__construct();
     }
