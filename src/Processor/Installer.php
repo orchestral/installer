@@ -63,6 +63,10 @@ class Installer
      */
     public function prepare($listener)
     {
+        if (! $this->requirement->check()) {
+            return $listener->prepareUnreachable();
+        }
+
         $this->installer->migrate();
 
         return $listener->prepareSucceed();
@@ -109,74 +113,5 @@ class Installer
     public function done($listener)
     {
         return $listener->doneSucceed();
-    }
-
-    /**
-     * Get running configuration.
-     *
-     * @return array
-     */
-    protected function getRunningConfiguration()
-    {
-        $driver   = config('database.default', 'mysql');
-        $database = config("database.connections.{$driver}", []);
-        $auth     = $this->getAuthConfiguration(config('auth'));
-
-        // For security, we shouldn't expose database connection to anyone,
-        // This snippet change the password value into *.
-        if (isset($database['password']) && ($password = strlen($database['password']))) {
-            $database['password'] = str_repeat('*', $password);
-        }
-
-        $authentication = $this->isAuthenticationInstallable($auth);
-
-        return [$database, $auth, $authentication];
-    }
-
-    /**
-     * Resolve auth configuration.
-     *
-     * @param  array  $auth
-     *
-     * @return array
-     */
-    protected function getAuthConfiguration(array $auth)
-    {
-        $driver = Arr::get($auth, 'defaults.guard');
-
-        $guard = Arr::get($auth, "guards.{$driver}", [
-            'driver'   => 'session',
-            'provider' => 'users',
-        ]);
-
-        $provider = Arr::get($auth, "providers.{$guard['provider']}", [
-            'driver' => 'eloquent',
-            'model'  => User::class,
-        ]);
-
-        return compact('guard', 'provider');
-    }
-
-    /**
-     * Is authentication installable.
-     *
-     * @param  array  $auth
-     *
-     * @return bool
-     */
-    protected function isAuthenticationInstallable(array $auth)
-    {
-        // Orchestra Platform strictly require Eloquent based authentication
-        // because our Role Based Access Role (RBAC) is utilizing on eloquent
-        // relationship to solve some of the requirement.
-        try {
-            return ($auth['provider']['driver'] === 'eloquent' && app($auth['provider']['model']) instanceof User);
-        } catch (ReflectionException $e) {
-            return false;
-        } finally {
-            // Catch any exception.
-        }
-
-        return false;
     }
 }

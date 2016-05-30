@@ -110,6 +110,16 @@ class InstallerController extends BaseController
     }
 
     /**
+     * Response when installation can't be prepared.
+     *
+     * @return mixed
+     */
+    public function prepareUnreachable()
+    {
+        return $this->redirect(handles('orchestra::install/index'));
+    }
+
+    /**
      * Response when installation is prepared.
      *
      * @return mixed
