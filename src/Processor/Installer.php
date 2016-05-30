@@ -5,7 +5,9 @@ namespace Orchestra\Installation\Processor;
 use ReflectionException;
 use Orchestra\Model\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Fluent;
 use Orchestra\Contracts\Installation\Requirement;
+use Orchestra\Installation\Http\Presenters\Setup as Presenter;
 use Orchestra\Contracts\Installation\Installation;
 
 class Installer
@@ -25,15 +27,24 @@ class Installer
     protected $requirement;
 
     /**
+     * Presenter instance.
+     *
+     * @var \Orchestra\Installation\Http\Presenters\Setup
+     */
+    protected $presenter;
+
+    /**
      * Create a new processor instance.
      *
      * @param  \Orchestra\Contracts\Installation\Installation  $installer
      * @param  \Orchestra\Contracts\Installation\Requirement  $requirement
+     * @param  \Orchestra\Installation\Http\Presenters\Setup  $presenter
      */
-    public function __construct(Installation $installer, Requirement $requirement)
+    public function __construct(Installation $installer, Requirement $requirement, Presenter $presenter)
     {
         $this->installer   = $installer;
         $this->requirement = $requirement;
+        $this->presenter   = $presenter;
 
         $this->installer->bootInstallerFiles();
     }
@@ -81,9 +92,11 @@ class Installer
      */
     public function create($listener)
     {
-        return $listener->createSucceed([
-            'siteName' => 'Orchestra Platform',
-        ]);
+        $model = new Fluent(['site' => ['name' => 'Orchestra Platform']]);
+
+        $form = $this->presenter->form($model);
+
+        return $listener->createSucceed(compact('form', 'model'));
     }
 
     /**
