@@ -1,6 +1,7 @@
 <?php namespace Orchestra\Installation\TestCase\Http\Controllers;
 
 use Mockery as m;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Config;
 use Orchestra\Installation\TestCase\TestCase;
 
@@ -55,9 +56,11 @@ class InstallerControllerTest extends TestCase
      */
     public function testGetCreateAction()
     {
+        $model = new Fluent(['site' => ['name' => 'Orchestra Platform']]);
+
         $this->call('GET', 'admin/install/create');
         $this->assertResponseOk();
-        $this->assertViewHas('siteName', 'Orchestra Platform');
+        $this->assertViewHas('model', $model);
     }
 
     /**
