@@ -12,12 +12,12 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
      *
      * @var Illuminate\Foundation\Application
      */
-    protected $app = null;
+    private $app;
 
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->app = new Container();
         $this->app['translator'] = $translator = m::mock('\Illuminate\Translation\Translator');
@@ -33,7 +33,7 @@ class InstallationTest extends \PHPUnit_Framework_TestCase
     /**
      * Teardown the test environment.
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->app);
         m::close();
