@@ -18,12 +18,6 @@
 
 @push('orchestra.footer')
 <script>
-  new App({
-    data: {
-      sidebar: {
-        menu: {!! app('orchestra.platform.menu')->toJson() !!}
-      }
-    }
-  }).$mount('body')
+  var app = Platform.make('app').$mount('body')
 </script>
 @endpush
