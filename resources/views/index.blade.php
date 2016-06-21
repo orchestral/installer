@@ -1,4 +1,4 @@
-@extends('orchestra/foundation::layouts.installer')
+@extends('orchestra/foundation::layouts.setup')
 
 @section('content')
 <div class="panel panel-default">
