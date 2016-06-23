@@ -5,8 +5,8 @@ namespace Orchestra\Installation\Processor;
 use Orchestra\Model\User;
 use Illuminate\Support\Fluent;
 use Orchestra\Contracts\Installation\Requirement;
-use Orchestra\Installation\Http\Presenters\Setup as Presenter;
 use Orchestra\Contracts\Installation\Installation;
+use Orchestra\Installation\Http\Presenters\Setup as Presenter;
 
 class Installer
 {
@@ -90,7 +90,7 @@ class Installer
      */
     public function create($listener)
     {
-        $model = new Fluent(['site' => ['name' => 'Orchestra Platform']]);
+        $model = new Fluent(['site' => ['name' => config('app.name', 'Orchestra Platform')]]);
 
         $form = $this->presenter->form($model);
 

@@ -1,16 +1,16 @@
-@extends('orchestra/foundation::layouts.installer')
+@extends('orchestra/foundation::layouts.setup')
 
 @section('content')
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Thank you for choosing Orchestra Platform</h3>
+    <h3 class="panel-title">{{ @trans('orchestra/installer::title.thank-you') }}</h3>
   </div>
   <div class="panel-body">
     <progress progress="100"></progress>
   </div>
   <div class="panel-footer">
     <a href="{{ handles('orchestra::login') }}" class="btn btn-success btn-lg btn-block">
-      Proceed to Application
+      {{ @trans('orchestra/foundation::title.login') }}
     </a>
   </div>
 </div>
