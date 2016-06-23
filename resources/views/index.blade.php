@@ -3,7 +3,7 @@
 @section('content')
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">System Requirements</h3>
+    <h3 class="panel-title">{{ @trans('orchestra/installer::title.requirement') }}</h3>
   </div>
   <div class="panel-body">
     <div class="progress">
@@ -19,9 +19,9 @@
         <a href="#" data-toggle="collapse" data-target="#faq__question_{{ str_slug($uid) }}" class="" aria-expanded="true">
           {!! $requirement->title() !!}
           @if($requirement->check())
-          <span class="label label-success pull-right">Yes</span>
+          <span class="label label-success pull-right">{{ @trans('orchestra/installer::label.yes') }}</span>
           @else
-          <span class="label label-danger pull-right">No</span>
+          <span class="label label-danger pull-right">{{ @trans('orchestra/installer::label.no') }}</span>
           @endif
         </a>
         <div class="collapse" id="faq__question_{{ str_slug($uid) }}" aria-expanded="true">
