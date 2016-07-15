@@ -35,7 +35,8 @@ class Setup
     {
         $fieldset->control('text', 'site_name')
             ->label(trans('orchestra/foundation::label.name'))
-            ->value(data_get($model, 'site.name'));
+            ->value(data_get($model, 'site.name'))
+            ->attributes(['autocomplete' => 'off']);
     }
 
     protected function userForm(Fieldset $fieldset, $model)
