@@ -56,7 +56,7 @@ class InstallerControllerTest extends TestCase
      */
     public function testGetCreateAction()
     {
-        $model = new Fluent(['site' => ['name' => 'Orchestra Platform']]);
+        $model = new Fluent(['site' => ['name' => 'My Application']]);
 
         $this->call('GET', 'admin/install/create');
         $this->assertResponseOk();

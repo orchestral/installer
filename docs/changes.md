@@ -3,6 +3,13 @@ title: Installer Change Log
 
 ---
 
+## Version 3.3 {#v3-3}
+
+### v3.3.0 {#v3-3-0}
+
+* Update support for Orchestra Platform v3.3.
+* Refactor `Orchestra\Installation\Requirement` to support building specifications for installation.
+
 ## Version 3.2 {#v3-2}
 
 ### v3.2.2 {#v3-2-2}
