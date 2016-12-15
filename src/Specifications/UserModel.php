@@ -85,7 +85,7 @@ class UserModel extends Specification
      */
     protected function validateUserInstance(array $auth)
     {
-        return $this->app->make($auth['provider']['model']) instanceof User
+        return $this->app->make($auth['provider']['model']) instanceof User;
     }
 
     /**
