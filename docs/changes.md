@@ -5,6 +5,11 @@ title: Installer Change Log
 
 ## Version 3.3 {#v3-3}
 
+### v3.3.1 {#v3-3-1}
+
+* Add support for `authen` auth user provider.
+* Check for type-hint to `Orchestra\Foundation\Auth\User` instead of `Orchestra\Model\User`.
+
 ### v3.3.0 {#v3-3-0}
 
 * Update support for Orchestra Platform v3.3.
