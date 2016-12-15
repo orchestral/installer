@@ -42,7 +42,7 @@ class UserModel extends Specification
         try {
             $this->description = Str::replace($this->description, ['model' => $auth['provider']['model']]);
 
-            return ($auth['provider']['driver'] === 'eloquent' && $this->app->make($auth['provider']['model']) instanceof User);
+            return ($this->validateUserProvider($auth) && $this->validateUserInstance($auth));
         } catch (ReflectionException $e) {
             // Catch ReflectionException and return false.
         } finally {
@@ -74,5 +74,29 @@ class UserModel extends Specification
         ]);
 
         return compact('guard', 'provider');
+    }
+
+    /**
+     * Validate user instance.
+     *
+     * @param  array  $auth
+     *
+     * @return bool
+     */
+    protected function validateUserInstance(array $auth)
+    {
+        return $this->app->make($auth['provider']['model']) instanceof User
+    }
+
+    /**
+     * Validate user provider.
+     *
+     * @param  array  $auth
+     *
+     * @return bool
+     */
+    protected function validateUserProvider(array $auth)
+    {
+        return in_array($auth['provider']['driver'], ['authen', 'eloquent']);
     }
 }
