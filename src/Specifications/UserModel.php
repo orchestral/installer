@@ -3,9 +3,9 @@
 namespace Orchestra\Installation\Specifications;
 
 use ReflectionException;
-use Orchestra\Model\User;
 use Orchestra\Support\Str;
 use Illuminate\Support\Arr;
+use Orchestra\Foundation\Auth\User;
 
 class UserModel extends Specification
 {
@@ -28,7 +28,7 @@ class UserModel extends Specification
      *
      * @var string
      */
-    protected $description = 'Orchestra Platform strictly require Eloquent based authentication with our Role Based Access Control (RBAC) which utilize eloquent relationship. Please ensure that <code>{model}</code> is extending <code>Orchestra\Model\User</code>.';
+    protected $description = 'Orchestra Platform strictly require Eloquent based authentication with our Role Based Access Control (RBAC) which utilize eloquent relationship. Please ensure that <code>{model}</code> is extending <code>Orchestra\Foundation\Auth\User</code>.';
 
     /**
      * Check specification requirement.
