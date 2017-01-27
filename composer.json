@@ -26,15 +26,18 @@
         "orchestra/contracts": "~3.3.0"
     },
     "require-dev": {
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0|~5.0",
         "orchestra/foundation": "~3.3.0",
-        "orchestra/testing": "~3.3.0"
+        "orchestra/testing": "~3.3.0",
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "~4.0|~5.0"
     },
     "extra": {
         "branch-alias": {
             "dev-master": "3.3-dev"
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev"
 }
