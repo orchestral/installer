@@ -2,7 +2,7 @@
 
 namespace Orchestra\Installation\TestCase;
 
-use Orchestra\Testing\TestCase as Testing;
+use Orchestra\Testing\BrowserKit\TestCase as Testing;
 
 class TestCase extends Testing
 {
