@@ -6,9 +6,9 @@ Orchestra Platform Installation Wizard as an extension.
 [![Latest Stable Version](https://img.shields.io/github/release/orchestral/installer.svg?style=flat-square)](https://packagist.org/packages/orchestra/installer)
 [![Total Downloads](https://img.shields.io/packagist/dt/orchestra/installer.svg?style=flat-square)](https://packagist.org/packages/orchestra/installer)
 [![MIT License](https://img.shields.io/packagist/l/orchestra/installer.svg?style=flat-square)](https://packagist.org/packages/orchestra/installer)
-[![Build Status](https://img.shields.io/travis/orchestral/installer/3.4.svg?style=flat-square)](https://travis-ci.org/orchestral/installer)
-[![Coverage Status](https://img.shields.io/coveralls/orchestral/installer/3.4.svg?style=flat-square)](https://coveralls.io/r/orchestral/installer?branch=3.4)
-[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/orchestral/installer/3.4.svg?style=flat-square)](https://scrutinizer-ci.com/g/orchestral/installer/)
+[![Build Status](https://img.shields.io/travis/orchestral/installer/master.svg?style=flat-square)](https://travis-ci.org/orchestral/installer)
+[![Coverage Status](https://img.shields.io/coveralls/orchestral/installer/master.svg?style=flat-square)](https://coveralls.io/r/orchestral/installer?branch=master)
+[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/orchestral/installer/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/orchestral/installer/)
 
 ## Table of Content
 
