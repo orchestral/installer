@@ -4,8 +4,9 @@ use Mockery as m;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Installation\Installation;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class InstallationTest extends \PHPUnit_Framework_TestCase
+class InstallationTest extends PHPUnitTestCase
 {
     /**
      * Application instance.

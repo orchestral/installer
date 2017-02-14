@@ -3,8 +3,9 @@
 use Mockery as m;
 use Illuminate\Container\Container;
 use Orchestra\Installation\Requirement;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class RequirementTest extends \PHPUnit_Framework_TestCase
+class RequirementTest extends PHPUnitTestCase
 {
     /**
      * Application instance.
