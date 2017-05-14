@@ -1,4 +1,6 @@
-<?php namespace Orchestra\Installation\TestCase\Http\Controllers;
+<?php
+
+namespace Orchestra\Installation\TestCase\Http\Controllers;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
