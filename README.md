@@ -14,6 +14,7 @@ Orchestra Platform Installation Wizard as an extension.
 
 * [Installation](#installation)
 * [Configuration](#configuration)
+* [Changelog](https://github.com/orchestral/installer/releases)
 
 ## Installation
 
