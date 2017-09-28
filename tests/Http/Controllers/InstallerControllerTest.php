@@ -4,12 +4,10 @@ namespace Orchestra\Installation\TestCase\Http\Controllers;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
-use Illuminate\Support\Facades\Config;
 use Orchestra\Installation\TestCase\TestCase;
 
 class InstallerControllerTest extends TestCase
 {
-
     /**
      * Test GET /admin/install.
      *

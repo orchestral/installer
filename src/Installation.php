@@ -32,7 +32,7 @@ class Installation implements InstallationContract
      */
     public function __construct($app, $isTest = false)
     {
-        $this->app    = $app;
+        $this->app = $app;
         $this->isTest = $isTest;
     }
 
@@ -65,8 +65,8 @@ class Installation implements InstallationContract
      */
     protected function requireInstallerFiles($once = true)
     {
-        $paths  = ['path.database', 'path'];
-        $files  = $this->app->make('files');
+        $paths = ['path.database', 'path'];
+        $files = $this->app->make('files');
         $method = ($once === true ? 'requireOnce' : 'getRequire');
 
         foreach ($paths as $path) {
@@ -122,6 +122,7 @@ class Installation implements InstallationContract
             $this->validate($input);
         } catch (ValidationException $e) {
             $this->app->make('session')->flash('errors', $e->validator->messages());
+
             return false;
         }
 
@@ -159,11 +160,11 @@ class Installation implements InstallationContract
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
         $actions = ['Manage Orchestra', 'Manage Users'];
-        $admin   = $config->get('orchestra/foundation::roles.admin', 1);
-        $roles   = $this->app->make('orchestra.role')->newQuery()->pluck('name', 'id');
-        $theme   = [
+        $admin = $config->get('orchestra/foundation::roles.admin', 1);
+        $roles = $this->app->make('orchestra.role')->newQuery()->pluck('name', 'id');
+        $theme = [
             'frontend' => 'default',
-            'backend'  => 'default',
+            'backend' => 'default',
         ];
 
         // Attach Administrator role to the newly created administrator.
@@ -175,7 +176,7 @@ class Installation implements InstallationContract
         $memory->put('site.theme', $theme);
         $memory->put('email', $config->get('mail'));
         $memory->put('email.from', [
-            'name'    => $input['site_name'],
+            'name' => $input['site_name'],
             'address' => $input['email'],
         ]);
 
@@ -209,9 +210,9 @@ class Installation implements InstallationContract
     {
         // Grab input fields and define the rules for user validations.
         $rules = [
-            'email'     => ['required', 'email'],
-            'password'  => ['required'],
-            'fullname'  => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+            'fullname' => ['required'],
             'site_name' => ['required'],
         ];
 
@@ -240,10 +241,10 @@ class Installation implements InstallationContract
         $user = $this->app->make('orchestra.user')->newInstance();
 
         $user->fill([
-            'email'    => $input['email'],
+            'email' => $input['email'],
             'password' => $input['password'],
             'fullname' => $input['fullname'],
-            'status'   => User::VERIFIED,
+            'status' => User::VERIFIED,
         ]);
 
         $this->app->make('events')->fire('orchestra.install: user', [$user, $input]);
