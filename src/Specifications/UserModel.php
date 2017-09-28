@@ -42,7 +42,7 @@ class UserModel extends Specification
         try {
             $this->description = Str::replace($this->description, ['model' => $auth['provider']['model']]);
 
-            return ($this->validateUserProvider($auth) && $this->validateUserInstance($auth));
+            return $this->validateUserProvider($auth) && $this->validateUserInstance($auth);
         } catch (ReflectionException $e) {
             // Catch ReflectionException and return false.
         } finally {
@@ -64,13 +64,13 @@ class UserModel extends Specification
         $driver = Arr::get($auth, 'defaults.guard');
 
         $guard = Arr::get($auth, "guards.{$driver}", [
-            'driver'   => 'session',
+            'driver' => 'session',
             'provider' => 'users',
         ]);
 
         $provider = Arr::get($auth, "providers.{$guard['provider']}", [
             'driver' => 'eloquent',
-            'model'  => User::class,
+            'model' => User::class,
         ]);
 
         return compact('guard', 'provider');

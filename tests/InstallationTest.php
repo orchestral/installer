@@ -45,7 +45,6 @@ class InstallationTest extends PHPUnitTestCase
     /**
      * Get User input.
      *
-     * @access private
      *
      * @return array
      */
@@ -53,25 +52,24 @@ class InstallationTest extends PHPUnitTestCase
     {
         return [
             'site_name' => 'Orchestra Platform',
-            'email'     => 'admin@orchestraplatform.com',
-            'password'  => '123456',
-            'fullname'  => 'Administrator',
+            'email' => 'admin@orchestraplatform.com',
+            'password' => '123456',
+            'fullname' => 'Administrator',
         ];
     }
 
     /**
      * Get validation rules.
      *
-     * @access private
      *
      * @return array
      */
     private function getValidationRules()
     {
         return [
-            'email'     => ['required', 'email'],
-            'password'  => ['required'],
-            'fullname'  => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+            'fullname' => ['required'],
             'site_name' => ['required'],
         ];
     }
@@ -115,6 +113,7 @@ class InstallationTest extends PHPUnitTestCase
         $stub = new Installation($app);
         $this->assertTrue($stub->migrate());
     }
+
     /**
      * Test Orchestra\Foundation\Installation\Installation::createAdmin() method.
      *

@@ -40,9 +40,9 @@ class Installer
      */
     public function __construct(Installation $installer, Requirement $requirement, Presenter $presenter)
     {
-        $this->installer   = $installer;
+        $this->installer = $installer;
         $this->requirement = $requirement;
-        $this->presenter   = $presenter;
+        $this->presenter = $presenter;
 
         $this->installer->bootInstallerFiles();
     }
