@@ -3,7 +3,7 @@ Orchestra Platform Installer
 
 Orchestra Platform Installation Wizard as an extension.
 
-[![Build Status](https://travis-ci.org/orchestral/installer.svg?branch=master)](https://travis-ci.org/orchestral/installer)
+[![Build Status](https://travis-ci.org/orchestral/installer.svg?branch=3.6)](https://travis-ci.org/orchestral/installer)
 [![Latest Stable Version](https://poser.pugx.org/orchestra/installer/v/stable)](https://packagist.org/packages/orchestra/installer)
 [![Total Downloads](https://poser.pugx.org/orchestra/installer/downloads)](https://packagist.org/packages/orchestra/installer)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/installer/v/unstable)](https://packagist.org/packages/orchestra/installer)
