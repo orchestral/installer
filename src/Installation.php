@@ -202,9 +202,9 @@ class Installation implements InstallationContract
      *
      * @param  array  $input
      *
-     * @return bool
-     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return bool
      */
     public function validate(array $input)
     {
@@ -257,9 +257,9 @@ class Installation implements InstallationContract
     /**
      * Check for existing User.
      *
-     * @return bool
-     *
      * @throws \Exception
+     *
+     * @return bool
      */
     protected function hasNoExistingUser()
     {
