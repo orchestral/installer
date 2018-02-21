@@ -33,7 +33,7 @@ class InstallerControllerTest extends TestCase
         $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
 
         $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('migrate')->once()->andReturnNull();
+            ->shouldReceive('migrate')->once()->andReturn(true);
 
         $requirement->shouldReceive('check')->once()->andReturn(true);
 

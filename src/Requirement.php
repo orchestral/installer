@@ -59,7 +59,7 @@ class Requirement implements RequirementContract, IteratorAggregate
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         $this->installable = true;
 
@@ -75,9 +75,9 @@ class Requirement implements RequirementContract, IteratorAggregate
     /**
      * Get rules.
      *
-     * @return array
+     * @return iterable
      */
-    public function items()
+    public function items(): iterable
     {
         return new Collection($this->items);
     }
@@ -97,7 +97,7 @@ class Requirement implements RequirementContract, IteratorAggregate
      *
      * @return bool
      */
-    public function isInstallable()
+    public function isInstallable(): bool
     {
         if (is_null($this->installable)) {
             return $this->check();

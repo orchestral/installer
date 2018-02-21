@@ -30,7 +30,7 @@ class Installation implements InstallationContract
      * @param  \Illuminate\Contracts\Foundation\Application   $app
      * @param  bool  $isTest
      */
-    public function __construct($app, $isTest = false)
+    public function __construct($app, bool $isTest = false)
     {
         $this->app = $app;
         $this->isTest = $isTest;
@@ -41,7 +41,7 @@ class Installation implements InstallationContract
      *
      * @return void
      */
-    public function bootInstallerFiles()
+    public function bootInstallerFiles(): void
     {
         $this->requireInstallerFiles(! $this->isTest);
     }
@@ -51,7 +51,7 @@ class Installation implements InstallationContract
      *
      * @return void
      */
-    public function bootInstallerFilesForTesting()
+    public function bootInstallerFilesForTesting(): void
     {
         $this->requireInstallerFiles(false);
     }
@@ -63,7 +63,7 @@ class Installation implements InstallationContract
      *
      * @return void
      */
-    protected function requireInstallerFiles($once = true)
+    protected function requireInstallerFiles(bool $once = true): void
     {
         $paths = ['path.database', 'path'];
         $files = $this->app->make('files');
@@ -83,7 +83,7 @@ class Installation implements InstallationContract
      *
      * @return bool
      */
-    public function migrate()
+    public function migrate(): bool
     {
         $this->app->make('orchestra.publisher.migrate')->foundation();
         $this->app->make('events')->fire('orchestra.install.schema');
@@ -98,23 +98,8 @@ class Installation implements InstallationContract
      * @param  bool   $multiple
      *
      * @return bool
-     *
-     * @deprecated v3.2.x
      */
-    public function createAdmin($input, $multiple = true)
-    {
-        return $this->make($input, $multiple);
-    }
-
-    /**
-     * Create adminstrator account.
-     *
-     * @param  array  $input
-     * @param  bool   $multiple
-     *
-     * @return bool
-     */
-    public function make(array $input, $multiple = true)
+    public function make(array $input, bool $multiple = true): bool
     {
         $messages = $this->app->make('orchestra.messages');
 
@@ -139,9 +124,9 @@ class Installation implements InstallationContract
             return true;
         } catch (Exception $e) {
             $messages->add('error', $e->getMessage());
-
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -152,7 +137,7 @@ class Installation implements InstallationContract
      *
      * @return void
      */
-    public function create(User $user, array $input)
+    public function create(User $user, array $input): void
     {
         $config = $this->app->make('config');
         $memory = $this->app->make('orchestra.memory')->make();
@@ -206,7 +191,7 @@ class Installation implements InstallationContract
      *
      * @return bool
      */
-    public function validate(array $input)
+    public function validate(array $input): bool
     {
         // Grab input fields and define the rules for user validations.
         $rules = [
@@ -234,7 +219,7 @@ class Installation implements InstallationContract
      *
      * @return \Orchestra\Model\User
      */
-    public function createUser(array $input)
+    public function createUser(array $input): User
     {
         User::unguard();
 
@@ -261,7 +246,7 @@ class Installation implements InstallationContract
      *
      * @return bool
      */
-    protected function hasNoExistingUser()
+    protected function hasNoExistingUser(): bool
     {
         $users = $this->app->make('orchestra.user')->newQuery()->all();
 

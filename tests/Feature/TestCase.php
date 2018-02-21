@@ -1,8 +1,8 @@
 <?php
 
-namespace Orchestra\Installation\TestCase;
+namespace Orchestra\Installation\TestCase\Feature;
 
-use Orchestra\Testing\BrowserKit\TestCase as Testing;
+use Orchestra\Testing\TestCase as Testing;
 
 abstract class TestCase extends Testing
 {

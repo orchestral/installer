@@ -32,7 +32,7 @@ class DatabaseConnection extends Specification
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         try {
             $this->app->make('db')->connection()->getPdo();

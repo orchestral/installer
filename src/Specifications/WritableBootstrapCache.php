@@ -32,7 +32,7 @@ class WritableBootstrapCache extends Specification
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         $path = rtrim($this->app['path.base'], '/').'/bootstrap/cache/';
 

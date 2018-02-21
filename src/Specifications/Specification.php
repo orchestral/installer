@@ -64,7 +64,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return string
      */
-    public function uid()
+    public function uid(): string
     {
         return $this->uid;
     }
@@ -74,7 +74,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return string
      */
-    public function title()
+    public function title(): string
     {
         return $this->title;
     }
@@ -84,7 +84,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return string
      */
-    public function description()
+    public function description(): string
     {
         return $this->description;
     }
@@ -94,7 +94,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return bool
      */
-    public function optional()
+    public function optional(): bool
     {
         return $this->optional;
     }
@@ -104,7 +104,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return bool
      */
-    public function hasError()
+    public function hasError(): bool
     {
         return ! empty($this->error);
     }
@@ -126,7 +126,7 @@ abstract class Specification implements SpecificationContract
      *
      * @return bool
      */
-    protected function checkPathIsWritable($path)
+    protected function checkPathIsWritable(string $path): bool
     {
         return $this->app->make('files')->isWritable($path);
     }

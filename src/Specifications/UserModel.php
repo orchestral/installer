@@ -35,7 +35,7 @@ class UserModel extends Specification
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         $auth = $this->getAuthConfiguration($this->app->make('config')->get('auth'));
 
@@ -59,7 +59,7 @@ class UserModel extends Specification
      *
      * @return array
      */
-    protected function getAuthConfiguration(array $auth)
+    protected function getAuthConfiguration(array $auth): array
     {
         $driver = Arr::get($auth, 'defaults.guard');
 
@@ -83,7 +83,7 @@ class UserModel extends Specification
      *
      * @return bool
      */
-    protected function validateUserInstance(array $auth)
+    protected function validateUserInstance(array $auth): bool
     {
         return $this->app->make($auth['provider']['model']) instanceof User;
     }
@@ -95,7 +95,7 @@ class UserModel extends Specification
      *
      * @return bool
      */
-    protected function validateUserProvider(array $auth)
+    protected function validateUserProvider(array $auth): bool
     {
         return in_array($auth['provider']['driver'], ['authen', 'eloquent']);
     }
