@@ -7,10 +7,8 @@ use Orchestra\Installation\Requirement;
 
 class RequirementTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function testConstructMethod()
+    /** @test */
+    public function it_declares_proper_signature()
     {
         $stub = new Requirement($this->app);
 
@@ -25,10 +23,8 @@ class RequirementTest extends TestCase
         $this->assertTrue($stub->isInstallable());
     }
 
-    /**
-     * @test
-     */
-    public function testCheckMethod()
+    /** @test */
+    public function it_can_check_requirements()
     {
         $stub = new Requirement($this->app);
 

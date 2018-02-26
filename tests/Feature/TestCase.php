@@ -39,10 +39,8 @@ abstract class TestCase extends Testing
      */
     protected function resolveApplication()
     {
-        $app = parent::resolveApplication();
-
-        $app->useVendorPath(__DIR__.'/../../vendor');
-
-        return $app;
+        return tap(parent::resolveApplication(), function ($app) {
+            $app->useVendorPath(__DIR__.'/../../vendor');
+        });
     }
 }
