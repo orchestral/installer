@@ -1,9 +1,9 @@
 <?php
 
-namespace Orchestra\Installation\Tests\Feature;
+namespace Orchestra\Installation\Tests\Controller;
 
 use Orchestra\Foundation\Auth\User;
-use Orchestra\Testing\TestCase as Testing;
+use Orchestra\Testing\BrowserKit\TestCase as Testing;
 
 abstract class TestCase extends Testing
 {

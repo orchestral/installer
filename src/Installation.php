@@ -248,11 +248,11 @@ class Installation implements InstallationContract
      */
     protected function hasNoExistingUser(): bool
     {
-        $users = $this->app->make('orchestra.user')->newQuery()->all();
+        $users = $this->app->make('orchestra.user')->newQuery()->get();
 
         // Before we create administrator, we should ensure that users table
         // is empty to avoid any possible hijack or invalid request.
-        if (empty($users)) {
+        if ($users->isEmpty()) {
             return true;
         }
 

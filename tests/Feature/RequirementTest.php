@@ -1,19 +1,14 @@
 <?php
 
-namespace Orchestra\Installation\TestCase\Feature;
+namespace Orchestra\Installation\Tests\Feature;
 
 use Mockery as m;
-use Illuminate\Container\Container;
 use Orchestra\Installation\Requirement;
 
 class RequirementTest extends TestCase
 {
-    /**
-     * Test construct Orchestra\Foundation\Installation\Requirement.
-     *
-     * @test
-     */
-    public function testConstructMethod()
+    /** @test */
+    public function it_declares_proper_signature()
     {
         $stub = new Requirement($this->app);
 
@@ -28,12 +23,8 @@ class RequirementTest extends TestCase
         $this->assertTrue($stub->isInstallable());
     }
 
-    /**
-     * Test Orchestra\Foundation\Installation\Requirement::check() method.
-     *
-     * @test
-     */
-    public function testCheckMethod()
+    /** @test */
+    public function it_can_check_requirements()
     {
         $stub = new Requirement($this->app);
 
