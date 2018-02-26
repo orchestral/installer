@@ -2,11 +2,6 @@
 
 namespace Orchestra\Installation\Tests\Controller;
 
-use Mockery as m;
-use Illuminate\Support\Fluent;
-use Orchestra\Contracts\Installation\Requirement;
-use Orchestra\Contracts\Installation\Installation;
-
 class InstallerControllerTest extends TestCase
 {
     /**

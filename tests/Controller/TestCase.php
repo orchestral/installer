@@ -7,7 +7,7 @@ use Orchestra\Testing\BrowserKit\TestCase as Testing;
 
 abstract class TestCase extends Testing
 {
-     /**
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app
