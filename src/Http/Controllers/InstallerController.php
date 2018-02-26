@@ -13,7 +13,7 @@ class InstallerController extends BaseController
      *
      * @return void
      */
-    protected function setupMiddleware()
+    protected function onCreate()
     {
         set_meta('navigation::usernav', false);
         set_meta('title', 'Installation');
