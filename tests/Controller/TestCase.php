@@ -19,4 +19,18 @@ abstract class TestCase extends Testing
             \Orchestra\Installation\InstallerServiceProvider::class,
         ];
     }
+
+    /**
+     * Resolve application implementation.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    protected function resolveApplication()
+    {
+        $app = parent::resolveApplication();
+
+        $app->useVendorPath(__DIR__.'/../../vendor');
+
+        return $app;
+    }
 }

@@ -3,14 +3,11 @@
 namespace Orchestra\Installation\Tests\Feature;
 
 use Mockery as m;
-use Illuminate\Container\Container;
 use Orchestra\Installation\Requirement;
 
 class RequirementTest extends TestCase
 {
     /**
-     * Test construct Orchestra\Foundation\Installation\Requirement.
-     *
      * @test
      */
     public function testConstructMethod()
@@ -29,8 +26,6 @@ class RequirementTest extends TestCase
     }
 
     /**
-     * Test Orchestra\Foundation\Installation\Requirement::check() method.
-     *
      * @test
      */
     public function testCheckMethod()
