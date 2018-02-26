@@ -1,14 +1,14 @@
 <?php
 
-namespace Orchestra\Installation\TestCase;
+namespace Orchestra\Installation\TestCase\Unit;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Installation\Installation;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class InstallationTest extends PHPUnitTestCase
+class InstallationTest extends TestCase
 {
     /**
      * Application instance.
@@ -115,8 +115,6 @@ class InstallationTest extends PHPUnitTestCase
     }
 
     /**
-     * Test Orchestra\Foundation\Installation\Installation::createAdmin() method.
-     *
      * @test
      */
     public function testCreateAdminMethod()
@@ -171,13 +169,10 @@ class InstallationTest extends PHPUnitTestCase
         $messages->shouldReceive('add')->once()->with('success', m::any())->andReturnNull();
 
         $stub = new Installation($app);
-        $this->assertTrue($stub->createAdmin($input, false));
+        $this->assertTrue($stub->make($input, false));
     }
 
     /**
-     * Test Orchestra\Foundation\Installation\Installation::createAdmin() method
-     * with validation errors.
-     *
      * @test
      */
     public function testCreateAdminMethodWithValidationErrors()
@@ -197,13 +192,10 @@ class InstallationTest extends PHPUnitTestCase
         $session->shouldReceive('flash')->once()->with('errors', 'foo-errors')->andReturnNull();
 
         $stub = new Installation($app);
-        $this->assertFalse($stub->createAdmin($input));
+        $this->assertFalse($stub->make($input));
     }
 
     /**
-     * Test Orchestra\Foundation\Installation\Installation::createAdmin() method
-     * throws exception.
-     *
      * @test
      */
     public function testCreateAdminMethodThrowsException()
@@ -224,6 +216,6 @@ class InstallationTest extends PHPUnitTestCase
         $messages->shouldReceive('add')->once()->with('error', m::any())->andReturnNull();
 
         $stub = new Installation($app);
-        $this->assertFalse($stub->createAdmin($input, false));
+        $this->assertFalse($stub->make($input, false));
     }
 }

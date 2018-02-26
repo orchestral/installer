@@ -39,7 +39,7 @@ class WritableAsset extends Specification
      *
      * @return bool
      */
-    public function check()
+    public function check(): bool
     {
         $path = rtrim($this->app['path.public'], '/').'/packages/';
 
