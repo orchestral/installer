@@ -1,10 +1,9 @@
 <?php
 
-namespace Orchestra\Installation\TestCase\Http\Controllers;
+namespace Orchestra\Installation\Tests\Controller;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
-use Orchestra\Installation\TestCase\TestCase;
 
 class InstallerControllerTest extends TestCase
 {
@@ -15,11 +14,8 @@ class InstallerControllerTest extends TestCase
      */
     public function testGetIndexAction()
     {
-        $this->call('GET', 'admin/install');
-
-        $this->assertResponseOk();
-
-        $this->assertViewHas('requirements');
+        $this->visit('admin/install')
+            ->assertViewHas('requirements');
     }
 
     /**
