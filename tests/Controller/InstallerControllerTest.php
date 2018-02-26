@@ -4,109 +4,85 @@ namespace Orchestra\Installation\Tests\Controller;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
+use Orchestra\Contracts\Installation\Requirement;
+use Orchestra\Contracts\Installation\Installation;
 
 class InstallerControllerTest extends TestCase
 {
     /**
-     * Test GET /admin/install.
-     *
-     * @test
+     * Teardown the test environment.
      */
-    public function testGetIndexAction()
+    protected function tearDown(): void
+    {
+        $this->artisan('migrate:reset');
+
+        parent::tearDown();
+    }
+
+    /** @test */
+    public function it_can_check_requirements()
     {
         $this->visit('admin/install')
             ->assertViewHas('requirements');
     }
 
-    /**
-     * Test GET /admin/install/prepare.
-     *
-     * @test
-     */
-    public function testGetPrepareAction()
+    /** @test */
+    public function it_can_prepare_installation()
     {
-        $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
-        $requirement = m::mock('\Orchestra\Contracts\Installation\Requirement');
-
-        $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('migrate')->once()->andReturn(true);
-
-        $requirement->shouldReceive('check')->once()->andReturn(true);
-
-        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
-            return $installer;
-        });
-
-        $this->app->bind('Orchestra\Contracts\Installation\Requirement', function () use ($requirement) {
-            return $requirement;
-        });
-
-        $this->call('GET', 'admin/install/prepare');
-        $this->assertRedirectedTo(handles('orchestra::install/create'));
+        $this->visit('admin/install')
+            ->seeLink('Next', 'admin/install/prepare')
+            ->click('Next')
+            ->seePageIs('admin/install/create');
     }
 
-    /**
-     * Test GET /admin/install/create.
-     *
-     * @test
-     */
-    public function testGetCreateAction()
+    /** @test */
+    public function it_can_create_user()
     {
-        $model = new Fluent(['site' => ['name' => 'My Application']]);
+        $this->visit('admin/install')
+            ->seeLink('Next', 'admin/install/prepare')
+            ->click('Next')
+            ->seePageIs('admin/install/create')
+            ->type('Orchestra Platform', 'site_name')
+            ->type('crynobone@gmail.com', 'email')
+            ->type('secret', 'password')
+            ->type('Mior Muhammad Zaki', 'fullname')
+            ->press('Submit')
+            ->seePageIs('admin/install/done');
 
-        $this->call('GET', 'admin/install/create');
-        $this->assertResponseOk();
-        $this->assertViewHas('model', $model);
+        $this->seeInDatabase('users', [
+            'email' => 'crynobone@gmail.com',
+            'fullname' => 'Mior Muhammad Zaki',
+        ]);
     }
 
-    /**
-     * Test GET /admin/install/create.
-     *
-     * @test
-     */
-    public function testPostCreateAction()
+    /** @test */
+    public function it_cant_create_user_due_to_validation_fails()
     {
-        $input = [];
-        $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
-        $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('make')->once()->with($input)->andReturn(true);
+        $this->visit('admin/install')
+            ->seeLink('Next', 'admin/install/prepare')
+            ->click('Next')
+            ->seePageIs('admin/install/create')
+            ->type('Orchestra Platform', 'site_name')
+            ->type('crynobone[at]gmail.com', 'email')
+            ->type('secret', 'password')
+            ->type('Mior Muhammad Zaki', 'fullname')
+            ->press('Submit')
+            ->seePageIs('admin/install/create')
+            ->seeText('The email must be a valid email address.');
 
-        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
-            return $installer;
-        });
-
-        $this->call('POST', 'admin/install/create', $input);
-        $this->assertRedirectedTo(handles('orchestra::install/done'));
+        $this->dontSeeInDatabase('users', [
+            'email' => 'crynobone@gmail.com',
+            'fullname' => 'Mior Muhammad Zaki',
+        ]);
     }
 
-    /**
-     * Test GET /admin/install/create when create admin failed.
-     *
-     * @test
-     */
-    public function testPostCreateActionWhenCreateAdminFailed()
+    /** @test */
+    public function it_can_show_installation_is_done()
     {
-        $input = [];
-        $installer = m::mock('\Orchestra\Contracts\Installation\Installation');
-        $installer->shouldReceive('bootInstallerFiles')->once()->andReturnNull()
-            ->shouldReceive('make')->once()->with($input)->andReturn(false);
+        $this->runInstallation();
 
-        $this->app->bind('Orchestra\Contracts\Installation\Installation', function () use ($installer) {
-            return $installer;
-        });
-
-        $this->call('POST', 'admin/install/create', $input);
-        $this->assertRedirectedTo(handles('orchestra::install/create'));
-    }
-
-    /**
-     * Test GET /admin/install/done.
-     *
-     * @test
-     */
-    public function testGetDoneAction()
-    {
-        $this->call('GET', 'admin/install/done');
-        $this->assertResponseOk();
+        $this->visit('admin/install/done')
+            ->seeText('Thank you for choosing Orchestra Platform')
+            ->seeLink('Login', 'admin/login');
     }
 }

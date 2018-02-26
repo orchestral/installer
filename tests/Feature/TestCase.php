@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation\Tests\Feature;
 
+use Orchestra\Foundation\Auth\User;
 use Orchestra\Testing\TestCase as Testing;
 
 abstract class TestCase extends Testing
@@ -15,6 +16,8 @@ abstract class TestCase extends Testing
      */
     protected function getEnvironmentSetUp($app): void
     {
+        $app->make('config')->set(['auth.providers.users.model' => User::class]);
+
         $this->loadFactoriesUsing($app, __DIR__.'/../factories');
     }
 
