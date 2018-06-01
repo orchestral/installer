@@ -65,12 +65,13 @@ class Installation implements InstallationContract
      */
     protected function requireInstallerFiles(bool $once = true): void
     {
-        $paths = ['path.database', 'path'];
         $files = $this->app->make('files');
+        $paths = $this->app->make('config')->get('orchestra/installer::installers.paths', []);
+
         $method = ($once === true ? 'requireOnce' : 'getRequire');
 
         foreach ($paths as $path) {
-            $file = rtrim($this->app[$path], '/').'/orchestra/installer.php';
+            $file = rtrim($path, '/').'/installer.php';
 
             if ($files->exists($file)) {
                 $files->{$method}($file);
