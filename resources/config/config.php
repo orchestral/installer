@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |----------------------------------------------------------------------
     | Listeners for Installation
@@ -8,10 +9,10 @@ return [
     */
 
     'installers' => [
-
         'paths' => [
             base_path('orchestra'),
             database_path('orchestra'),
         ],
     ],
+
 ];
