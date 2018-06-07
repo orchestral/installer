@@ -60,6 +60,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
     {
         $path = realpath(__DIR__.'/../resources');
 
+        $this->addConfigComponent('orchestra/installer', 'orchestra/installer', "{$path}/config");
         $this->addLanguageComponent('orchestra/installer', 'orchestra/installer', "{$path}/lang");
         $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/views");
     }

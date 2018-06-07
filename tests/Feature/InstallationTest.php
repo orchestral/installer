@@ -22,14 +22,12 @@ class InstallationTest extends TestCase
     /** @test */
     public function it_can_boot_installer_files()
     {
-        $this->app['path'] = '/var/laravel/app';
-        $this->app['path.database'] = '/var/laravel/database';
         $this->instance('files', $files = m::mock('\Illuminate\Filesystem\Filesystem'));
 
-        $files->shouldReceive('exists')->once()->with('/var/laravel/database/orchestra/installer.php')->andReturn(true)
-            ->shouldReceive('requireOnce')->once()->with('/var/laravel/database/orchestra/installer.php')->andReturnNull()
-            ->shouldReceive('exists')->once()->with('/var/laravel/app/orchestra/installer.php')->andReturn(true)
-            ->shouldReceive('requireOnce')->once()->with('/var/laravel/app/orchestra/installer.php')->andReturnNull();
+        $files->shouldReceive('exists')->once()->with($this->app->databasePath('orchestra/installer.php'))->andReturn(true)
+            ->shouldReceive('requireOnce')->once()->with($this->app->databasePath('orchestra/installer.php'))->andReturnNull()
+            ->shouldReceive('exists')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturn(true)
+            ->shouldReceive('requireOnce')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturnNull();
 
         $stub = new Installation($this->app);
         $this->assertNull($stub->bootInstallerFiles());
