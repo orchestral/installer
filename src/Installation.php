@@ -87,7 +87,7 @@ class Installation implements InstallationContract
     public function migrate(): bool
     {
         $this->app->make('orchestra.publisher.migrate')->foundation();
-        $this->app->make('events')->fire('orchestra.install.schema');
+        $this->app->make('events')->dispatch('orchestra.install.schema');
 
         return true;
     }
@@ -180,7 +180,7 @@ class Installation implements InstallationContract
         $acl->roles()->attach(array_values($roles));
         $acl->allow($roles[$admin], $actions);
 
-        $this->app->make('events')->fire('orchestra.install: acl', [$acl]);
+        $this->app->make('events')->dispatch('orchestra.install: acl', [$acl]);
     }
 
     /**
@@ -233,7 +233,7 @@ class Installation implements InstallationContract
             'status' => User::VERIFIED,
         ]);
 
-        $this->app->make('events')->fire('orchestra.install: user', [$user, $input]);
+        $this->app->make('events')->dispatch('orchestra.install: user', [$user, $input]);
 
         $user->save();
 
