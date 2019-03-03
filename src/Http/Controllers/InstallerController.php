@@ -67,7 +67,7 @@ class InstallerController extends Controller
      *
      * @return mixed
      */
-    public function storeFailed()
+    public function storeHasFailed()
     {
         return \redirect(\handles('orchestra::install/create'));
     }

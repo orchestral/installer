@@ -108,7 +108,7 @@ class Installer
     public function store($listener, array $input)
     {
         if (! $this->installer->make($input)) {
-            return $listener->storeFailed();
+            return $listener->storeHasFailed();
         }
 
         return $listener->storeSucceed();

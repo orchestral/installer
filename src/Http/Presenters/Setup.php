@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation\Http\Presenters;
 
+use Illuminate\Support\Fluent;
 use Orchestra\Contracts\Html\Form\Fieldset;
 use Orchestra\Contracts\Html\Form\Grid as FormGrid;
 use Orchestra\Contracts\Html\Form\Factory as FormFactory;
@@ -18,7 +19,14 @@ class Setup
         $this->form = $form;
     }
 
-    public function form($model)
+    /**
+     * Create form.
+     *
+     * @param  \Illuminate\Support\Fluent $model
+     *
+     * @return \Orchestra\Html\Form\FormBuilder
+     */
+    public function form(Fluent $model)
     {
         return $this->form->of('orchestra.install', function (FormGrid $form) use ($model) {
             $form->fieldset(\trans('orchestra/foundation::install.steps.account'), function (Fieldset $fieldset) use ($model) {
@@ -31,7 +39,14 @@ class Setup
         });
     }
 
-    protected function applicationForm(Fieldset $fieldset, $model)
+    /**
+     * Application form section.
+     *
+     * @param  \Orchestra\Contracts\Html\Form\Fieldset  $fieldset
+     * @param  \Illuminate\Support\Fluent  $model
+     * @return void
+     */
+    protected function applicationForm(Fieldset $fieldset, Fluent $model): void
     {
         $fieldset->control('text', 'site_name')
             ->label(\trans('orchestra/foundation::label.name'))
@@ -39,7 +54,14 @@ class Setup
             ->attributes(['autocomplete' => 'off']);
     }
 
-    protected function userForm(Fieldset $fieldset, $model)
+    /**
+     * User form section.
+     *
+     * @param  \Orchestra\Contracts\Html\Form\Fieldset  $fieldset
+     * @param  \Illuminate\Support\Fluent  $model
+     * @return void
+     */
+    protected function userForm(Fieldset $fieldset, Fluent $model): void
     {
         $fieldset->control('input:email', 'email')
             ->label(\trans('orchestra/foundation::label.users.email'));
