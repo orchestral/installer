@@ -45,7 +45,7 @@ class InstallerController extends Controller
      *
      * @return mixed
      */
-    public function store(Request $request, InstallerProcessor $processor)
+    public function store(Request $request, Installer $processor)
     {
         return $processor->store($this, $request->all());
     }
