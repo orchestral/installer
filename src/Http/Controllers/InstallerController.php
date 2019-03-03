@@ -3,7 +3,7 @@
 namespace Orchestra\Installation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Orchestra\Installation\Processors\Installer as InstallerProcessor;
+use Orchestra\Installation\Processors\Installer;
 
 class InstallerController extends Controller
 {
@@ -28,7 +28,7 @@ class InstallerController extends Controller
      *
      * @return mixed
      */
-    public function create(InstallerProcessor $processor)
+    public function create(Installer $processor)
     {
         \set_meta('description', 'Setup Orchestra Platform');
 

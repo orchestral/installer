@@ -8,7 +8,6 @@ use Orchestra\Foundation\Auth\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Orchestra\Support\Facades\Messages;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 

@@ -4,7 +4,6 @@ namespace Orchestra\Installation\Specifications;
 
 use ReflectionException;
 use Orchestra\Support\Str;
-use Illuminate\Support\Arr;
 use Orchestra\Foundation\Auth\User;
 
 class Authentication extends Specification

@@ -2,7 +2,7 @@
 
 namespace Orchestra\Installation\Http\Controllers;
 
-use Orchestra\Installation\Processors\Installer as InstallerProcessor;
+use Orchestra\Installation\Processors\Installer;
 
 class PreparationController extends Controller
 {
@@ -15,7 +15,7 @@ class PreparationController extends Controller
      *
      * @return mixed
      */
-    public function __invoke(InstallerProcessor $processor)
+    public function __invoke(Installer $processor)
     {
         \set_meta('description', 'Run Migrations');
 
