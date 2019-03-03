@@ -41,9 +41,9 @@ class WritableAsset extends Specification
      */
     public function check(): bool
     {
-        $path = rtrim($this->app['path.public'], '/').'/packages/';
+        $path = \app()->publicPath('packages');
 
-        $this->description = Str::replace($this->description, compact('path'));
+        $this->description = Str::replace($this->description, \compact('path'));
 
         return $this->checkPathIsWritable($path);
     }

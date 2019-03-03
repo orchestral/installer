@@ -23,11 +23,11 @@ class InstallerServiceProvider extends ModuleServiceProvider
     public function register()
     {
         $this->app->bind(InstallationContract::class, function ($app) {
-            return new Installation($app);
+            return new Installation();
         });
 
         $this->app->bind(RequirementContract::class, function ($app) {
-            $requirement = new Requirement($app);
+            $requirement = new Requirement();
 
             $this->addDefaultSpecifications($requirement);
 
@@ -48,7 +48,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
                 ->add(new Specifications\WritableBootstrapCache($this->app))
                 ->add(new Specifications\WritableAsset($this->app))
                 ->add(new Specifications\DatabaseConnection($this->app))
-                ->add(new Specifications\UserModel($this->app));
+                ->add(new Specifications\Authentication($this->app));
     }
 
     /**
@@ -58,7 +58,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     public function bootExtensionComponents()
     {
-        $path = realpath(__DIR__.'/../resources');
+        $path = \realpath(__DIR__.'/../resources');
 
         $this->addConfigComponent('orchestra/installer', 'orchestra/installer', "{$path}/config");
         $this->addLanguageComponent('orchestra/installer', 'orchestra/installer', "{$path}/lang");
@@ -72,7 +72,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     protected function loadRoutes()
     {
-        $path = realpath(__DIR__.'/../');
+        $path = \realpath(__DIR__.'/../');
 
         $this->loadBackendRoutesFrom("{$path}/routes/backend.php");
     }

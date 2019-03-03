@@ -3,7 +3,7 @@ Orchestra Platform Installer
 
 Orchestra Platform Installation Wizard as an extension.
 
-[![Build Status](https://travis-ci.org/orchestral/installer.svg?branch=master)](https://travis-ci.org/orchestral/installer)
+[![Build Status](https://travis-ci.org/orchestral/installer.svg?branch=3.8)](https://travis-ci.org/orchestral/installer)
 [![Latest Stable Version](https://poser.pugx.org/orchestra/installer/v/stable)](https://packagist.org/packages/orchestra/installer)
 [![Total Downloads](https://poser.pugx.org/orchestra/installer/downloads)](https://packagist.org/packages/orchestra/installer)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/installer/v/unstable)](https://packagist.org/packages/orchestra/installer)
@@ -22,7 +22,7 @@ To install through composer, simply put the following in your `composer.json` fi
 ```json
 {
     "require": {
-        "orchestra/installer": "^3.0"
+        "orchestra/installer": "^3.5"
     }
 }
 ```
@@ -33,7 +33,7 @@ And then run `composer install` from the terminal.
 
 Above installation can also be simplify by using the following command:
 
-    composer require "orchestra/installer=^3.0"
+    composer require "orchestra/installer=^3.5"
 
 ## Configuration
 

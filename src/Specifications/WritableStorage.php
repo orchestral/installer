@@ -34,9 +34,9 @@ class WritableStorage extends Specification
      */
     public function check(): bool
     {
-        $path = rtrim($this->app['path.storage'], '/').'/';
+        $path = \app()->storagePath();
 
-        $this->description = Str::replace($this->description, compact('path'));
+        $this->description = Str::replace($this->description, \compact('path'));
 
         return $this->checkPathIsWritable($path);
     }

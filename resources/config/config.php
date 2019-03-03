@@ -10,8 +10,8 @@ return [
 
     'installers' => [
         'paths' => [
-            base_path('orchestra'),
-            database_path('orchestra'),
+            \base_path('orchestra'),
+            \database_path('orchestra'),
         ],
     ],
 

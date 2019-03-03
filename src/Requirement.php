@@ -10,13 +10,6 @@ use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 class Requirement implements RequirementContract, IteratorAggregate
 {
     /**
-     * Application instance.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected $app;
-
-    /**
      * Installation checklist for Orchestra Platform.
      *
      * @var \Illuminate\Support\Collection
@@ -32,12 +25,10 @@ class Requirement implements RequirementContract, IteratorAggregate
 
     /**
      * Construct a new instance.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application  $app
      */
-    public function __construct($app)
+    public function __construct()
     {
-        $this->app = $app;
+        $this->items = Collection::make($this->items);
     }
 
     /**
@@ -49,7 +40,7 @@ class Requirement implements RequirementContract, IteratorAggregate
      */
     public function add(SpecificationContract $specification)
     {
-        $this->items[$specification->uid()] = $specification;
+        $this->items->put($specification->uid(), $specification);
 
         return $this;
     }
@@ -61,15 +52,9 @@ class Requirement implements RequirementContract, IteratorAggregate
      */
     public function check(): bool
     {
-        $this->installable = true;
-
-        foreach ($this->items as $specification) {
-            if ($specification->check() === false && $specification->optional() === false) {
-                $this->installable = false;
-            }
-        }
-
-        return $this->installable;
+        return $this->installable = $this->items->filter(function ($specification) {
+            return $specification->check() === false && $specification->optional() === false;
+        })->isEmpty();
     }
 
     /**
@@ -79,17 +64,17 @@ class Requirement implements RequirementContract, IteratorAggregate
      */
     public function items(): iterable
     {
-        return new Collection($this->items);
+        return $this->items;
     }
 
     /**
      * Get an iterator for the items.
      *
-     * @return \Illuminate\Support\Collection
+     * @return iterable
      */
     public function getIterator()
     {
-        return $this->items();
+        return $this->items;
     }
 
     /**
@@ -99,10 +84,6 @@ class Requirement implements RequirementContract, IteratorAggregate
      */
     public function isInstallable(): bool
     {
-        if (is_null($this->installable)) {
-            return $this->check();
-        }
-
-        return $this->installable;
+        return \is_null($this->installable) ? $this->check() : $this->installable;
     }
 }

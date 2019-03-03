@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation\Specifications;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
@@ -128,6 +129,6 @@ abstract class Specification implements SpecificationContract
      */
     protected function checkPathIsWritable(string $path): bool
     {
-        return $this->app->make('files')->isWritable($path);
+        return File::isWritable($path);
     }
 }

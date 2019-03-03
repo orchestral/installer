@@ -7,7 +7,7 @@ use Orchestra\Support\Str;
 use Illuminate\Support\Arr;
 use Orchestra\Foundation\Auth\User;
 
-class UserModel extends Specification
+class Authentication extends Specification
 {
     /**
      * Specification uid.
@@ -37,7 +37,7 @@ class UserModel extends Specification
      */
     public function check(): bool
     {
-        $auth = $this->getAuthConfiguration($this->app->make('config')->get('auth'));
+        $auth = $this->parseAuthenticationConfiguration(\config('auth'));
 
         try {
             $this->description = Str::replace($this->description, ['model' => $auth['provider']['model']]);
@@ -59,21 +59,21 @@ class UserModel extends Specification
      *
      * @return array
      */
-    protected function getAuthConfiguration(array $auth): array
+    protected function parseAuthenticationConfiguration(array $auth): array
     {
-        $driver = Arr::get($auth, 'defaults.guard');
+        $driver = $auth['defaults']['guard'] ?? null;
 
-        $guard = Arr::get($auth, "guards.{$driver}", [
+        $guard = $auth['guards'][$driver] ?? [
             'driver' => 'session',
             'provider' => 'users',
-        ]);
+        ];
 
-        $provider = Arr::get($auth, "providers.{$guard['provider']}", [
+        $provider = $auth['providers'][$guard['provider']] ?? [
             'driver' => 'eloquent',
             'model' => User::class,
-        ]);
+        ];
 
-        return compact('guard', 'provider');
+        return \compact('guard', 'provider');
     }
 
     /**
@@ -85,7 +85,7 @@ class UserModel extends Specification
      */
     protected function validateUserInstance(array $auth): bool
     {
-        return $this->app->make($auth['provider']['model']) instanceof User;
+        return \app($auth['provider']['model']) instanceof User;
     }
 
     /**
@@ -97,6 +97,6 @@ class UserModel extends Specification
      */
     protected function validateUserProvider(array $auth): bool
     {
-        return in_array($auth['provider']['driver'], ['authen', 'eloquent']);
+        return \in_array($auth['provider']['driver'], ['authen', 'eloquent']);
     }
 }

@@ -29,7 +29,7 @@ class InstallationTest extends TestCase
             ->shouldReceive('exists')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturn(true)
             ->shouldReceive('requireOnce')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturnNull();
 
-        $stub = new Installation($this->app);
+        $stub = new Installation();
         $this->assertNull($stub->bootInstallerFiles());
     }
 
@@ -38,7 +38,7 @@ class InstallationTest extends TestCase
     {
         $this->assertNotInstalled();
 
-        $stub = new Installation($this->app);
+        $stub = new Installation();
         $this->assertTrue($stub->migrate());
 
         $this->assertInstalled();
@@ -56,7 +56,7 @@ class InstallationTest extends TestCase
 
         $this->assertNotInstalled();
 
-        $stub = new Installation($this->app);
+        $stub = new Installation();
 
         $this->assertTrue($stub->migrate());
         $this->assertTrue($stub->make($data, false));
@@ -81,7 +81,7 @@ class InstallationTest extends TestCase
 
         $this->assertNotInstalled();
 
-        $stub = new Installation($this->app);
+        $stub = new Installation();
 
         $this->assertTrue($stub->migrate());
         $this->assertFalse($stub->make($data, false));
@@ -111,7 +111,7 @@ class InstallationTest extends TestCase
         $messages->shouldReceive('add')->once()
             ->with('error', 'Unable to install when there already user registered.')->andReturnNull();
 
-        $stub = new Installation($this->app);
+        $stub = new Installation();
         $this->assertFalse($stub->make($data, false));
     }
 

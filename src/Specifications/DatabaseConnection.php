@@ -3,6 +3,7 @@
 namespace Orchestra\Installation\Specifications;
 
 use PDOException;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseConnection extends Specification
 {
@@ -35,7 +36,7 @@ class DatabaseConnection extends Specification
     public function check(): bool
     {
         try {
-            $this->app->make('db')->connection()->getPdo();
+           DB::connection()->getPdo();
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
 

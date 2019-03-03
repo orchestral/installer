@@ -90,11 +90,13 @@ class Installer
      */
     public function create($listener)
     {
-        $model = new Fluent(['site' => ['name' => config('app.name', 'Orchestra Platform')]]);
+        $model = new Fluent([
+            'site' => ['name' => \config('app.name', 'Orchestra Platform')],
+        ]);
 
         $form = $this->presenter->form($model);
 
-        return $listener->createSucceed(compact('form', 'model'));
+        return $listener->createSucceed(\compact('form', 'model'));
     }
 
     /**

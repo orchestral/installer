@@ -34,9 +34,9 @@ class WritableBootstrapCache extends Specification
      */
     public function check(): bool
     {
-        $path = rtrim($this->app['path.base'], '/').'/bootstrap/cache/';
+        $path = \app()->bootstrapPath('cache');
 
-        $this->description = Str::replace($this->description, compact('path'));
+        $this->description = Str::replace($this->description, \compact('path'));
 
         return $this->checkPathIsWritable($path);
     }
