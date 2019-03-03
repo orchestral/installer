@@ -3,56 +3,20 @@
 namespace Orchestra\Installation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Orchestra\Foundation\Http\Controllers\BaseController;
-use Orchestra\Installation\Processor\Installer as InstallerProcessor;
+use Orchestra\Installation\Processors\Installer as InstallerProcessor;
 
-class InstallerController extends BaseController
+class InstallerController extends Controller
 {
     /**
      * Setup controller middleware.
      *
      * @return void
      */
-    protected function onCreate()
+    protected function onCreate(): void
     {
-        set_meta('navigation::usernav', false);
-        set_meta('title', 'Installation');
+        parent::onCreate();
 
-        $this->middleware('orchestra.installed', [
-            'only' => ['index', 'create', 'store'],
-        ]);
-    }
-
-    /**
-     * Check installation requirement page.
-     *
-     * GET (:orchestra)/install
-     *
-     * @param  \Orchestra\Installation\Processor\Installer  $processor
-     *
-     * @return mixed
-     */
-    public function index(InstallerProcessor $processor)
-    {
-        set_meta('description', 'Check Requirements');
-
-        return $processor->index($this);
-    }
-
-    /**
-     * Migrate database schema for Orchestra Platform.
-     *
-     * GET (:orchestra)/install/prepare
-     *
-     * @param  \Orchestra\Installation\Processor\Installer  $processor
-     *
-     * @return mixed
-     */
-    public function prepare(InstallerProcessor $processor)
-    {
-        set_meta('description', 'Run Migrations');
-
-        return $processor->prepare($this);
+        $this->middleware('orchestra.installed');
     }
 
     /**
@@ -66,7 +30,7 @@ class InstallerController extends BaseController
      */
     public function create(InstallerProcessor $processor)
     {
-        set_meta('description', 'Setup Orchestra Platform');
+        \set_meta('description', 'Setup Orchestra Platform');
 
         return $processor->create($this);
     }
@@ -87,54 +51,6 @@ class InstallerController extends BaseController
     }
 
     /**
-     * End of installation.
-     *
-     * GET (:orchestra)/install/done
-     *
-     * @param  \Orchestra\Installation\Processor\Installer  $processor
-     *
-     * @return mixed
-     */
-    public function done(InstallerProcessor $processor)
-    {
-        set_meta('description', 'Completed');
-
-        return $processor->done($this);
-    }
-
-    /**
-     * Response for installation welcome page.
-     *
-     * @param  array   $data
-     *
-     * @return mixed
-     */
-    public function indexSucceed(array $data)
-    {
-        return view('orchestra/installer::index', $data);
-    }
-
-    /**
-     * Response when installation can't be prepared.
-     *
-     * @return mixed
-     */
-    public function prepareUnreachable()
-    {
-        return $this->redirect(handles('orchestra::install/index'));
-    }
-
-    /**
-     * Response when installation is prepared.
-     *
-     * @return mixed
-     */
-    public function prepareSucceed()
-    {
-        return $this->redirect(handles('orchestra::install/create'));
-    }
-
-    /**
      * Response view to input user information for installation.
      *
      * @param  array   $data
@@ -143,7 +59,7 @@ class InstallerController extends BaseController
      */
     public function createSucceed(array $data)
     {
-        return view('orchestra/installer::create', $data);
+        return \view('orchestra/installer::create', $data);
     }
 
     /**
@@ -153,7 +69,7 @@ class InstallerController extends BaseController
      */
     public function storeFailed()
     {
-        return $this->redirect(handles('orchestra::install/create'));
+        return \redirect(\handles('orchestra::install/create'));
     }
 
     /**
@@ -163,16 +79,6 @@ class InstallerController extends BaseController
      */
     public function storeSucceed()
     {
-        return $this->redirect(handles('orchestra::install/done'));
-    }
-
-    /**
-     * Response when installation is done.
-     *
-     * @return mixed
-     */
-    public function doneSucceed()
-    {
-        return view('orchestra/installer::done');
+        return \redirect(\handles('orchestra::install/done'));
     }
 }

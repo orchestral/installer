@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Installation\Processor;
+namespace Orchestra\Installation\Processors;
 
 use Orchestra\Model\User;
 use Illuminate\Support\Fluent;
@@ -22,7 +22,7 @@ class Installer
      *
      * @var \Orchestra\Contracts\Installation\Requirement
      */
-    protected $requirement;
+    protected $requirements;
 
     /**
      * Presenter instance.
@@ -35,13 +35,13 @@ class Installer
      * Create a new processor instance.
      *
      * @param  \Orchestra\Contracts\Installation\Installation  $installer
-     * @param  \Orchestra\Contracts\Installation\Requirement  $requirement
+     * @param  \Orchestra\Contracts\Installation\Requirement  $requirements
      * @param  \Orchestra\Installation\Http\Presenters\Setup  $presenter
      */
-    public function __construct(Installation $installer, Requirement $requirement, Presenter $presenter)
+    public function __construct(Installation $installer, Requirement $requirements, Presenter $presenter)
     {
         $this->installer = $installer;
-        $this->requirement = $requirement;
+        $this->requirements = $requirements;
         $this->presenter = $presenter;
 
         $this->installer->bootInstallerFiles();
@@ -54,13 +54,11 @@ class Installer
      *
      * @return mixed
      */
-    public function index($listener)
+    public function checkRequirement($listener)
     {
-        $requirements = $this->requirement;
+        $this->requirements->check();
 
-        $requirements->check();
-
-        return $listener->indexSucceed(compact('requirements'));
+        return $listener->showRequirementStatus($this->requirements);
     }
 
     /**
@@ -72,13 +70,13 @@ class Installer
      */
     public function prepare($listener)
     {
-        if (! $this->requirement->check()) {
-            return $listener->prepareUnreachable();
+        if (! $this->requirements->check()) {
+            return $listener->preparationNotCompleted();
         }
 
         $this->installer->migrate();
 
-        return $listener->prepareSucceed();
+        return $listener->preparationCompleted();
     }
 
     /**
@@ -114,17 +112,5 @@ class Installer
         }
 
         return $listener->storeSucceed();
-    }
-
-    /**
-     * Complete the installation.
-     *
-     * @param  object  $listener
-     *
-     * @return mixed
-     */
-    public function done($listener)
-    {
-        return $listener->doneSucceed();
     }
 }
