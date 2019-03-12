@@ -141,7 +141,6 @@ class InstallationTest extends TestCase
         $this->assertTrue(Schema::hasTable('orchestra_options'));
         $this->assertTrue(Schema::hasTable('roles'));
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('user_meta'));
         $this->assertTrue(Schema::hasTable('user_role'));
     }
 }

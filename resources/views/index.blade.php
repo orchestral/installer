@@ -16,7 +16,7 @@
     <ul class="faq__questions">
       @foreach($requirements as $uid => $requirement)
       <li>
-        <a href="#" data-toggle="collapse" data-target="#faq__question_{{ \str_slug($uid) }}" class="" aria-expanded="true">
+        <a href="#" data-toggle="collapse" data-target="#faq__question_{{ Str::slug($uid) }}" class="" aria-expanded="true">
           {!! $requirement->title() !!}
           @if($requirement->check())
           <span class="label label-success pull-right">{{ @trans('orchestra/installer::label.yes') }}</span>
@@ -24,7 +24,7 @@
           <span class="label label-danger pull-right">{{ @trans('orchestra/installer::label.no') }}</span>
           @endif
         </a>
-        <div class="collapse" id="faq__question_{{ \str_slug($uid) }}" aria-expanded="true">
+        <div class="collapse" id="faq__question_{{ Str::slug($uid) }}" aria-expanded="true">
           <p>{!! $requirement->description() !!}</p>
           @if($requirement->hasError())
           <div class="alert alert-warning" role="alert">
