@@ -58,11 +58,11 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     public function bootExtensionComponents()
     {
-        $path = \realpath(__DIR__.'/../resources');
+        $path = \realpath(__DIR__.'/../');
 
         $this->addConfigComponent('orchestra/installer', 'orchestra/installer', "{$path}/config");
-        $this->addLanguageComponent('orchestra/installer', 'orchestra/installer', "{$path}/lang");
-        $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/views");
+        $this->addLanguageComponent('orchestra/installer', 'orchestra/installer', "{$path}/resources/lang");
+        $this->addViewComponent('orchestra/installer', 'orchestra/installer', "{$path}/resources/views");
     }
 
     /**
