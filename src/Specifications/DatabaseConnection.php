@@ -26,7 +26,7 @@ class DatabaseConnection extends Specification
      *
      * @var string
      */
-    protected $description = 'Orchestra Platform would use database connection configured via <code>resources/config/database.php</code> or <code>.env</code>. Please make sure the configuration is correct.';
+    protected $description = 'Orchestra Platform would use database connection configured via <code>config/database.php</code> or <code>.env</code>. Please make sure the configuration is correct.';
 
     /**
      * Check specification requirement.
