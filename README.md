@@ -8,6 +8,7 @@ Orchestra Platform Installation Wizard as an extension.
 [![Total Downloads](https://poser.pugx.org/orchestra/installer/downloads)](https://packagist.org/packages/orchestra/installer)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/installer/v/unstable)](https://packagist.org/packages/orchestra/installer)
 [![License](https://poser.pugx.org/orchestra/installer/license)](https://packagist.org/packages/orchestra/installer)
+[![Coverage Status](https://coveralls.io/repos/github/orchestral/installer/badge.svg?branch=master)](https://coveralls.io/github/orchestral/installer?branch=master)
 
 ## Table of Content
 
