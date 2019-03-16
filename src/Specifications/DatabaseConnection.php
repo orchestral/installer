@@ -36,7 +36,7 @@ class DatabaseConnection extends Specification
     public function check(): bool
     {
         try {
-           DB::connection()->getPdo();
+            DB::connection()->getPdo();
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
 

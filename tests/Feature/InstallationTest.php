@@ -4,7 +4,6 @@ namespace Orchestra\Installation\Tests\Feature;
 
 use Mockery as m;
 use Illuminate\Support\Facades\Schema;
-use Orchestra\Support\Facades\Messages;
 use Orchestra\Installation\Installation;
 
 class InstallationTest extends TestCase

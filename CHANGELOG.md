@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 3.8.0
+
+Released: 2019-03-16
+
+### Changes 
+
+* Update support for Orchestra Platform v3.8.
+* Refactor controllers to use invokable format.
+
 ## 3.7.0
 
 Released: 2018-11-09
@@ -22,11 +31,3 @@ Released: 2018-06-07
 ### Changes
 
 * Update support for Orchestra Platform v3.6.
-
-## 3.5.0
-
-Released: 2017-11-27
-
-### Changes
-
-* Update support for Orchestra Platform v3.5.
