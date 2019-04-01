@@ -2,6 +2,9 @@
 
 namespace Orchestra\Installation\Tests\Controller;
 
+use Illuminate\Support\Facades\Event;
+use Orchestra\Installation\Events\InstallationCompleted;
+
 class InstallerControllerTest extends TestCase
 {
     /**
@@ -33,6 +36,10 @@ class InstallerControllerTest extends TestCase
     /** @test */
     public function it_can_create_user()
     {
+        Event::fake([
+            InstallationCompleted::class,
+        ]);
+
         $this->visit('admin/install')
             ->seeLink('Next', 'admin/install/prepare')
             ->click('Next')
@@ -48,6 +55,8 @@ class InstallerControllerTest extends TestCase
             'email' => 'crynobone@gmail.com',
             'fullname' => 'Mior Muhammad Zaki',
         ]);
+
+        Event::assertDispatched(InstallationCompleted::class);
     }
 
     /** @test */

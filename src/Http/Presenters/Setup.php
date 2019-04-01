@@ -44,6 +44,7 @@ class Setup
      *
      * @param  \Orchestra\Contracts\Html\Form\Fieldset  $fieldset
      * @param  \Illuminate\Support\Fluent  $model
+     *
      * @return void
      */
     protected function applicationForm(Fieldset $fieldset, Fluent $model): void
@@ -59,6 +60,7 @@ class Setup
      *
      * @param  \Orchestra\Contracts\Html\Form\Fieldset  $fieldset
      * @param  \Illuminate\Support\Fluent  $model
+     *
      * @return void
      */
     protected function userForm(Fieldset $fieldset, Fluent $model): void
