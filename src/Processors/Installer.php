@@ -6,6 +6,7 @@ use Orchestra\Model\User;
 use Illuminate\Support\Fluent;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Contracts\Installation\Installation;
+use Orchestra\Installation\Events\InstallationCompleted;
 use Orchestra\Installation\Http\Presenters\Setup as Presenter;
 
 class Installer
@@ -110,6 +111,8 @@ class Installer
         if (! $this->installer->make($input)) {
             return $listener->storeHasFailed();
         }
+
+        \event(new InstallationCompleted($input));
 
         return $listener->storeSucceed();
     }
