@@ -22,6 +22,13 @@ class Installation implements InstallationContract
     protected $app;
 
     /**
+     * Path for after installation completed redirect.
+     *
+     * @var string
+     */
+    public static $redirectAfterInstallationCompleted = 'orchestra::login';
+
+    /**
      * Construct a new instance.
      *
      * @param  bool  $isTestingEnvironment

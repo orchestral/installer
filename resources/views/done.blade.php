@@ -9,7 +9,7 @@
     <progress progress="100"></progress>
   </div>
   <div class="panel-footer">
-    <a href="{{ \handles('orchestra::login') }}" class="btn btn-success btn-lg btn-block">
+    <a href="{{ \handles(Orchestra\Installation\Installation::$redirectAfterInstallationCompleted) }}" class="btn btn-success btn-lg btn-block">
       {{ @\trans('orchestra/foundation::title.login') }}
     </a>
   </div>
