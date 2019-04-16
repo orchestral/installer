@@ -26,7 +26,7 @@ class Installation implements InstallationContract
      *
      * @var string
      */
-    public static $redirectAfterInstallationCompleted = 'orchestra::login';
+    public static $redirectAfterInstalled = 'orchestra::login';
 
     /**
      * Construct a new instance.
