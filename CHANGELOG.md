@@ -2,6 +2,28 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 3.8.2
+
+Released: 2019-04-21
+
+### Added
+
+* Added `Orchestra\Installation\Installation::$redirectAfterInstalled` property.
+* Added `Orchestra\Installation\Concerns\FileLoader`.
+
+### Changes
+
+* Allow to configure redirection after installation completed from `Orchestra\Installation\InstallerServiceProvider::$redirectAfterInstalled` property.
+
+## 3.8.1
+
+Released: 2019-04-01
+
+### Added
+
+* Added `Orchestra\Installation\Events\InstallationCompleted` event.
+* Added `Orchesttra\Installation\Listeners\MigrateDatabaseSchema` event listener.
+
 ## 3.8.0
 
 Released: 2019-03-16

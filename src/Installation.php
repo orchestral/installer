@@ -5,7 +5,6 @@ namespace Orchestra\Installation;
 use Exception;
 use Orchestra\Model\Role;
 use Orchestra\Foundation\Auth\User;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Orchestra\Support\Facades\Messages;
 use Illuminate\Validation\ValidationException;
@@ -13,6 +12,8 @@ use Orchestra\Contracts\Installation\Installation as InstallationContract;
 
 class Installation implements InstallationContract
 {
+    use Concerns\FileLoader;
+
     /**
      * Application instance.
      *
@@ -21,11 +22,11 @@ class Installation implements InstallationContract
     protected $app;
 
     /**
-     * Is installation under test (PHPUnit etc).
+     * Path for after installation completed redirect.
      *
-     * @var bool
+     * @var string
      */
-    protected $isTestingEnvironment = false;
+    public static $redirectAfterInstalled = 'orchestra::login';
 
     /**
      * Construct a new instance.
@@ -35,48 +36,6 @@ class Installation implements InstallationContract
     public function __construct(bool $isTestingEnvironment = false)
     {
         $this->isTestingEnvironment = $isTestingEnvironment;
-    }
-
-    /**
-     * Boot installer files.
-     *
-     * @return void
-     */
-    public function bootInstallerFiles(): void
-    {
-        $this->requireInstallerFiles(! $this->isTestingEnvironment);
-    }
-
-    /**
-     * Boot installer files for testing.
-     *
-     * @return void
-     */
-    public function bootInstallerFilesForTesting(): void
-    {
-        $this->requireInstallerFiles(false);
-    }
-
-    /**
-     * Requires the installer files.
-     *
-     * @param  bool  $once
-     *
-     * @return void
-     */
-    protected function requireInstallerFiles(bool $once = true): void
-    {
-        $paths = \config('orchestra/installer::installers.paths', []);
-
-        $method = ($once === true ? 'requireOnce' : 'getRequire');
-
-        foreach ($paths as $path) {
-            $file = \rtrim($path, '/').'/installer.php';
-
-            if (File::exists($file)) {
-                File::{$method}($file);
-            }
-        }
     }
 
     /**

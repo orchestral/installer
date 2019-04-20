@@ -16,6 +16,13 @@ class InstallerServiceProvider extends ModuleServiceProvider
     protected $namespace = 'Orchestra\Installation\Http\Controllers';
 
     /**
+     * Redirect path after installation completed.
+     *
+     * @var string
+     */
+    protected $redirectAfterInstalled;
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -33,6 +40,20 @@ class InstallerServiceProvider extends ModuleServiceProvider
 
             return $requirement;
         });
+
+        $this->registerRedirection();
+    }
+
+    /**
+     * Register redirection services.
+     *
+     * @return void
+     */
+    protected function registerRedirection(): void
+    {
+        if (! empty($this->redirectAfterInstalled) && \is_string($this->redirectAfterInstalled)) {
+            Installation::$redirectAfterInstalled = $this->redirectAfterInstalled;
+        }
     }
 
     /**

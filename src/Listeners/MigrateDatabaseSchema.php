@@ -16,6 +16,6 @@ class MigrateDatabaseSchema
      */
     public function handle(InstallationCompleted $event)
     {
-        Artisan::call('migrate');
+        Artisan::call('migrate', ['--force' => true]);
     }
 }
