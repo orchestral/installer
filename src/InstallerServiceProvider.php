@@ -29,7 +29,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
-        $this->app->bind(InstallationContract::class, function ($app) {
+        $this->app->bind(InstallationContract::class, static function ($app) {
             return new Installation();
         });
 

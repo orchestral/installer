@@ -52,7 +52,7 @@ class Requirement implements RequirementContract, IteratorAggregate
      */
     public function check(): bool
     {
-        return $this->installable = $this->items->filter(function ($specification) {
+        return $this->installable = $this->items->filter(static function ($specification) {
             return $specification->check() === false && $specification->optional() === false;
         })->isEmpty();
     }
