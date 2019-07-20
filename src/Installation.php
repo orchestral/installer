@@ -70,7 +70,7 @@ class Installation implements InstallationContract
         }
 
         try {
-            ! $multiple && $this->hasNoExistingUser();
+            ! $multiple && $this->noExistingUser();
 
             $this->create(
                 $this->createUser($input), $input
@@ -199,7 +199,7 @@ class Installation implements InstallationContract
      *
      * @return bool
      */
-    protected function hasNoExistingUser(): bool
+    protected function noExistingUser(): bool
     {
         // Before we create administrator, we should ensure that users table
         // is empty to avoid any possible hijack or invalid request.
