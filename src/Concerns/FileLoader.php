@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation\Concerns;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
 trait FileLoader
@@ -46,12 +47,12 @@ trait FileLoader
 
         $method = ($once === true ? 'requireOnce' : 'getRequire');
 
-        foreach ($paths as $path) {
-            $file = \rtrim($path, '/').'/installer.php';
-
-            if (File::exists($file)) {
-                File::{$method}($file);
-            }
-        }
+        Collection::make($paths)->transform(static function ($path) {
+            return \rtrim($path, '/').'/installer.php';
+        })->filter(static function ($file) {
+            return File::exists($file);
+        })->each(static function ($file) use ($method) {
+            File::{$method}($file);
+        });
     }
 }
