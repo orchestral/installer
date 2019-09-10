@@ -9,7 +9,8 @@ trait FileLoader
 {
     /**
      * Is installation file has been booted.
-     * @var boolean
+     *
+     * @var bool
      */
     protected $installerFileHasBeenBooted = false;
 
@@ -45,7 +46,7 @@ trait FileLoader
     protected function requireInstallerFiles(): void
     {
         if ($this->installerFileHasBeenBooted === true) {
-            return ;
+            return;
         }
 
         $paths = \config('orchestra/installer::installers.paths', []);

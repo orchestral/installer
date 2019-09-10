@@ -45,7 +45,6 @@ class InstallerServiceProvider extends ModuleServiceProvider
         $this->registerRedirection();
     }
 
-
     /**
      * Get the events and handlers.
      *
