@@ -44,8 +44,6 @@ class Installer
         $this->installer = $installer;
         $this->requirements = $requirements;
         $this->presenter = $presenter;
-
-        $this->installer->bootInstallerFiles();
     }
 
     /**
