@@ -32,7 +32,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
     public function register()
     {
         $this->app->singleton(InstallationContract::class, static function (Application $app) {
-            return new Installation(! $app->runningUnitTests());
+            return new Installation($app->runningUnitTests());
         });
 
         $this->app->singleton(RequirementContract::class, function () {
