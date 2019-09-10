@@ -29,16 +29,6 @@ class Installation implements InstallationContract
     public static $redirectAfterInstalled = 'orchestra::login';
 
     /**
-     * Construct a new instance.
-     *
-     * @param  bool  $isTestingEnvironment
-     */
-    public function __construct(bool $isTestingEnvironment = false)
-    {
-        $this->isTestingEnvironment = $isTestingEnvironment;
-    }
-
-    /**
      * Migrate Orchestra Platform schema.
      *
      * @return bool
