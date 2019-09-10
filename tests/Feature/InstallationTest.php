@@ -24,9 +24,9 @@ class InstallationTest extends TestCase
         $this->instance('files', $files = m::mock('\Illuminate\Filesystem\Filesystem'));
 
         $files->shouldReceive('exists')->once()->with($this->app->databasePath('orchestra/installer.php'))->andReturn(true)
-            ->shouldReceive('requireOnce')->once()->with($this->app->databasePath('orchestra/installer.php'))->andReturnNull()
+            ->shouldReceive('getRequire')->once()->with($this->app->databasePath('orchestra/installer.php'))->andReturnNull()
             ->shouldReceive('exists')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturn(true)
-            ->shouldReceive('requireOnce')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturnNull();
+            ->shouldReceive('getRequire')->once()->with($this->app->basePath('orchestra/installer.php'))->andReturnNull();
 
         $stub = new Installation();
         $this->assertNull($stub->bootInstallerFiles());

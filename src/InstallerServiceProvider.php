@@ -2,7 +2,6 @@
 
 namespace Orchestra\Installation;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\MigrationsStarted;
 use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
@@ -31,8 +30,8 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(InstallationContract::class, static function (Application $app) {
-            return new Installation($app->runningUnitTests());
+        $this->app->singleton(InstallationContract::class, static function () {
+            return new Installation();
         });
 
         $this->app->singleton(RequirementContract::class, function () {
@@ -45,7 +44,6 @@ class InstallerServiceProvider extends ModuleServiceProvider
 
         $this->registerRedirection();
     }
-
 
     /**
      * Get the events and handlers.
