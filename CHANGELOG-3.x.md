@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 3.8.3
+
+Released: 2019-09-10
+
+### Changes
+
+* Boot installer files using `Illuminate\Database\Events\MigrationsStarted` event.
+
+### Deprecated
+
+* Deprecate `Orchestra\Installation\Installation::bootInstallerFilesForTesting()`.
+
 ## 3.8.2
 
 Released: 2019-04-21
