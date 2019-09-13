@@ -3,12 +3,12 @@
 namespace Orchestra\Installation;
 
 use Exception;
-use Orchestra\Model\Role;
-use Orchestra\Foundation\Auth\User;
 use Illuminate\Support\Facades\Session;
-use Orchestra\Support\Facades\Messages;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Foundation\Auth\User;
+use Orchestra\Model\Role;
+use Orchestra\Support\Facades\Messages;
 
 class Installation implements InstallationContract
 {

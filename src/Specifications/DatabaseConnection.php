@@ -2,8 +2,8 @@
 
 namespace Orchestra\Installation\Specifications;
 
-use PDOException;
 use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class DatabaseConnection extends Specification
 {

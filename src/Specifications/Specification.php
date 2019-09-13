@@ -2,8 +2,8 @@
 
 namespace Orchestra\Installation\Specifications;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\File;
 use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
 abstract class Specification implements SpecificationContract

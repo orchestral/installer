@@ -3,9 +3,9 @@
 namespace Orchestra\Installation;
 
 use Illuminate\Database\Events\MigrationsStarted;
-use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
-use Orchestra\Contracts\Installation\Requirement as RequirementContract;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Contracts\Installation\Requirement as RequirementContract;
+use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
 
 class InstallerServiceProvider extends ModuleServiceProvider
 {

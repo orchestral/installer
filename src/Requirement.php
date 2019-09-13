@@ -2,8 +2,8 @@
 
 namespace Orchestra\Installation;
 
-use IteratorAggregate;
 use Illuminate\Support\Collection;
+use IteratorAggregate;
 use Orchestra\Contracts\Installation\Requirement as RequirementContract;
 use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
