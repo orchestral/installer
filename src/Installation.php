@@ -82,7 +82,7 @@ class Installation implements InstallationContract
     /**
      * Run application setup.
      *
-     * @param  \Orchestra\Model\User  $user
+     * @param  \Orchestra\Foundation\Auth\User  $user
      * @param  array  $input
      *
      * @return void
@@ -162,7 +162,7 @@ class Installation implements InstallationContract
      *
      * @param  array  $input
      *
-     * @return \Orchestra\Model\User
+     * @return \Orchestra\Foundation\Auth\User
      */
     public function createUser(array $input): User
     {

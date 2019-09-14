@@ -7,7 +7,6 @@ use Orchestra\Contracts\Installation\Installation;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Events\InstallationCompleted;
 use Orchestra\Installation\Http\Presenters\Setup as Presenter;
-use Orchestra\Model\User;
 
 class Installer
 {
