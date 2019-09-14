@@ -2,16 +2,17 @@
 
 namespace Orchestra\Installation\Concerns;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
 trait FileLoader
 {
     /**
-     * Is installation under test (PHPUnit etc).
+     * Is installation file has been booted.
      *
      * @var bool
      */
-    protected $isTestingEnvironment = false;
+    protected $installerFileHasBeenBooted = false;
 
     /**
      * Boot installer files.
@@ -20,17 +21,19 @@ trait FileLoader
      */
     public function bootInstallerFiles(): void
     {
-        $this->requireInstallerFiles(! $this->isTestingEnvironment);
+        $this->requireInstallerFiles();
     }
 
     /**
      * Boot installer files for testing.
      *
      * @return void
+     *
+     * @deprecated v3.8.x
      */
     public function bootInstallerFilesForTesting(): void
     {
-        $this->requireInstallerFiles(false);
+        $this->requireInstallerFiles();
     }
 
     /**
@@ -40,18 +43,22 @@ trait FileLoader
      *
      * @return void
      */
-    protected function requireInstallerFiles(bool $once = true): void
+    protected function requireInstallerFiles(): void
     {
+        if ($this->installerFileHasBeenBooted === true) {
+            return;
+        }
+
         $paths = \config('orchestra/installer::installers.paths', []);
 
-        $method = ($once === true ? 'requireOnce' : 'getRequire');
+        Collection::make($paths)->transform(static function ($path) {
+            return \rtrim($path, '/').'/installer.php';
+        })->filter(static function ($file) {
+            return File::exists($file);
+        })->each(static function ($file) {
+            File::getRequire($file);
+        });
 
-        foreach ($paths as $path) {
-            $file = \rtrim($path, '/').'/installer.php';
-
-            if (File::exists($file)) {
-                File::{$method}($file);
-            }
-        }
+        $this->installerFileHasBeenBooted = true;
     }
 }

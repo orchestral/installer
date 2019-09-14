@@ -2,9 +2,10 @@
 
 namespace Orchestra\Installation;
 
-use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
-use Orchestra\Contracts\Installation\Requirement as RequirementContract;
+use Illuminate\Database\Events\MigrationsStarted;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Contracts\Installation\Requirement as RequirementContract;
+use Orchestra\Foundation\Support\Providers\ModuleServiceProvider;
 
 class InstallerServiceProvider extends ModuleServiceProvider
 {
@@ -29,11 +30,11 @@ class InstallerServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
-        $this->app->bind(InstallationContract::class, static function ($app) {
+        $this->app->singleton(InstallationContract::class, static function () {
             return new Installation();
         });
 
-        $this->app->bind(RequirementContract::class, function ($app) {
+        $this->app->singleton(RequirementContract::class, function () {
             $requirement = new Requirement();
 
             $this->addDefaultSpecifications($requirement);
@@ -42,6 +43,20 @@ class InstallerServiceProvider extends ModuleServiceProvider
         });
 
         $this->registerRedirection();
+    }
+
+    /**
+     * Get the events and handlers.
+     *
+     * @return array
+     */
+    public function listens(): array
+    {
+        return [
+            MigrationsStarted::class => [function () {
+                $this->app->make(InstallationContract::class)->bootInstallerFiles();
+            }],
+        ];
     }
 
     /**

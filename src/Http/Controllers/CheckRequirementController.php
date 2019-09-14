@@ -2,8 +2,8 @@
 
 namespace Orchestra\Installation\Http\Controllers;
 
-use Orchestra\Installation\Processors\Installer;
 use Orchestra\Contracts\Installation\Requirement;
+use Orchestra\Installation\Processors\Installer;
 
 class CheckRequirementController extends Controller
 {

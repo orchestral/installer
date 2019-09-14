@@ -2,10 +2,9 @@
 
 namespace Orchestra\Installation\Processors;
 
-use Orchestra\Model\User;
 use Illuminate\Support\Fluent;
-use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Contracts\Installation\Installation;
+use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Events\InstallationCompleted;
 use Orchestra\Installation\Http\Presenters\Setup as Presenter;
 
@@ -44,8 +43,6 @@ class Installer
         $this->installer = $installer;
         $this->requirements = $requirements;
         $this->presenter = $presenter;
-
-        $this->installer->bootInstallerFiles();
     }
 
     /**

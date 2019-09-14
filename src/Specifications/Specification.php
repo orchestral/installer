@@ -2,8 +2,9 @@
 
 namespace Orchestra\Installation\Specifications;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Orchestra\Contracts\Installation\Specification as SpecificationContract;
 
 abstract class Specification implements SpecificationContract
@@ -68,6 +69,16 @@ abstract class Specification implements SpecificationContract
     public function uid(): string
     {
         return $this->uid;
+    }
+
+    /**
+     * Get sanitized specification id.
+     *
+     * @return string
+     */
+    public function sanitizedUid(): string
+    {
+        return Str::slug($this->uid);
     }
 
     /**

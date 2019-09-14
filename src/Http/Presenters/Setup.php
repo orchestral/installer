@@ -3,9 +3,9 @@
 namespace Orchestra\Installation\Http\Presenters;
 
 use Illuminate\Support\Fluent;
+use Orchestra\Contracts\Html\Form\Factory as FormFactory;
 use Orchestra\Contracts\Html\Form\Fieldset;
 use Orchestra\Contracts\Html\Form\Grid as FormGrid;
-use Orchestra\Contracts\Html\Form\Factory as FormFactory;
 
 class Setup
 {

@@ -2,9 +2,9 @@
 
 namespace Orchestra\Installation\Specifications;
 
-use ReflectionException;
-use Orchestra\Support\Str;
 use Orchestra\Foundation\Auth\User;
+use Orchestra\Support\Str;
+use ReflectionException;
 
 class Authentication extends Specification
 {

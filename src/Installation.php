@@ -3,12 +3,12 @@
 namespace Orchestra\Installation;
 
 use Exception;
-use Orchestra\Model\Role;
-use Orchestra\Foundation\Auth\User;
 use Illuminate\Support\Facades\Session;
-use Orchestra\Support\Facades\Messages;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Foundation\Auth\User;
+use Orchestra\Model\Role;
+use Orchestra\Support\Facades\Messages;
 
 class Installation implements InstallationContract
 {
@@ -27,16 +27,6 @@ class Installation implements InstallationContract
      * @var string
      */
     public static $redirectAfterInstalled = 'orchestra::login';
-
-    /**
-     * Construct a new instance.
-     *
-     * @param  bool  $isTestingEnvironment
-     */
-    public function __construct(bool $isTestingEnvironment = false)
-    {
-        $this->isTestingEnvironment = $isTestingEnvironment;
-    }
 
     /**
      * Migrate Orchestra Platform schema.
@@ -92,7 +82,7 @@ class Installation implements InstallationContract
     /**
      * Run application setup.
      *
-     * @param  \Orchestra\Model\User  $user
+     * @param  \Orchestra\Foundation\Auth\User  $user
      * @param  array  $input
      *
      * @return void
@@ -172,7 +162,7 @@ class Installation implements InstallationContract
      *
      * @param  array  $input
      *
-     * @return \Orchestra\Model\User
+     * @return \Orchestra\Foundation\Auth\User
      */
     public function createUser(array $input): User
     {
