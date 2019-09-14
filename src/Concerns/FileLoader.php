@@ -25,18 +25,6 @@ trait FileLoader
     }
 
     /**
-     * Boot installer files for testing.
-     *
-     * @return void
-     *
-     * @deprecated v3.8.x
-     */
-    public function bootInstallerFilesForTesting(): void
-    {
-        $this->requireInstallerFiles();
-    }
-
-    /**
      * Requires the installer files.
      *
      * @param  bool  $once
