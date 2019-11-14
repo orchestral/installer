@@ -197,8 +197,6 @@ class Installation implements InstallationContract
             return true;
         }
 
-        throw new Exception(
-            \trans('orchestra/foundation::install.user.duplicate')
-        );
+        throw new Exception(\trans('orchestra/foundation::install.user.duplicate'));
     }
 }
