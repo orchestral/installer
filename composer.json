@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "orchestra/foundation": "^4.0",
-        "orchestra/testing": "^4.0"
+        "orchestra/testing": "^4.0.1"
     },
     "extra": {
         "branch-alias": {
