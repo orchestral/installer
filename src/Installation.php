@@ -108,11 +108,10 @@ class Installation implements InstallationContract
         // email configuration.
         $memory->put('site.name', $input['site_name']);
         $memory->put('site.theme', $theme);
-        $memory->put('email', \config('mail'));
-        $memory->put('email.from', [
-            'name' => $input['site_name'],
-            'address' => $input['email'],
-        ]);
+
+        \with(new MailConfigurationUpdater($memory), static function ($updater) use ($input) {
+            $updater($input['site_name'], $input['email']);
+        });
 
         // We should also create a basic ACL for Orchestra Platform, since
         // the basic roles is create using Fluent Query Builder we need
@@ -197,8 +196,6 @@ class Installation implements InstallationContract
             return true;
         }
 
-        throw new Exception(
-            \trans('orchestra/foundation::install.user.duplicate')
-        );
+        throw new Exception(\trans('orchestra/foundation::install.user.duplicate'));
     }
 }

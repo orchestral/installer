@@ -43,6 +43,12 @@ class InstallerServiceProvider extends ModuleServiceProvider
         });
 
         $this->registerRedirection();
+
+        if ($this->app->runningInConsole() === true) {
+            $this->commands([
+                Console\ConfigureMailCommand::class,
+            ]);
+        }
     }
 
     /**
