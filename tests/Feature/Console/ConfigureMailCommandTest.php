@@ -34,7 +34,8 @@ class ConfigureMailCommandTest extends TestCase
         $memory->shouldReceive('get')->once()->with('email.from.name')->andReturn('Orchestra Platform')
             ->shouldReceive('get')->once()->with('email.from.address')->andReturn('hello@orchestraplatform.com')
             ->shouldReceive('put')->once()->with('email', ['driver' => 'smtp', 'host' => 'smtp.mailgun.org', 'port' => 587, 'encryption' => 'tls', 'sendmail' => '/usr/sbin/sendmail -bs'])->andReturnNull()
-            ->shouldReceive('put')->once()->with('email.from', ['name' => 'The Application', 'address' => 'crynobone@gmail.com'])->andReturnNull();
+            ->shouldReceive('put')->once()->with('email.from', ['name' => 'The Application', 'address' => 'crynobone@gmail.com'])->andReturnNull()
+            ->shouldReceive('finish')->once()->andReturn(true);
 
         $this->artisan('orchestra:configure-email')
             ->expectsQuestion('What is the application name?', 'The Application')

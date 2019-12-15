@@ -38,6 +38,8 @@ class ConfigureMailCommand extends Command
             $updater($name, $email);
         });
 
+        $memory->finish();
+
         return 0;
     }
 }
