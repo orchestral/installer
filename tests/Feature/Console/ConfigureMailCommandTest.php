@@ -5,7 +5,6 @@ namespace Orchestra\Installation\Tests\Feature;
 use Mockery as m;
 use Orchestra\Contracts\Foundation\Foundation;
 use Orchestra\Contracts\Memory\Provider as MemoryProvider;
-use Orchestra\Installation\Tests\Feature\TestCase;
 
 class ConfigureMailCommandTest extends TestCase
 {
@@ -21,7 +20,6 @@ class ConfigureMailCommandTest extends TestCase
             ->expectsOutput('This command can only be executed when the application has been installed!')
             ->assertExitCode(1);
     }
-
 
     /** @test */
     public function it_cant_sync_configuration_when_orchestra_is_installed()

@@ -19,6 +19,7 @@ class ConfigureMailCommand extends Command
      * Handle the command.
      *
      * @param  \Orchestra\Contracts\Foundation\Foundation  $foundation
+     *
      * @return int
      */
     public function handle(Foundation $foundation)
