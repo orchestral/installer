@@ -2,6 +2,7 @@
 
 namespace Orchestra\Installation;
 
+use Illuminate\Support\Arr;
 use Orchestra\Contracts\Memory\Provider;
 
 class MailConfigurationUpdater
@@ -33,7 +34,18 @@ class MailConfigurationUpdater
      */
     public function __invoke(string $siteName, string $email): void
     {
-        $this->memory->put('email', \config('mail'));
+        $config = \config('mail');
+
+        $this->memory->put('email', Arr::only($config, ['driver', 'host', 'port', 'encryption', 'sendmail']));
+
+        if ($config['username'] !== null) {
+            $this->memory->securePut('email.username', $config['username']);
+        }
+
+        if ($config['password'] !== null) {
+            $this->memory->securePut('email.password', $config['password']);
+        }
+
         $this->memory->put('email.from', [
             'name' => $siteName,
             'address' => $email,
