@@ -10,11 +10,13 @@ use Orchestra\Installation\Processors\Installer;
 class InstallCommand extends Command
 {
     /**
-     * The console command name.
+     * The console command signature.
      *
      * @var string
      */
-    protected $name = 'orchestra:install';
+    protected $signature = 'orchestra:install
+        {--email= : Administrator e-mail address.}
+        {--password= : Administrator password.}';
 
     /**
      * The console command description.
@@ -47,10 +49,17 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $input['site_name'] = $this->ask('Application name?', \config('app.name'));
-        $input['fullname'] = $this->ask('Administrator fullname?', 'Administrator');
-        $input['email'] = $this->ask('Administrator e-mail address?');
-        $input['password'] = $this->secret('Administrator password?');
+        $ask = ! $this->option('no-interaction');
+
+        $input['site_name'] = $ask ? $this->ask('Application name?', \config('app.name')) : \config('app.name');
+        $input['fullname'] = $ask ? $this->ask('Administrator fullname?', 'Administrator') : 'Administrator';
+        $input['email'] = $this->option('email') ?? $this->ask('Administrator e-mail address?');
+
+        if (! \is_null($this->option('password'))) {
+            $input['password'] = $this->option('password');
+        } else {
+            $input['password'] = $ask ? $this->secret('Administrator password?') : 'secret';
+        }
 
         if (! $installer->store($this, $input)) {
             return 1;
