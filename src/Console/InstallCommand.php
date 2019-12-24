@@ -2,7 +2,9 @@
 
 namespace Orchestra\Installation\Console;
 
+use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\MessageBag;
 use Orchestra\Contracts\Foundation\Foundation;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Processors\Installer;
@@ -111,13 +113,28 @@ class InstallCommand extends Command
     }
 
     /**
-     * Response when store installation config is failed.
+     * Response when store installation failed validation.
+     *
+     * @param  \Illuminate\Support\MessageBag  $errors
      *
      * @return bool
      */
-    public function storeHasFailed(): bool
+    public function storeFailedValidation(MessageBag $errors): bool
     {
-        $this->warn('Unable to complete installation');
+        // @TODO list all errors.
+
+        return false;
+    }
+
+    /**
+     * Response when store installation config is failed.
+     *
+     * @param  \Exception  $exception
+     * @return bool
+     */
+    public function storeHasFailed(Exception $exception): bool
+    {
+        $this->warn('Unable to complete installation: '.$exception->getMessage());
 
         return false;
     }

@@ -2,7 +2,9 @@
 
 namespace Orchestra\Installation\Processors;
 
+use Exception;
 use Illuminate\Support\Fluent;
+use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Events\InstallationCompleted;
@@ -105,8 +107,12 @@ class Installer
      */
     public function store($listener, array $input)
     {
-        if (! $this->installer->make($input)) {
-            return $listener->storeHasFailed();
+        try {
+            $this->installer->make($input);
+        } catch (ValidationException $e) {
+            return $listener->storeFailedValidation($e->validator->messages());
+        } catch (Exception $e) {
+            return $listener->storeHasFailed($e);
         }
 
         \event(new InstallationCompleted($input));
