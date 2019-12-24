@@ -16,6 +16,13 @@ class ConfigureMailCommand extends Command
     protected $name = 'orchestra:configure-email';
 
     /**
+     * The console command description.
+     *
+     * @var string|null
+     */
+    protected $description = 'Configure e-mail sender used by Orchestra Platform';
+
+    /**
      * Handle the command.
      *
      * @param  \Orchestra\Contracts\Foundation\Foundation  $foundation

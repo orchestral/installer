@@ -15,13 +15,6 @@ class Installation implements InstallationContract
     use Concerns\FileLoader;
 
     /**
-     * Application instance.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected $app;
-
-    /**
      * Path for after installation completed redirect.
      *
      * @var string

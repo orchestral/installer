@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 4.1.1
+
+Released: 2019-12-16
+
+### Changes
+
+* Add missing console command description.
+
 ## 4.1.0
 
 Released: 2019-12-15
