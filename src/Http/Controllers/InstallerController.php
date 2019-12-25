@@ -2,8 +2,12 @@
 
 namespace Orchestra\Installation\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\MessageBag;
 use Orchestra\Installation\Processors\Installer;
+use Orchestra\Support\Facades\Messages;
 
 class InstallerController extends Controller
 {
@@ -63,12 +67,30 @@ class InstallerController extends Controller
     }
 
     /**
-     * Response when store installation config is failed.
+     * Response when store installation failed validation.
+     *
+     * @param  \Illuminate\Support\MessageBag  $errors
      *
      * @return mixed
      */
-    public function storeHasFailed()
+    public function storeFailedValidation(MessageBag $errors)
     {
+        Session::flash('errors', $errors);
+
+        return \redirect(\handles('orchestra::install/create'));
+    }
+
+    /**
+     * Response when store installation config is failed.
+     *
+     * @param  \Exception  $exception
+     *
+     * @return mixed
+     */
+    public function storeHasFailed(Exception $exception)
+    {
+        Messages::add('error', $exception->getMessage());
+
         return \redirect(\handles('orchestra::install/create'));
     }
 
@@ -79,6 +101,8 @@ class InstallerController extends Controller
      */
     public function storeSucceed()
     {
+        Messages::add('success', \trans('orchestra/foundation::install.user.created'));
+
         return \redirect(\handles('orchestra::install/done'));
     }
 }

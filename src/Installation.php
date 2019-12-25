@@ -3,12 +3,10 @@
 namespace Orchestra\Installation;
 
 use Exception;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 use Orchestra\Foundation\Auth\User;
 use Orchestra\Model\Role;
-use Orchestra\Support\Facades\Messages;
 
 class Installation implements InstallationContract
 {
@@ -44,32 +42,19 @@ class Installation implements InstallationContract
      */
     public function make(array $input, bool $multiple = true): bool
     {
-        try {
-            $this->validate($input);
-        } catch (ValidationException $e) {
-            Session::flash('errors', $e->validator->messages());
+        $this->validate($input);
 
-            return false;
-        }
+        ! $multiple && $this->noExistingUser();
 
-        try {
-            ! $multiple && $this->noExistingUser();
+        $this->create(
+            $this->createUser($input), $input
+        );
 
-            $this->create(
-                $this->createUser($input), $input
-            );
+        // Installation is successful, we should be able to generate
+        // success message to notify the user. Installer route will be
+        // disabled after this point.
 
-            // Installation is successful, we should be able to generate
-            // success message to notify the user. Installer route will be
-            // disabled after this point.
-            Messages::add('success', \trans('orchestra/foundation::install.user.created'));
-
-            return true;
-        } catch (Exception $e) {
-            Messages::add('error', $e->getMessage());
-        }
-
-        return false;
+        return true;
     }
 
     /**

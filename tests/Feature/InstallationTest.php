@@ -71,6 +71,9 @@ class InstallationTest extends TestCase
     /** @test */
     public function it_cant_run_installation_due_to_validation_fails()
     {
+        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->expectExceptionMessage('The given data was invalid.');
+
         $data = [
             'site_name' => 'Orchestra Platform',
             'email' => 'admin[at]orchestraplatform.com',
@@ -83,20 +86,15 @@ class InstallationTest extends TestCase
         $stub = new Installation();
 
         $this->assertTrue($stub->migrate());
-        $this->assertFalse($stub->make($data, false));
 
-        $this->assertInstalled();
-
-        $this->assertDatabaseMissing('users', [
-            'email' => $data['email'],
-            'fullname' => $data['fullname'],
-        ]);
+        $stub->make($data, false);
     }
 
     /** @test */
     public function it_cant_run_installation_due_existing_users()
     {
-        $this->instance('orchestra.messages', $messages = m::mock('\Orchestra\Contracts\Messages\MessageBag'));
+        $this->expectException('Exception');
+        $this->expectExceptionMessage('Unable to install when there already user registered.');
 
         $adminUser = $this->runInstallation();
 
@@ -107,11 +105,8 @@ class InstallationTest extends TestCase
             'fullname' => 'Administrator',
         ];
 
-        $messages->shouldReceive('add')->once()
-            ->with('error', 'Unable to install when there already user registered.')->andReturnNull();
-
         $stub = new Installation();
-        $this->assertFalse($stub->make($data, false));
+        $stub->make($data, false);
     }
 
     /**
