@@ -47,7 +47,7 @@ abstract class Specification implements SpecificationContract
     /**
      * Specification error.
      *
-     * @var mixed|null
+     * @return array|string|null
      */
     protected $error;
 
@@ -124,7 +124,7 @@ abstract class Specification implements SpecificationContract
     /**
      * Get specification error.
      *
-     * @return mixed
+     * @return array|string|null
      */
     public function error()
     {

@@ -38,9 +38,9 @@ class Installation implements InstallationContract
      * @param  array  $input
      * @param  bool   $multiple
      *
-     * @return bool
+     * @return void
      */
-    public function make(array $input, bool $multiple = true): bool
+    public function make(array $input, bool $multiple = true): void
     {
         $this->validate($input);
 
@@ -53,8 +53,6 @@ class Installation implements InstallationContract
         // Installation is successful, we should be able to generate
         // success message to notify the user. Installer route will be
         // disabled after this point.
-
-        return true;
     }
 
     /**
