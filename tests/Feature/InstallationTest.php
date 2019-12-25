@@ -58,7 +58,8 @@ class InstallationTest extends TestCase
         $stub = new Installation();
 
         $this->assertTrue($stub->migrate());
-        $this->assertTrue($stub->make($data, false));
+
+        $stub->make($data, false);
 
         $this->assertInstalled();
 
