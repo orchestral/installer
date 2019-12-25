@@ -143,20 +143,20 @@ class Installation implements InstallationContract
      */
     public function createUser(array $input): User
     {
-        User::unguard();
+        return User::unguarded(static function () use ($input) {
+            $user = User::hs([
+                'email' => $input['email'],
+                'password' => $input['password'],
+                'fullname' => $input['fullname'],
+                'status' => User::VERIFIED,
+            ]);
 
-        $user = new User([
-            'email' => $input['email'],
-            'password' => $input['password'],
-            'fullname' => $input['fullname'],
-            'status' => User::VERIFIED,
-        ]);
+            \event('orchestra.install: user', [$user, $input]);
 
-        \event('orchestra.install: user', [$user, $input]);
+            $user->save();
 
-        $user->save();
-
-        return $user;
+            return $user;
+        });
     }
 
     /**

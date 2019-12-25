@@ -37,19 +37,27 @@ class InstallCommand extends Command
      */
     public function handle(Foundation $foundation, Installer $installer)
     {
+        $bar = $this->output->createProgressBar(4);
+
         if ($foundation->installed()) {
             $this->error('This command can only be executed when the application is not installed!');
 
             return 1;
         }
 
+        $bar->advance();
+
         if (! $installer->checkRequirement($this)) {
             return 1;
         }
 
+        $bar->advance();
+
         if (! $installer->prepare($this)) {
             return 1;
         }
+
+        $bar->advance();
 
         $ask = ! $this->option('no-interaction');
 
@@ -66,6 +74,10 @@ class InstallCommand extends Command
         if (! $installer->store($this, $input)) {
             return 1;
         }
+
+        $bar->advance();
+
+        $bar->finish();
 
         return 0;
     }
