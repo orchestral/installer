@@ -5,7 +5,6 @@ namespace Orchestra\Installation\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\MessageBag;
-use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Foundation\Foundation;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Processors\Installer;
@@ -38,27 +37,30 @@ class InstallCommand extends Command
      */
     public function handle(Foundation $foundation, Installer $installer)
     {
-        $bar = $this->output->createProgressBar(4);
+        $this->output->section('1. Verify Installation');
 
         if ($foundation->installed()) {
-            $this->error('This command can only be executed when the application is not installed!');
+            $this->output->error('This command can only be executed when the application is not installed!');
 
             return 1;
         }
 
-        $bar->advance();
+        $this->output->success('Successful');
+
+        $this->output->section('2. Check Requirement');
+
 
         if (! $installer->checkRequirement($this)) {
             return 1;
         }
 
-        $bar->advance();
+        $this->output->section('3. Preparing Installation');
 
         if (! $installer->prepare($this)) {
             return 1;
         }
 
-        $bar->advance();
+        $this->output->section('4. Application Configuration');
 
         $ask = ! $this->option('no-interaction');
 
@@ -72,15 +74,12 @@ class InstallCommand extends Command
             $input['password'] = $ask ? $this->secret('Administrator password?') : 'secret';
         }
 
+
+        $this->output->section('5. Installing');
+
         if (! $installer->store($this, $input)) {
             return 1;
         }
-
-        $bar->advance();
-
-        $bar->finish();
-
-        $this->output->newLine();
 
         return 0;
     }
@@ -95,14 +94,24 @@ class InstallCommand extends Command
     public function showRequirementStatus(Requirement $requirements): bool
     {
         if ($requirements->isInstallable()) {
+            $this->output->success('Comply with requirements');
+
             return true;
         }
+
+
+        $this->output->error('Does not comply with requirements');
 
         $failures = $requirements->items()->filter(static function ($specification) {
             return $specification->check() === false && $specification->optional() === false;
         });
 
-        // @TODO list failed requirements.
+        $this->output->table(
+            ['Category', 'Status'],
+            $failures->map(function ($spec) {
+                return [$spec->title(), '<fg=red>  ✗</>'];
+            })->all(),
+        );
 
         return false;
     }
@@ -114,6 +123,8 @@ class InstallCommand extends Command
      */
     public function preparationNotCompleted(): bool
     {
+        $this->output->error('Unable to migrate database');
+
         return false;
     }
 
@@ -124,6 +135,8 @@ class InstallCommand extends Command
      */
     public function preparationCompleted(): bool
     {
+        $this->output->success('Database migrated');
+
         return true;
     }
 
@@ -136,7 +149,22 @@ class InstallCommand extends Command
      */
     public function storeFailedValidation(MessageBag $errors): bool
     {
-        throw ValidationException::withMessages($errors->all());
+        $this->output->error('Failed validation');
+
+        $lists = [];
+        $errors->setFormat(':message');
+
+        foreach ($errors->keys() as $key) {
+            foreach ($errors->get($key) as $index => $message) {
+                if ($index === 0) {
+                    $lists[] = [$key, $message];
+                } else {
+                    $lists[] = ['', $message];
+                }
+            }
+        }
+
+        $this->output->table(['Field', 'Errors'], $lists);
 
         return false;
     }
@@ -145,11 +173,12 @@ class InstallCommand extends Command
      * Response when store installation config is failed.
      *
      * @param  \Exception  $exception
+     *
      * @return bool
      */
     public function storeHasFailed(Exception $exception): bool
     {
-        $this->warn('Unable to complete installation: '.$exception->getMessage());
+        $this->output->error('Unable to complete installation: '.$exception->getMessage());
 
         return false;
     }
@@ -161,7 +190,7 @@ class InstallCommand extends Command
      */
     public function storeSucceed(): bool
     {
-        $this->info('Installation completed');
+        $this->output->success('Installation completed');
 
         return true;
     }

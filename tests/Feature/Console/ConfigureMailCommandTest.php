@@ -17,7 +17,6 @@ class ConfigureMailCommandTest extends TestCase
             ->shouldReceive('memory')->andReturn(m::mock(MemoryProvider::class));
 
         $this->artisan('orchestra:configure-email')
-            ->expectsOutput('This command can only be executed when the application has been installed!')
             ->assertExitCode(1);
     }
 

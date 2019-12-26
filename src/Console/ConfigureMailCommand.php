@@ -32,12 +32,14 @@ class ConfigureMailCommand extends Command
     public function handle(Foundation $foundation)
     {
         if (! $foundation->installed()) {
-            $this->error('This command can only be executed when the application has been installed!');
+            $this->output->error('This command can only be executed when the application has been installed!');
 
             return 1;
         }
 
         $memory = $foundation->memory();
+
+        $this->output->section('Email configuration');
 
         $name = $this->ask('What is the application name?', $memory->get('email.from.name'));
         $email = $this->ask('What is the e-mail address?', $memory->get('email.from.address'));
@@ -47,6 +49,8 @@ class ConfigureMailCommand extends Command
         });
 
         $memory->finish();
+
+        $this->output->success('Email configured');
 
         return 0;
     }

@@ -19,7 +19,6 @@ class InstallCommandTest extends TestCase
             ->shouldReceive('memory')->andReturn(m::mock(MemoryProvider::class));
 
         $this->artisan('orchestra:install')
-            ->expectsOutput('This command can only be executed when the application is not installed!')
             ->assertExitCode(1);
     }
 
@@ -33,7 +32,6 @@ class InstallCommandTest extends TestCase
             ->expectsQuestion('Administrator fullname?', 'App Administrator')
             ->expectsQuestion('Administrator e-mail address?', 'crynobone@gmail.com')
             ->expectsQuestion('Administrator password?', 'secret')
-            ->expectsOutput('Installation completed')
             ->assertExitCode(0);
 
         $memory = $this->app->make('orchestra.memory');
@@ -61,7 +59,6 @@ class InstallCommandTest extends TestCase
             ->expectsQuestion('Application name?', 'The Application')
             ->expectsQuestion('Administrator fullname?', 'App Administrator')
             ->expectsQuestion('Administrator password?', 'secret')
-            ->expectsOutput('Installation completed')
             ->assertExitCode(0);
 
         $memory = $this->app->make('orchestra.memory');
@@ -88,7 +85,6 @@ class InstallCommandTest extends TestCase
         $this->artisan('orchestra:install', ['--email' => 'crynobone@gmail.com', '--password' => 'password'])
             ->expectsQuestion('Application name?', 'The Application')
             ->expectsQuestion('Administrator fullname?', 'App Administrator')
-            ->expectsOutput('Installation completed')
             ->assertExitCode(0);
 
         $memory = $this->app->make('orchestra.memory');
@@ -113,7 +109,6 @@ class InstallCommandTest extends TestCase
         $this->assertFalse($this->app->make('orchestra.app')->installed());
 
         $this->artisan('orchestra:install', ['--email' => 'crynobone@gmail.com', '--no-interaction' => true])
-            ->expectsOutput('Installation completed')
             ->assertExitCode(0);
 
         $memory = $this->app->make('orchestra.memory');
