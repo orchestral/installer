@@ -5,6 +5,7 @@ namespace Orchestra\Installation\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\MessageBag;
+use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Foundation\Foundation;
 use Orchestra\Contracts\Installation\Requirement;
 use Orchestra\Installation\Processors\Installer;
@@ -79,7 +80,7 @@ class InstallCommand extends Command
 
         $bar->finish();
 
-        $this->line('');
+        $this->output->newLine();
 
         return 0;
     }
@@ -135,7 +136,7 @@ class InstallCommand extends Command
      */
     public function storeFailedValidation(MessageBag $errors): bool
     {
-        // @TODO list all errors.
+        throw new ValidationException::withMessages($errors->all());
 
         return false;
     }
