@@ -79,6 +79,8 @@ class InstallCommand extends Command
 
         $bar->finish();
 
+        $this->line('');
+
         return 0;
     }
 
