@@ -136,7 +136,7 @@ class InstallCommand extends Command
      */
     public function storeFailedValidation(MessageBag $errors): bool
     {
-        throw new ValidationException::withMessages($errors->all());
+        throw ValidationException::withMessages($errors->all());
 
         return false;
     }
