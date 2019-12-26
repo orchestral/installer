@@ -63,17 +63,21 @@ class InstallCommand extends Command
         $this->output->section('4. Application Configuration');
 
         $ask = ! $this->option('no-interaction');
+        $password = $this->option('password');
+
+        if (! $ask && ! \is_null($password)) {
+            $this->output->comment('Skipped via no interaction mode!');
+        }
 
         $input['site_name'] = $ask ? $this->ask('Application name?', \config('app.name')) : \config('app.name');
         $input['fullname'] = $ask ? $this->ask('Administrator fullname?', 'Administrator') : 'Administrator';
         $input['email'] = $this->option('email') ?? $this->ask('Administrator e-mail address?');
 
-        if (! \is_null($this->option('password'))) {
-            $input['password'] = $this->option('password');
+        if (! \is_null($password)) {
+            $input['password'] = $password;
         } else {
             $input['password'] = $ask ? $this->secret('Administrator password?') : 'secret';
         }
-
 
         $this->output->section('5. Installing');
 
