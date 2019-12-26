@@ -112,9 +112,9 @@ class InstallCommand extends Command
 
         $this->output->table(
             ['Category', 'Status'],
-            $failures->map(function ($spec) {
+            $failures->map(static function ($spec) {
                 return [$spec->title(), '<fg=red>  ✗</>'];
-            })->all(),
+            })->all()
         );
 
         return false;
