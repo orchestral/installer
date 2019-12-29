@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 4.2.0
+
+Released: 2019-12-26
+
+### Added
+
+* Added `orchestra:install` artisan command to make installation using terminal.
+
+### Changes
+
+* Move HTTP related logic to controller instead of handling it under `Orchestra\Installation\Installation`.
+
 ## 4.1.1
 
 Released: 2019-12-16
