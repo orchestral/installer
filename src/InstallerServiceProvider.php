@@ -46,7 +46,6 @@ class InstallerServiceProvider extends ModuleServiceProvider
 
         if ($this->app->runningInConsole() === true) {
             $this->commands([
-                Console\ConfigureMailCommand::class,
                 Console\InstallCommand::class,
             ]);
         }

@@ -1,14 +1,15 @@
 <?php
 
-namespace Orchestra\Installation\Tests\Feature;
+namespace Orchestra\Installation\Tests\Console;
 
 use Illuminate\Support\Facades\Hash;
 use Mockery as m;
 use Orchestra\Contracts\Foundation\Foundation;
 use Orchestra\Contracts\Memory\Provider as MemoryProvider;
 use Orchestra\Foundation\Auth\User;
+use Orchestra\Installation\Tests\Feature\TestCase;
 
-class InstallCommandTest extends TestCase
+class InstallTest extends TestCase
 {
     /** @test */
     public function it_cant_make_installation_when_orchestra_is_not_installed()

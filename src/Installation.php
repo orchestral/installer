@@ -5,6 +5,7 @@ namespace Orchestra\Installation;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Foundation\Actions\MailConfigurationUpdater;
 use Orchestra\Foundation\Auth\User;
 use Orchestra\Model\Role;
 
