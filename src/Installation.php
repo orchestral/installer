@@ -5,8 +5,9 @@ namespace Orchestra\Installation;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
-use Orchestra\Foundation\Actions\MailConfigurationUpdater;
+use Orchestra\Contracts\Memory\Provider;
 use Orchestra\Foundation\Auth\User;
+use Orchestra\Foundation\Jobs\UpdateMailConfiguration;
 use Orchestra\Model\Role;
 
 class Installation implements InstallationContract
@@ -66,7 +67,7 @@ class Installation implements InstallationContract
      */
     public function create(User $user, array $input): void
     {
-        $memory = \app('orchestra.memory')->make();
+        $memory = $this->memoryProvider();
 
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
@@ -86,9 +87,7 @@ class Installation implements InstallationContract
         $memory->put('site.name', $input['site_name']);
         $memory->put('site.theme', $theme);
 
-        \with(new MailConfigurationUpdater($memory), static function ($updater) use ($input) {
-            $updater($input['site_name'], $input['email']);
-        });
+        \dispatch_now(new UpdateMailConfiguration($input['site_name'], $input['email']));
 
         // We should also create a basic ACL for Orchestra Platform, since
         // the basic roles is create using Fluent Query Builder we need
@@ -174,5 +173,21 @@ class Installation implements InstallationContract
         }
 
         throw new Exception(\trans('orchestra/foundation::install.user.duplicate'));
+    }
+
+    /**
+     * Get memory provider.
+     *
+     * @return \Orchestra\Contracts\Memory\Provider
+     */
+    protected function memoryProvider(): Provider
+    {
+        if (! \app()->bound('orchestra.platform.memory')) {
+            $memory = \app('orchestra.memory')->make();
+
+            \app()->instance('orchestra.platform.memory', $memory);
+        }
+
+        return \app('orchestra.platform.memory');
     }
 }

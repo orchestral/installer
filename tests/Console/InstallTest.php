@@ -35,7 +35,7 @@ class InstallTest extends TestCase
             ->expectsQuestion('Administrator password?', 'secret')
             ->assertExitCode(0);
 
-        $memory = $this->app->make('orchestra.memory');
+        $memory = $this->app->make('orchestra.platform.memory');
 
         $this->assertEquals('The Application', $memory->get('site.name'));
         $this->assertEquals('The Application', $memory->get('email.from.name'));
@@ -62,7 +62,7 @@ class InstallTest extends TestCase
             ->expectsQuestion('Administrator password?', 'secret')
             ->assertExitCode(0);
 
-        $memory = $this->app->make('orchestra.memory');
+        $memory = $this->app->make('orchestra.platform.memory');
 
         $this->assertEquals('The Application', $memory->get('site.name'));
         $this->assertEquals('The Application', $memory->get('email.from.name'));
@@ -88,7 +88,7 @@ class InstallTest extends TestCase
             ->expectsQuestion('Administrator fullname?', 'App Administrator')
             ->assertExitCode(0);
 
-        $memory = $this->app->make('orchestra.memory');
+        $memory = $this->app->make('orchestra.platform.memory');
 
         $this->assertEquals('The Application', $memory->get('site.name'));
         $this->assertEquals('The Application', $memory->get('email.from.name'));
@@ -112,7 +112,7 @@ class InstallTest extends TestCase
         $this->artisan('orchestra:install', ['--email' => 'crynobone@gmail.com', '--no-interaction' => true])
             ->assertExitCode(0);
 
-        $memory = $this->app->make('orchestra.memory');
+        $memory = $this->app->make('orchestra.platform.memory');
 
         $this->assertEquals('My Application', $memory->get('site.name'));
         $this->assertEquals('My Application', $memory->get('email.from.name'));
