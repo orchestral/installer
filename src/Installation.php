@@ -5,6 +5,7 @@ namespace Orchestra\Installation;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
+use Orchestra\Contracts\Memory\Provider;
 use Orchestra\Foundation\Auth\User;
 use Orchestra\Model\Role;
 
@@ -67,7 +68,7 @@ class Installation implements InstallationContract
      */
     public function create(User $user, array $input): void
     {
-        $memory = \app('orchestra.memory')->make();
+        $memory = $this->memoryProvider();
 
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
@@ -175,5 +176,19 @@ class Installation implements InstallationContract
         }
 
         throw new Exception(\trans('orchestra/foundation::install.user.duplicate'));
+    }
+
+    /**
+     * Get memory provider.
+     *
+     * @return \Orchestra\Contracts\Memory\Provider
+     */
+    protected function memoryProvider(): Provider
+    {
+        if (! \app()->bound('orchestra.platform.memory')) {
+            \app()->instance('orchestra.platform.memory', \app('orchestra.memory')->make());
+        }
+
+        return \app('orchestra.platform.memory');
     }
 }
