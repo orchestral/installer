@@ -1,0 +1,26 @@
+preset: package
+
+namespace: Orchestra\Installer
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: tests/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Orchestra\Installer\Console
+
+model:
+  namespace: Orchestra\Installer
+
+provider:
+  namespace: Orchestra\Installer
+
+testing:
+  namespace: Orchestra\Installer\Tests

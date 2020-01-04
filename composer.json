@@ -26,6 +26,7 @@
         "orchestra/contracts": "^4.0"
     },
     "require-dev": {
+        "orchestra/canvas": "^4.1",
         "orchestra/foundation": "^4.0",
         "orchestra/testing": "^4.0.1"
     },
