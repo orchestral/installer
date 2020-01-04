@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 4.3.0
+
+Released: 2020-01-04
+
+### Changes
+
+* Bind `orchestra.platform.memory` as alias to `orchestra.memory` default provider.
+
 ## 4.2.0
 
 Released: 2019-12-26
