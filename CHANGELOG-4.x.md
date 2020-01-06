@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 4.3.1
+
+Released: 2020-01-05
+
+### Fixes
+
+* Only use `orchestra.platform.memory` when Orchestra Platform is yet to be installed, otherwise use Fluent Memory provider.
+
 ## 4.3.0
 
 Released: 2020-01-04

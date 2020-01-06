@@ -182,10 +182,12 @@ class Installation implements InstallationContract
      */
     protected function memoryProvider(): Provider
     {
-        if (! \app()->bound('orchestra.platform.memory')) {
-            \app()->instance('orchestra.platform.memory', \app('orchestra.memory')->make());
+        $app = \app();
+
+        if (! $app->bound('orchestra.installed') || $app['orchestra.installed'] === false) {
+            $app->instance('orchestra.platform.memory', $app->make('orchestra.memory')->make());
         }
 
-        return \app('orchestra.platform.memory');
+        return $app->make('orchestra.platform.memory');
     }
 }
