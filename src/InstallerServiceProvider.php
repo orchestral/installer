@@ -98,7 +98,7 @@ class InstallerServiceProvider extends ModuleServiceProvider
      *
      * @return void
      */
-    public function bootExtensionComponents()
+    public function bootExtensionComponents(): void
     {
         $path = \realpath(__DIR__.'/../');
 
@@ -112,10 +112,10 @@ class InstallerServiceProvider extends ModuleServiceProvider
      *
      * @return void
      */
-    protected function loadRoutes()
+    protected function loadRoutes(): void
     {
         $path = \realpath(__DIR__.'/../');
 
-        $this->loadBackendRoutesFrom("{$path}/routes/backend.php");
+        $this->loadBackendRoutesFrom("{$path}/routes/web.php");
     }
 }
