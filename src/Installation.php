@@ -2,8 +2,10 @@
 
 namespace Orchestra\Installation;
 
+use Carbon\Carbon;
 use Exception;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Container\Container;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 use Orchestra\Contracts\Memory\Provider;
 use Orchestra\Foundation\Auth\User;
@@ -72,20 +74,27 @@ class Installation implements InstallationContract
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
         $actions = ['Manage Orchestra', 'Manage Users'];
-        $admin = \config('orchestra/foundation::roles.admin', 1);
+        ['admin' => $admin, 'member' => $member] = \config(
+            'orchestra/foundation::roles', ['admin' => 1, 'member' => 2]
+        );
+
         $roles = Role::pluck('name', 'id')->all();
-        $theme = [
-            'frontend' => 'default',
-            'backend' => 'default',
-        ];
 
         // Attach Administrator role to the newly created administrator.
-        $user->roles()->sync([$admin]);
+        DB::table('user_role')->where('user_id', '=', $user->id)
+            ->where('role_id', '=', $member)
+            ->update([
+                'role_id' => $admin,
+                'updated_at' => Carbon::now(),
+            ]);
 
         // Add some basic configuration for Orchestra Platform, including
         // email configuration.
         $memory->put('site.name', $input['site_name']);
-        $memory->put('site.theme', $theme);
+        $memory->put('site.theme', [
+            'frontend' => 'default',
+            'backend' => 'default',
+        ]);
 
         \dispatch_now(new UpdateMailConfiguration($input['site_name'], $input['email']));
 
@@ -114,20 +123,12 @@ class Installation implements InstallationContract
     public function validate(array $input): bool
     {
         // Grab input fields and define the rules for user validations.
-        $rules = [
+        \app('validator')->make($input, [
             'email' => ['required', 'email'],
             'password' => ['required'],
             'fullname' => ['required'],
             'site_name' => ['required'],
-        ];
-
-        $validation = \app('validator')->make($input, $rules);
-
-        // Validate user registration, we should stop this process if
-        // the user not properly formatted.
-        if ($validation->fails()) {
-            throw new ValidationException($validation);
-        }
+        ])->validate();
 
         return true;
     }
@@ -182,7 +183,7 @@ class Installation implements InstallationContract
      */
     protected function memoryProvider(): Provider
     {
-        $app = \app();
+        $app = Container::getInstance();
 
         if (! $app->bound('orchestra.installed') || $app['orchestra.installed'] === false) {
             $app->instance('orchestra.platform.memory', $app->make('orchestra.memory')->make());
