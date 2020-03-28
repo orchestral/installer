@@ -67,6 +67,11 @@ class InstallationTest extends TestCase
             'email' => $data['email'],
             'fullname' => $data['fullname'],
         ]);
+
+        $this->assertDatabaseHas('user_role', [
+            'user_id' => 1,
+            'role_id' => 1,
+        ]);
     }
 
     /** @test */
