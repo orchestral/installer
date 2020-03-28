@@ -151,9 +151,7 @@ class Installation implements InstallationContract
 
             \event('orchestra.install: user', [$user, $input]);
 
-            User::withoutEvents(static function () use ($user) {
-                $user->save();
-            });
+            $user->save();
 
             return $user;
         });
