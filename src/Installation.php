@@ -2,11 +2,9 @@
 
 namespace Orchestra\Installation;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 use Orchestra\Contracts\Memory\Provider;
 use Orchestra\Foundation\Auth\User;
@@ -75,19 +73,9 @@ class Installation implements InstallationContract
         // Bootstrap auth services, so we can use orchestra/auth package
         // configuration.
         $actions = ['Manage Orchestra', 'Manage Users'];
-        ['admin' => $admin, 'member' => $member] = \config(
-            'orchestra/foundation::roles', ['admin' => 1, 'member' => 2]
-        );
+        $admin = \config('orchestra/foundation::roles.admin', 1);
 
         $roles = Role::pluck('name', 'id')->all();
-
-        // Attach Administrator role to the newly created administrator.
-        DB::table('user_role')->where('user_id', '=', $user->id)
-            ->where('role_id', '=', $member)
-            ->update([
-                'role_id' => $admin,
-                'updated_at' => Carbon::now(),
-            ]);
 
         // Add some basic configuration for Orchestra Platform, including
         // email configuration.
