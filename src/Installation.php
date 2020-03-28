@@ -5,6 +5,7 @@ namespace Orchestra\Installation;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
 use Orchestra\Contracts\Memory\Provider;
@@ -149,6 +150,10 @@ class Installation implements InstallationContract
                 'fullname' => $input['fullname'],
                 'status' => User::VERIFIED,
             ]);
+
+            $user->setRelation('roles', Collection::make([
+                new Role(['id' => \config('orchestra/foundation::roles.admin', 1)]),
+            ]));
 
             \event('orchestra.install: user', [$user, $input]);
 
