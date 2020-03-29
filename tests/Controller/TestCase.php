@@ -17,8 +17,6 @@ abstract class TestCase extends Testing
     protected function getEnvironmentSetUp($app): void
     {
         $app->make('config')->set(['auth.providers.users.model' => User::class]);
-
-        $this->loadFactoriesUsing($app, __DIR__.'/../factories');
     }
 
     /**
