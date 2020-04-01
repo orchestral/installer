@@ -22,17 +22,17 @@
         }
     },
     "require": {
-        "php": ">=7.2",
-        "orchestra/contracts": "^5.0"
+        "php": ">=7.3",
+        "orchestra/contracts": "^6.0"
     },
     "require-dev": {
-        "orchestra/canvas": "^5.0",
-        "orchestra/foundation": "^5.0",
-        "orchestra/testing": "^5.0"
+        "orchestra/canvas": "^6.0",
+        "orchestra/foundation": "^6.0",
+        "orchestra/testing": "^6.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.0-dev"
+            "dev-master": "6.0-dev"
         }
     },
     "config": {
