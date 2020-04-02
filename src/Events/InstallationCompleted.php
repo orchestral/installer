@@ -2,7 +2,7 @@
 
 namespace Orchestra\Installation\Events;
 
-class InstallationCompleted
+class InstallationCompleted extends Event
 {
     /**
      * Form input.
