@@ -9,6 +9,8 @@ use Orchestra\Contracts\Installation\Installation as InstallationContract;
 use Orchestra\Contracts\Memory\Provider;
 use Orchestra\Foundation\Auth\User;
 use Orchestra\Foundation\Jobs\UpdateMailConfiguration;
+use Orchestra\Installation\Events\AuthorizationCreated;
+use Orchestra\Installation\Events\SchemaCreated;
 use Orchestra\Model\Role;
 
 class Installation implements InstallationContract
@@ -30,6 +32,8 @@ class Installation implements InstallationContract
     public function migrate(): bool
     {
         \app('orchestra.publisher.migrate')->foundation();
+
+        \event(new SchemaCreated());
         \event('orchestra.install.schema');
 
         return true;
@@ -97,6 +101,7 @@ class Installation implements InstallationContract
         $acl->roles()->attach(\array_values($roles));
         $acl->allow($roles[$admin], $actions);
 
+        \event(new AuthorizationCreated($acl));
         \event('orchestra.install: acl', [$acl]);
     }
 
