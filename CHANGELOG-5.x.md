@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/installer`.
 
+## 5.2.0
+
+Released: 2020-04-03
+
+### Added
+
+* Added `Orchestra\Installation\Events\AuthorizationCreated` event.
+* Added `Orchestra\Installation\Events\SchemaCreated` event.
+
 ## 5.1.0
 
 Released: 2020-03-29
