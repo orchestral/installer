@@ -34,7 +34,6 @@ class Installation implements InstallationContract
         \app('orchestra.publisher.migrate')->foundation();
 
         \event(new SchemaCreated());
-        \event('orchestra.install.schema');
 
         return true;
     }
@@ -102,7 +101,6 @@ class Installation implements InstallationContract
         $acl->allow($roles[$admin], $actions);
 
         \event(new AuthorizationCreated($acl));
-        \event('orchestra.install: acl', [$acl]);
     }
 
     /**
