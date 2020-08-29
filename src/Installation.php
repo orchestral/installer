@@ -3,6 +3,7 @@
 namespace Orchestra\Installation;
 
 use Exception;
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Collection;
 use Orchestra\Contracts\Installation\Installation as InstallationContract;
@@ -141,6 +142,12 @@ class Installation implements InstallationContract
                 'fullname' => $input['fullname'],
                 'status' => User::VERIFIED,
             ]);
+
+            $uses = \trait_uses_recursive($user);
+
+            if (isset($uses[MustVerifyEmail::class])) {
+                $user->markEmailAsVerified();
+            }
 
             $user->setRelation('roles', Collection::make([
                 new Role(['id' => \config('orchestra/foundation::roles.admin', 1)]),
