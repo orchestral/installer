@@ -1,7 +1,6 @@
 {
     "name": "orchestra/installer",
     "description": "Orchestra Platform Installer",
-    "homepage": "http://orchestraplatform.com/docs/latest/",
     "license": "MIT",
     "keywords": ["orchestra-platform", "orchestral", "installer"],
     "authors": [
