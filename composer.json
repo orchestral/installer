@@ -22,11 +22,11 @@
         }
     },
     "require": {
-        "php": ">=7.3",
+        "php": "^7.3 || ^8.0",
         "orchestra/contracts": "^6.0"
     },
     "require-dev": {
-        "orchestra/canvas": "^6.0",
+        "orchestra/canvas": "^6.1",
         "orchestra/foundation": "^6.0",
         "orchestra/testing": "^6.0"
     },
