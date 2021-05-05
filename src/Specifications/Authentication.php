@@ -39,7 +39,7 @@ class Authentication extends Specification
         $auth = $this->parseAuthenticationConfiguration(\config('auth'));
 
         try {
-            $this->description = Str::replace($this->description, ['model' => $auth['provider']['model']]);
+            $this->description = Str::translate($this->description, ['model' => $auth['provider']['model']]);
 
             return $this->validateUserProvider($auth) && $this->validateUserInstance($auth);
         } catch (ReflectionException $e) {

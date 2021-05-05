@@ -36,7 +36,7 @@ class WritableStorage extends Specification
     {
         $path = \app()->storagePath();
 
-        $this->description = Str::replace($this->description, \compact('path'));
+        $this->description = Str::translate($this->description, \compact('path'));
 
         return $this->checkPathIsWritable($path);
     }

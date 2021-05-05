@@ -43,7 +43,7 @@ class WritableAsset extends Specification
     {
         $path = \app()->publicPath('packages');
 
-        $this->description = Str::replace($this->description, \compact('path'));
+        $this->description = Str::translate($this->description, \compact('path'));
 
         return $this->checkPathIsWritable($path);
     }
